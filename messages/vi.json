@@ -27,9 +27,24 @@
     "home": "Về trang chủ"
   },
   "nav": {
+    "home": "Trang chủ",
     "contact": "Lắng nghe dân nói",
     "about": "Giới thiệu",
     "connect": "Kết nối"
+  },
+  "header": {
+    "portal": "Cổng thông tin điện tử",
+    "contact": "Liên hệ"
+  },
+  "footer": {
+    "authority": "Cơ quan chủ quản",
+    "office": "Văn phòng Ủy ban MTTQ Việt Nam xã Phong Hải",
+    "addressLabel": "Địa chỉ",
+    "phoneLabel": "Điện thoại",
+    "quickLinks": "Liên kết nhanh",
+    "hotline": "Đường dây nóng",
+    "rights": "Bản quyền thuộc Cổng thông tin điện tử MTTQ xã Phong Hải.",
+    "attribution": "Ghi rõ nguồn khi phát hành lại thông tin từ Cổng thông tin."
   },
   "about": {
     "title": "Giới thiệu",

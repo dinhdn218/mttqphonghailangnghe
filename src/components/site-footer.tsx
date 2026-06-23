@@ -2,41 +2,91 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { CONTACT } from "@/lib/contacts";
 
+// Footer phong cách cổng thông tin nhà nước: nền đỏ tối, nhiều cột thông tin
+// cơ quan + liên kết nhanh + đường dây nóng, dải dưới bản quyền & ghi nguồn.
 export async function SiteFooter() {
   const t = await getTranslations();
+  const year = new Date().getFullYear();
+  const tel = CONTACT.hotline.replace(/\s/g, "");
 
   return (
-    <footer className="mt-12 border-t border-gray-200 bg-gray-50">
-      <div className="mx-auto grid w-full max-w-4xl gap-6 px-4 py-6 text-sm text-gray-600 sm:grid-cols-2">
+    <footer className="mt-12 bg-red-900 text-red-100">
+      <div className="mx-auto grid w-full max-w-5xl gap-8 px-4 py-8 sm:grid-cols-3">
+        {/* Cơ quan */}
         <div>
-          <p className="font-semibold text-gray-800">{t("site.org")}</p>
-          <p className="mt-1">{t("site.province")}</p>
-          <p className="mt-1">{CONTACT.address}</p>
-        </div>
-        <div className="sm:text-right">
-          <p>
-            {t("connect.hotline")}:{" "}
-            <a
-              href={`tel:${CONTACT.hotline.replace(/\s/g, "")}`}
-              className="font-medium text-red-700 hover:underline"
-            >
-              {CONTACT.hotline}
+          <p className="font-bold text-white uppercase">{t("site.org")}</p>
+          <p className="mt-2 text-sm">
+            {t("footer.authority")}: {t("footer.office")}
+          </p>
+          <p className="mt-2 text-sm">
+            {t("footer.addressLabel")}: {CONTACT.address}
+          </p>
+          <p className="text-sm">
+            {t("footer.phoneLabel")}: {CONTACT.hotline}
+          </p>
+          <p className="text-sm">
+            Email:{" "}
+            <a href={`mailto:${CONTACT.email}`} className="hover:underline">
+              {CONTACT.email}
             </a>
           </p>
-          <p className="mt-1">
-            <Link href="/ket-noi" className="text-red-700 hover:underline">
-              {t("nav.connect")}
-            </Link>
-          </p>
+        </div>
+
+        {/* Liên kết nhanh */}
+        <div>
+          <p className="font-semibold text-white">{t("footer.quickLinks")}</p>
+          <ul className="mt-2 space-y-1.5 text-sm">
+            <li>
+              <Link href="/" className="hover:underline">
+                {t("nav.home")}
+              </Link>
+            </li>
+            <li>
+              <Link href="/gioi-thieu" className="hover:underline">
+                {t("nav.about")}
+              </Link>
+            </li>
+            <li>
+              <Link href="/ket-noi" className="hover:underline">
+                {t("nav.connect")}
+              </Link>
+            </li>
+            <li>
+              <Link href="/lang-nghe-dan-noi" className="hover:underline">
+                {t("nav.contact")}
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* Đường dây nóng */}
+        <div>
+          <p className="font-semibold text-white">{t("footer.hotline")}</p>
+          <a
+            href={`tel:${tel}`}
+            className="mt-2 block text-2xl font-bold text-amber-300 hover:underline"
+          >
+            {CONTACT.hotline}
+          </a>
+          <Link
+            href="/lang-nghe-dan-noi"
+            className="mt-3 inline-block rounded-lg bg-red-700 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-600"
+          >
+            {t("nav.contact")} →
+          </Link>
         </div>
       </div>
-      <div className="border-t border-gray-200">
-        <div className="mx-auto flex w-full max-w-4xl flex-wrap items-center justify-between gap-2 px-4 py-3 text-xs text-gray-500">
-          <span>
-            © {new Date().getFullYear()} {t("site.org")}.
-          </span>
-          {/* Khu vực quản trị chỉ tiếng Việt — dùng <a> thường, không gắn locale. */}
-          <a href="/admin" className="text-red-700 hover:underline">
+
+      {/* Dải bản quyền */}
+      <div className="border-t border-red-700/60">
+        <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-4 py-4 text-xs text-red-200 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p>
+              © {year} {t("footer.rights")}
+            </p>
+            <p>{t("footer.attribution")}</p>
+          </div>
+          <a href="/admin" className="shrink-0 hover:underline">
             {t("site.admin")}
           </a>
         </div>

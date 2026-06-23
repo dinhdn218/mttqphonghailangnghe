@@ -2,54 +2,81 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { CATEGORIES, type Locale } from "@/lib/constants";
 import { pick } from "@/lib/i18n";
+import { CONTACT } from "@/lib/contacts";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { Emblem } from "@/components/emblem";
 
-// Header công khai — mobile-first: tiêu đề + thanh chuyên mục cuộn ngang + đổi ngôn ngữ.
+// Header phong cách cổng thông tin điện tử cơ quan nhà nước:
+// dải tiện ích → banner thương hiệu (quốc huy + tên cơ quan) → thanh điều hướng đỏ.
 export async function SiteHeader() {
   const locale = (await getLocale()) as Locale;
   const t = await getTranslations();
 
+  const navItems = [
+    { href: "/", label: t("nav.home") },
+    { href: "/gioi-thieu", label: t("nav.about") },
+    ...CATEGORIES.map((c) => ({
+      href: `/chuyen-muc/${c.slug}`,
+      label: pick(c.nameVi, c.nameEn, locale),
+    })),
+    { href: "/ket-noi", label: t("nav.connect") },
+  ];
+
   return (
-    <header className="border-b border-gray-200 bg-white">
-      <div className="mx-auto flex w-full max-w-4xl items-start justify-between gap-4 px-4 py-3">
-        <Link href="/" className="block">
-          <p className="text-xs font-medium text-red-700">{t("site.org")}</p>
-          <p className="text-lg font-bold leading-tight">{t("site.title")}</p>
-        </Link>
-        <LanguageSwitcher />
-      </div>
-      <nav className="border-t border-gray-100 bg-gray-50">
-        <ul className="mx-auto flex w-full max-w-4xl gap-1 overflow-x-auto px-2 py-2 text-sm whitespace-nowrap">
-          <li>
-            <Link
-              href="/gioi-thieu"
-              className="inline-block rounded-full px-3 py-1.5 text-gray-700 transition hover:bg-red-100 hover:text-red-800"
+    <header>
+      {/* Dải tiện ích */}
+      <div className="bg-red-900 text-red-50">
+        <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3 px-4 py-1.5 text-xs">
+          <span className="hidden sm:inline">{t("header.portal")}</span>
+          <div className="flex items-center gap-3">
+            <a
+              href={`mailto:${CONTACT.email}`}
+              className="hidden hover:underline md:inline"
             >
-              {t("nav.about")}
+              {CONTACT.email}
+            </a>
+            <Link href="/ket-noi" className="hover:underline">
+              {t("header.contact")}
             </Link>
-          </li>
-          {CATEGORIES.map((c) => (
-            <li key={c.slug}>
+            <LanguageSwitcher />
+          </div>
+        </div>
+      </div>
+
+      {/* Banner thương hiệu */}
+      <div className="bg-gradient-to-r from-red-700 to-red-800 text-white">
+        <div className="mx-auto w-full max-w-5xl px-4 py-3">
+          <Link href="/" className="flex items-center gap-3">
+            <Emblem className="h-12 w-12 shrink-0 sm:h-14 sm:w-14" />
+            <span className="min-w-0">
+              <span className="block text-sm font-bold uppercase leading-tight sm:text-lg">
+                {t("site.org")}
+              </span>
+              <span className="block text-xs text-red-100 sm:text-sm">
+                {t("site.title")}
+              </span>
+            </span>
+          </Link>
+        </div>
+      </div>
+
+      {/* Thanh điều hướng */}
+      <nav className="border-t border-red-600/40 bg-red-800">
+        <ul className="mx-auto flex w-full max-w-5xl gap-px overflow-x-auto px-2 text-sm whitespace-nowrap">
+          {navItems.map((item) => (
+            <li key={item.href}>
               <Link
-                href={`/chuyen-muc/${c.slug}`}
-                className="inline-block rounded-full px-3 py-1.5 text-gray-700 transition hover:bg-red-100 hover:text-red-800"
+                href={item.href}
+                className="inline-block px-3 py-2.5 font-medium text-red-50 uppercase transition hover:bg-red-700"
               >
-                {pick(c.nameVi, c.nameEn, locale)}
+                {item.label}
               </Link>
             </li>
           ))}
           <li>
             <Link
-              href="/ket-noi"
-              className="inline-block rounded-full px-3 py-1.5 text-gray-700 transition hover:bg-red-100 hover:text-red-800"
-            >
-              {t("nav.connect")}
-            </Link>
-          </li>
-          <li>
-            <Link
               href="/lang-nghe-dan-noi"
-              className="inline-block rounded-full bg-red-700 px-3 py-1.5 font-medium text-white transition hover:bg-red-800"
+              className="inline-block bg-amber-500 px-3 py-2.5 font-semibold text-red-950 uppercase transition hover:bg-amber-400"
             >
               {t("nav.contact")}
             </Link>

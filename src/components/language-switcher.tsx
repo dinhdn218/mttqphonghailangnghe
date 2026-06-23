@@ -3,7 +3,7 @@
 import { useLocale } from "next-intl";
 import { usePathname, Link } from "@/i18n/navigation";
 
-// Chuyển VI ⇄ EN, giữ nguyên trang hiện tại (usePathname đã bỏ tiền tố locale).
+// Chuyển VI ⇄ EN, giữ nguyên trang hiện tại. Style cho dải tiện ích nền đỏ đậm.
 export function LanguageSwitcher() {
   const locale = useLocale();
   const pathname = usePathname();
@@ -13,21 +13,22 @@ export function LanguageSwitcher() {
       <Link
         href={pathname}
         locale="vi"
-        className={`rounded px-2 py-1 transition ${
+        className={`rounded px-1.5 py-0.5 transition ${
           locale === "vi"
-            ? "bg-red-700 text-white"
-            : "text-gray-600 hover:bg-gray-200"
+            ? "bg-white text-red-800"
+            : "text-red-100 hover:bg-red-800"
         }`}
       >
         VI
       </Link>
+      <span className="text-red-300">|</span>
       <Link
         href={pathname}
         locale="en"
-        className={`rounded px-2 py-1 transition ${
+        className={`rounded px-1.5 py-0.5 transition ${
           locale === "en"
-            ? "bg-red-700 text-white"
-            : "text-gray-600 hover:bg-gray-200"
+            ? "bg-white text-red-800"
+            : "text-red-100 hover:bg-red-800"
         }`}
       >
         EN

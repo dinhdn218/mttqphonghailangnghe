@@ -27,9 +27,24 @@
     "home": "Back to home"
   },
   "nav": {
+    "home": "Home",
     "contact": "Citizen Feedback",
     "about": "About",
     "connect": "Connect"
+  },
+  "header": {
+    "portal": "Electronic Information Portal",
+    "contact": "Contact"
+  },
+  "footer": {
+    "authority": "Managing body",
+    "office": "Office of the Fatherland Front Committee of Phong Hai Commune",
+    "addressLabel": "Address",
+    "phoneLabel": "Phone",
+    "quickLinks": "Quick links",
+    "hotline": "Hotline",
+    "rights": "Copyright by the Phong Hai Commune Fatherland Front Information Portal.",
+    "attribution": "Please cite the source when republishing information from this portal."
   },
   "about": {
     "title": "About",
