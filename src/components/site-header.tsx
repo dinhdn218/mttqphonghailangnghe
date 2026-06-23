@@ -62,7 +62,7 @@ export async function SiteHeader() {
 
       {/* Thanh điều hướng */}
       <nav className="border-t border-red-600/40 bg-red-800">
-        <ul className="mx-auto flex w-full max-w-5xl gap-px overflow-x-auto px-2 text-sm whitespace-nowrap">
+        <ul className="mx-auto flex w-full max-w-5xl gap-px overflow-x-auto px-2 text-sm whitespace-nowrap md:flex-wrap md:overflow-visible md:whitespace-normal">
           {navItems.map((item) => (
             <li key={item.href}>
               <Link

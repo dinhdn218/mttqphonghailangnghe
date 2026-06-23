@@ -44,7 +44,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     : null;
 
   return (
-    <main className="mx-auto w-full max-w-4xl px-4 py-8">
+    <main className="mx-auto w-full max-w-5xl px-4 py-8">
       <header className="mb-6">
         <h1 className="text-2xl font-bold">{name}</h1>
         {desc && <p className="mt-1 text-gray-600">{desc}</p>}

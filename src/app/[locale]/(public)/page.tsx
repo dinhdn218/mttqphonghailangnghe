@@ -14,7 +14,7 @@ export default async function Home({ params }: Props) {
   const recentPosts = await getRecentPublishedPosts(6);
 
   return (
-    <main className="mx-auto w-full max-w-4xl px-4 py-8">
+    <main className="mx-auto w-full max-w-5xl px-4 py-8">
       <section>
         <h2 className="mb-4 text-lg font-bold">{t("home.latest")}</h2>
         {recentPosts.length > 0 ? (

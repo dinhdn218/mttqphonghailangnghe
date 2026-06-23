@@ -15,7 +15,7 @@ export default async function AboutPage({ params }: Props) {
   const t = await getTranslations("about");
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 py-8">
+    <main className="mx-auto w-full max-w-5xl px-4 py-8">
       <h1 className="text-2xl font-bold">{t("title")}</h1>
       <div className="prose prose-red mt-4 max-w-none">
         <p>{t("p1")}</p>
