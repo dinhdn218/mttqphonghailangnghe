@@ -1,6 +1,6 @@
 {
   "site": {
-    "org": "Vietnam Fatherland Front Committee of Bac Ha Commune",
+    "org": "Vietnam Fatherland Front Committee of Phong Hai Commune",
     "province": "Lao Cai Province",
     "title": "Information & Communications Portal",
     "admin": "Admin"
@@ -33,13 +33,13 @@
   },
   "about": {
     "title": "About",
-    "p1": "The Vietnam Fatherland Front Committee of Bac Ha Commune (Lao Cai Province) is a political alliance and voluntary union of socio-political organizations and people from all walks of life in the commune.",
+    "p1": "The Vietnam Fatherland Front Committee of Phong Hai Commune (Lao Cai Province) is a political alliance and voluntary union of socio-political organizations and people from all walks of life in the commune.",
     "p2": "This portal aims to communicate the policies of the Party and State; to highlight emulation movements, good models and exemplary citizens; and to receive feedback from the people.",
     "p3": "(Detailed introduction content will be updated by the agency.)"
   },
   "connect": {
     "title": "Connect",
-    "intro": "Follow and contact the Bac Ha Commune Fatherland Front Committee through the official channels below.",
+    "intro": "Follow and contact the Phong Hai Commune Fatherland Front Committee through the official channels below.",
     "contactInfo": "Contact information",
     "hotline": "Hotline",
     "address": "Address",
@@ -49,7 +49,7 @@
   },
   "contact": {
     "title": "Citizen Feedback",
-    "intro": "Send your feedback and suggestions to the Bac Ha Commune Fatherland Front Committee. We will review and respond as soon as possible.",
+    "intro": "Send your feedback and suggestions to the Phong Hai Commune Fatherland Front Committee. We will review and respond as soon as possible.",
     "name": "Full name",
     "phone": "Phone number",
     "email": "Email",

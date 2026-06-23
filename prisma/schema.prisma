@@ -1,4 +1,4 @@
-// Prisma schema — Website tuyên truyền MTTQ xã Bắc Hà
+// Prisma schema — Website tuyên truyền MTTQ xã Phong Hải
 // Tài liệu: https://pris.ly/d/prisma-schema
 
 generator client {

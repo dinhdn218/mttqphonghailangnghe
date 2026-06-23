@@ -12,7 +12,7 @@ export default async function AdminDashboard() {
     <div>
       <h1 className="text-2xl font-bold">Tổng quan</h1>
       <p className="mt-1 text-gray-600">
-        Xin chào, quản lý nội dung trang tuyên truyền MTTQ xã Bắc Hà.
+        Xin chào, quản lý nội dung trang tuyên truyền MTTQ xã Phong Hải.
       </p>
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">

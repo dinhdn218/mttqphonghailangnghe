@@ -1,15 +1,15 @@
-# Dự án: Website tuyên truyền MTTQ xã Bắc Hà
+# Dự án: Website tuyên truyền MTTQ xã Phong Hải
 
 > File này tóm tắt context dự án cho Claude Code. Đọc kỹ trước khi bắt đầu.
 
 ## 1. Mục tiêu
 
 Xây dựng **trang thông tin – tuyên truyền** cho Ủy ban MTTQ Việt Nam và các tổ chức
-chính trị – xã hội của xã Bắc Hà (Lào Cai). Đây là dự án freelance, mình (dev) đứng
+chính trị – xã hội của xã Phong Hải (Lào Cai). Đây là dự án freelance, mình (dev) đứng
 ra nhận và tự code toàn bộ.
 
 Website tham chiếu (mẫu khách muốn làm tương tự): `bachalangnghe.vn` của một xã khác.
-Tên miền đích: `bachalangnghe.com` (xem mục Ràng buộc & rủi ro bên dưới — tên miền này
+Tên miền đích: `phonghailangnghe.com` (xem mục Ràng buộc & rủi ro bên dưới — tên miền này
 đã có chủ).
 
 Người dùng cuối chủ yếu là người dân vùng dân tộc thiểu số, **truy cập bằng điện thoại**
@@ -91,7 +91,7 @@ Hỗ trợ video ngắn, ảnh, infographic. Đa ngôn ngữ **Anh – Việt**.
 
 ## 9. Ràng buộc & rủi ro cần biết
 
-- **Tên miền `bachalangnghe.com` ĐÃ có chủ (thuộc cơ quan xã), không mua mới được.**
+- **Tên miền `phonghailangnghe.com` ĐÃ có chủ (thuộc cơ quan xã), không mua mới được.**
   Hiện tại truy cập báo "Website not found" — tên miền đã đăng ký nhưng chưa trỏ về
   hosting đang chạy (có thể bản WordPress cũ đã sập/hết hạn).
   → Dev KHÔNG mua tên miền, chỉ cần khách cấp quyền quản lý tên miền để trỏ DNS về hosting mới.

@@ -13,14 +13,14 @@ const beVietnamPro = Be_Vietnam_Pro({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://bachalangnghe.com",
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://phonghailangnghe.com",
   ),
   title: {
-    default: "MTTQ xã Bắc Hà",
-    template: "%s | MTTQ xã Bắc Hà",
+    default: "MTTQ xã Phong Hải",
+    template: "%s | MTTQ xã Phong Hải",
   },
   description:
-    "Trang thông tin – tuyên truyền của Ủy ban MTTQ Việt Nam xã Bắc Hà, tỉnh Lào Cai.",
+    "Trang thông tin – tuyên truyền của Ủy ban MTTQ Việt Nam xã Phong Hải, tỉnh Lào Cai.",
 };
 
 // Ưu tiên mobile (người dùng chủ yếu truy cập bằng điện thoại).

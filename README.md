@@ -1,6 +1,6 @@
-# Website tuyên truyền MTTQ xã Bắc Hà
+# Website tuyên truyền MTTQ xã Phong Hải
 
-Trang thông tin – tuyên truyền cho Ủy ban MTTQ Việt Nam xã Bắc Hà (Lào Cai).
+Trang thông tin – tuyên truyền cho Ủy ban MTTQ Việt Nam xã Phong Hải (Lào Cai).
 Xem [CLAUDE.md](./CLAUDE.md) để biết bối cảnh, phạm vi và ràng buộc dự án.
 
 ## Stack
@@ -44,9 +44,9 @@ Xem [CLAUDE.md](./CLAUDE.md) để biết bối cảnh, phạm vi và ràng bu�
 
 | Vai | Email | Mật khẩu |
 | --- | --- | --- |
-| Quản trị (ADMIN) | `admin@bachalangnghe.com` | `Admin@12345` |
-| Biên tập (EDITOR) | `bientap@bachalangnghe.com` | `Test@12345` |
-| Duyệt (APPROVER) | `duyet@bachalangnghe.com` | `Test@12345` |
+| Quản trị (ADMIN) | `admin@phonghailangnghe.com` | `Admin@12345` |
+| Biên tập (EDITOR) | `bientap@phonghailangnghe.com` | `Test@12345` |
+| Duyệt (APPROVER) | `duyet@phonghailangnghe.com` | `Test@12345` |
 
 > **Đổi mật khẩu / xoá tài khoản test trước khi sử dụng thật.** Tài khoản admin
 > cấu hình qua `SEED_ADMIN_*` trong `.env`.
@@ -125,7 +125,7 @@ src/
    | --- | --- |
    | `DATABASE_URL` | Neon (dùng connection string **pooled**) |
    | `AUTH_SECRET` | `npx auth secret` |
-   | `NEXT_PUBLIC_SITE_URL` | URL thật, vd `https://bachalangnghe.com` |
+   | `NEXT_PUBLIC_SITE_URL` | URL thật, vd `https://phonghailangnghe.com` |
    | `CLOUDINARY_*` + `NEXT_PUBLIC_CLOUDINARY_*` | Cloudinary |
    | `RESEND_API_KEY`, `CONTACT_INBOX_EMAIL`, `RESEND_FROM` | Email phản ánh |
    | `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Captcha (tuỳ chọn) |
@@ -133,7 +133,7 @@ src/
 3. Tạo bảng + seed trên DB production (chạy 1 lần với `DATABASE_URL` production):
    `npm run db:push && npm run db:seed`.
 4. **Đổi mật khẩu admin** và **xoá tài khoản test** (bientap@, duyet@) sau seed.
-5. **Tên miền `bachalangnghe.com`**: xin quyền quản lý DNS từ cơ quan xã, trỏ về
+5. **Tên miền `phonghailangnghe.com`**: xin quyền quản lý DNS từ cơ quan xã, trỏ về
    Vercel (CNAME/A theo hướng dẫn Vercel). Cập nhật domain trong Turnstile + Resend.
-6. **Resend**: để gửi từ địa chỉ `@bachalangnghe.com` cần **verify tên miền** trong
+6. **Resend**: để gửi từ địa chỉ `@phonghailangnghe.com` cần **verify tên miền** trong
    Resend (thêm bản ghi DNS). Trước khi có tên miền, dùng `onboarding@resend.dev`.

@@ -19,7 +19,7 @@ export default async function AdminLayout({
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-4 py-3">
           <div className="flex items-center gap-6">
             <Link href="/admin" className="font-bold text-red-700">
-              CMS · MTTQ Bắc Hà
+              CMS · MTTQ Phong Hải
             </Link>
             <nav className="flex gap-4 text-sm">
               <Link href="/admin" className="text-gray-700 hover:text-red-700">

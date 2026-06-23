@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { CATEGORIES } from "@/lib/constants";
 import { PostStatus } from "@/generated/prisma/client";
 
-const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://bachalangnghe.com";
+const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://phonghailangnghe.com";
 
 // Tạo URL cho cả 2 ngôn ngữ: tiếng Việt (gốc) + tiếng Anh (/en).
 function bothLocales(path: string): string[] {

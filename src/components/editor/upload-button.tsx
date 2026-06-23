@@ -31,7 +31,7 @@ export function UploadButton({
     <CldUploadWidget
       signatureEndpoint="/api/cloudinary/sign"
       options={{
-        folder: "bachalangnghe",
+        folder: "phonghailangnghe",
         sources: ["local", "url", "camera"],
         multiple: false,
         resourceType,

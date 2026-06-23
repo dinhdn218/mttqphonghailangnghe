@@ -1,4 +1,4 @@
-// Thông tin liên hệ + các nền tảng của MTTQ xã Bắc Hà.
+// Thông tin liên hệ + các nền tảng của MTTQ xã Phong Hải.
 // ⚠️ Cán bộ/dev cập nhật giá trị thật ở đây (hoặc chuyển sang biến môi trường nếu muốn).
 // Mục có url rỗng "" sẽ không hiển thị.
 
@@ -13,8 +13,8 @@ export type Platform = {
 // Đường dây nóng + email tiếp nhận
 export const CONTACT = {
   hotline: "0214 388 0xxx", // TODO: thay số thật
-  email: "mttq.bacha@laocai.gov.vn", // TODO: thay email thật
-  address: "UBND xã Bắc Hà, tỉnh Lào Cai",
+  email: "mttq.phonghai@laocai.gov.vn", // TODO: thay email thật
+  address: "UBND xã Phong Hải, tỉnh Lào Cai",
 };
 
 // Các nền tảng để hiển thị link + mã QR. Điền url thật, để "" nếu chưa có.
@@ -22,7 +22,7 @@ export const PLATFORMS: Platform[] = [
   {
     key: "facebook",
     label: "Facebook",
-    url: "", // vd: https://facebook.com/xabacha
+    url: "", // vd: https://facebook.com/xaphonghai
   },
   {
     key: "zalo-oa-xa",
@@ -39,7 +39,7 @@ export const PLATFORMS: Platform[] = [
   {
     key: "tiktok",
     label: "TikTok",
-    url: "", // vd: https://tiktok.com/@xabacha
+    url: "", // vd: https://tiktok.com/@xaphonghai
   },
 ];
 
