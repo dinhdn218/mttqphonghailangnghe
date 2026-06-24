@@ -124,6 +124,7 @@ model Post {
   contentVi  String // HTML từ Tiptap
   contentEn  String?
   coverImage String? // URL ảnh đại diện (Cloudinary)
+  featured   Boolean    @default(false) // bài nổi bật (hiển thị khối đầu trang chủ)
   status     PostStatus @default(DRAFT)
 
   categoryId String
@@ -145,6 +146,7 @@ model Post {
 
   @@index([status, categoryId])
   @@index([categoryId, publishedAt])
+  @@index([status, featured, publishedAt])
 }
 
 // ----------------------------------------------------------------------------

@@ -87,6 +87,7 @@ export async function createPost(
       contentVi: data.contentVi,
       contentEn: emptyToNull(data.contentEn),
       coverImage: emptyToNull(data.coverImage),
+      featured: formData.get("featured") === "on",
       categoryId: data.categoryId,
       authorId: user.id,
       status: PostStatus.DRAFT,
@@ -130,6 +131,7 @@ export async function updatePost(
       contentVi: data.contentVi,
       contentEn: emptyToNull(data.contentEn),
       coverImage: emptyToNull(data.coverImage),
+      featured: formData.get("featured") === "on",
       categoryId: data.categoryId,
     },
   });

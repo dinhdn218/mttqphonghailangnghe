@@ -7,6 +7,10 @@ export function getCategoryBySlug(slug: string) {
   return prisma.category.findUnique({ where: { slug } });
 }
 
+export function getCategoriesOrdered() {
+  return prisma.category.findMany({ orderBy: { order: "asc" } });
+}
+
 export const POSTS_PER_PAGE = 9;
 
 // Bài đã đăng theo chuyên mục, có phân trang. Trả kèm tổng số để tính số trang.
@@ -34,6 +38,39 @@ export function getPublishedPostBySlug(slug: string) {
   return prisma.post.findFirst({
     where: { slug, status: PostStatus.PUBLISHED },
     include: { category: true, author: { select: { name: true } } },
+  });
+}
+
+// Bài nổi bật cho khối đầu trang chủ: ưu tiên bài đánh dấu featured,
+// nếu chưa đủ (hoặc chưa đánh dấu) thì lấp bằng bài mới nhất.
+export async function getFeaturedPosts(take = 5) {
+  const featured = await prisma.post.findMany({
+    where: { status: PostStatus.PUBLISHED, featured: true },
+    orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
+    take,
+    include: { category: true },
+  });
+  if (featured.length >= take) return featured;
+
+  const fill = await prisma.post.findMany({
+    where: {
+      status: PostStatus.PUBLISHED,
+      id: { notIn: featured.map((p) => p.id) },
+    },
+    orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
+    take: take - featured.length,
+    include: { category: true },
+  });
+  return [...featured, ...fill];
+}
+
+// 5 bài mới nhất của một chuyên mục (cho khối danh mục ở trang chủ).
+export function getLatestByCategory(categoryId: string, take = 5) {
+  return prisma.post.findMany({
+    where: { status: PostStatus.PUBLISHED, categoryId },
+    orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
+    take,
+    include: { category: true },
   });
 }
 

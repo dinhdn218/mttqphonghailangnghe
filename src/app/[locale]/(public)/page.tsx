@@ -1,48 +1,45 @@
-import { setRequestLocale, getTranslations } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
-import { CATEGORIES, type Locale } from "@/lib/constants";
-import { pick } from "@/lib/i18n";
-import { getRecentPublishedPosts } from "@/lib/posts";
-import { PostCard } from "@/components/post-card";
+import { setRequestLocale } from "next-intl/server";
+import {
+  getFeaturedPosts,
+  getCategoriesOrdered,
+  getLatestByCategory,
+} from "@/lib/posts";
+import { type Locale } from "@/lib/constants";
+import { FeaturedSection } from "@/components/home/featured-section";
+import { CategorySection } from "@/components/home/category-section";
 
 type Props = { params: Promise<{ locale: string }> };
 
 export default async function Home({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations();
-  const recentPosts = await getRecentPublishedPosts(6);
+  const loc = locale as Locale;
+
+  // Khối nổi bật (5 bài) + mỗi chuyên mục 5 bài mới nhất.
+  const featured = await getFeaturedPosts(5);
+  const categories = await getCategoriesOrdered();
+  const sections = await Promise.all(
+    categories.map(async (category) => ({
+      category,
+      posts: await getLatestByCategory(category.id, 5),
+    })),
+  );
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-8">
-      <section>
-        <h2 className="mb-4 text-lg font-bold">{t("home.latest")}</h2>
-        {recentPosts.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {recentPosts.map((post) => (
-              <PostCard key={post.id} post={post} locale={locale as Locale} />
-            ))}
-          </div>
-        ) : (
-          <p className="text-gray-500">{t("home.noPosts")}</p>
-        )}
-      </section>
+      <FeaturedSection posts={featured} locale={loc} />
 
-      <section className="mt-10">
-        <h2 className="mb-4 text-lg font-bold">{t("home.categories")}</h2>
-        <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-          {CATEGORIES.map((c) => (
-            <li key={c.slug}>
-              <Link
-                href={`/chuyen-muc/${c.slug}`}
-                className="block rounded-lg border border-gray-200 bg-white px-4 py-3 transition hover:border-red-300 hover:bg-red-50"
-              >
-                {pick(c.nameVi, c.nameEn, locale as Locale)}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {sections.map(
+        ({ category, posts }) =>
+          posts.length > 0 && (
+            <CategorySection
+              key={category.id}
+              category={category}
+              posts={posts}
+              locale={loc}
+            />
+          ),
+      )}
     </main>
   );
 }

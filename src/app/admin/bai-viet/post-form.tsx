@@ -19,6 +19,7 @@ type PostInitial = {
   contentEn: string | null;
   coverImage: string | null;
   categoryId: string;
+  featured: boolean;
 };
 
 type Props = {
@@ -72,6 +73,19 @@ export function PostForm({ categories, post }: Props) {
         </select>
         <ErrorText msg={fieldErrors.categoryId} />
       </div>
+
+      <label className="flex items-center gap-2 text-sm">
+        <input
+          type="checkbox"
+          name="featured"
+          defaultChecked={post?.featured ?? false}
+          className="h-4 w-4 rounded border-gray-300 text-red-700 focus:ring-red-500"
+        />
+        <span className="font-medium">Bài nổi bật</span>
+        <span className="text-gray-400">
+          (hiển thị ở khối đầu trang chủ)
+        </span>
+      </label>
 
       {/* --- Tiếng Việt --- */}
       <fieldset className="space-y-4 rounded-xl border border-gray-200 p-4">
