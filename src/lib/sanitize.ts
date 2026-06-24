@@ -18,12 +18,15 @@ const OPTIONS: sanitizeHtml.IOptions = {
     "blockquote",
     "a",
     "img",
+    "figure",
+    "figcaption",
     "code",
     "pre",
   ],
   allowedAttributes: {
     a: ["href", "target", "rel"],
     img: ["src", "alt", "width", "height", "class"],
+    figure: ["class"],
   },
   // Chỉ cho phép link/ảnh qua http(s); chặn javascript:, data: (trừ ảnh nếu cần)
   allowedSchemes: ["http", "https", "mailto"],

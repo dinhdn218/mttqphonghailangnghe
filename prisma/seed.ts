@@ -59,28 +59,60 @@ async function main() {
   }
   console.log(`✔ Đã seed ${CATEGORIES.length} chuyên mục`);
 
-  // 3) Một bài demo cho mỗi chuyên mục (đã đăng) để minh hoạ giao diện
+  // 3) ~10 bài mẫu / chuyên mục — có ảnh thumb (coverImage) + ảnh kèm chú thích
+  //    trong nội dung. Ảnh dùng picsum.photos (placeholder cho dữ liệu demo).
+  await prisma.post.deleteMany({ where: { slug: { startsWith: "demo-" } } });
+
+  const PREFIXES = [
+    "Hội nghị", "Triển khai", "Lan toả", "Đẩy mạnh", "Ra mắt",
+    "Tăng cường", "Hưởng ứng", "Biểu dương", "Tổng kết", "Phát động",
+  ];
+  const TOPICS: Record<string, string> = {
+    "tin-tuc-su-kien": "các hoạt động, sự kiện nổi bật tại xã Phong Hải",
+    "chuyen-doi-so": "chuyển đổi số trong cộng đồng dân cư",
+    "dich-vu-cong": "dịch vụ công trực tuyến phục vụ người dân",
+    "mo-hinh-hay": "mô hình hay trong phong trào thi đua yêu nước",
+    "cuoc-van-dong": "cuộc vận động Toàn dân đoàn kết xây dựng đời sống văn hoá",
+    "nguoi-tot-viec-tot": "gương người tốt, việc tốt trong cộng đồng",
+    "doi-song-van-hoa-moi": "nếp sống văn hoá mới, xoá bỏ hủ tục lạc hậu",
+    "thu-vien": "tư liệu, hình ảnh tuyên truyền của xã",
+  };
+
+  let count = 0;
   for (const c of CATEGORIES) {
     const category = await prisma.category.findUnique({ where: { slug: c.slug } });
     if (!category) continue;
-    const slug = `demo-${c.slug}`;
-    await prisma.post.upsert({
-      where: { slug },
-      update: {},
-      create: {
-        slug,
-        titleVi: `Bài viết mẫu: ${c.nameVi}`,
-        titleEn: `Sample post: ${c.nameEn}`,
-        excerptVi: `Đây là bài viết mẫu minh hoạ chuyên mục ${c.nameVi}.`,
-        contentVi: `<p>Nội dung mẫu cho chuyên mục <strong>${c.nameVi}</strong>. Cán bộ biên tập sẽ thay bằng nội dung thật qua CMS.</p>`,
-        status: "PUBLISHED",
-        publishedAt: new Date(),
-        categoryId: category.id,
-        authorId: admin.id,
-      },
-    });
+    const topic = TOPICS[c.slug] ?? c.nameVi.toLowerCase();
+
+    for (let n = 1; n <= 10; n++) {
+      const slug = `${c.slug}-${n}`;
+      const title = `${PREFIXES[n - 1]} ${topic}`;
+      const cover = `https://picsum.photos/seed/${slug}/800/450`;
+      const figImg = `https://picsum.photos/seed/${slug}-fig/1000/600`;
+      const contentVi = `<p>Trong khuôn khổ các hoạt động của Ủy ban MTTQ Việt Nam xã Phong Hải, nội dung về <strong>${topic}</strong> tiếp tục được quan tâm, triển khai sâu rộng tới từng thôn, bản.</p>` +
+        `<p>Các tổ chức thành viên cùng đông đảo nhân dân đã tích cực tham gia, góp phần lan toả những giá trị tốt đẹp trong cộng đồng.</p>` +
+        `<figure><img src="${figImg}" alt="${title}" /><figcaption>Ảnh minh hoạ: ${title}.</figcaption></figure>` +
+        `<p>Thời gian tới, xã tiếp tục đẩy mạnh tuyên truyền, vận động để ${topic} ngày càng đi vào thực chất, hiệu quả.</p>`;
+
+      await prisma.post.upsert({
+        where: { slug },
+        update: { titleVi: title, excerptVi: `${title} — tin tổng hợp từ xã Phong Hải.`, contentVi, coverImage: cover, status: "PUBLISHED", categoryId: category.id },
+        create: {
+          slug,
+          titleVi: title,
+          excerptVi: `${title} — tin tổng hợp từ xã Phong Hải.`,
+          contentVi,
+          coverImage: cover,
+          status: "PUBLISHED",
+          publishedAt: new Date(Date.now() - count * 6 * 3600 * 1000),
+          categoryId: category.id,
+          authorId: admin.id,
+        },
+      });
+      count++;
+    }
   }
-  console.log("✔ Đã seed bài viết demo");
+  console.log(`✔ Đã seed ${count} bài mẫu (10/chuyên mục) — có ảnh thumb + ảnh chú thích`);
 }
 
 main()

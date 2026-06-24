@@ -7,6 +7,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import TiptapImage from "@tiptap/extension-image";
 import { useCallback } from "react";
 import { UploadButton } from "@/components/editor/upload-button";
+import { Figure } from "@/components/editor/figure-extension";
 
 type Props = {
   value: string;
@@ -21,6 +22,7 @@ export function RichTextEditor({ value, onChange, placeholder }: Props) {
       StarterKit.configure({ heading: { levels: [2, 3] } }),
       Link.configure({ openOnClick: false, autolink: true }),
       TiptapImage.configure({ HTMLAttributes: { class: "rounded-lg" } }),
+      Figure,
       Placeholder.configure({ placeholder: placeholder ?? "Nhập nội dung…" }),
     ],
     content: value,
@@ -94,9 +96,15 @@ function Toolbar({ editor }: { editor: Editor }) {
       <UploadButton
         label="🖼 Ảnh"
         className="rounded px-2 py-1 text-sm text-gray-700 transition hover:bg-gray-200"
-        onUploaded={(r) =>
-          editor.chain().focus().setImage({ src: r.url }).run()
-        }
+        onUploaded={(r) => {
+          const caption =
+            window.prompt("Chú thích ảnh (để trống nếu không cần):") ?? "";
+          editor
+            .chain()
+            .focus()
+            .setFigure({ src: r.url, alt: caption, caption })
+            .run();
+        }}
       />
       <Divider />
       <Btn on={false} onClick={() => editor.chain().focus().undo().run()}>

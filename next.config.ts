@@ -24,6 +24,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "res.cloudinary.com",
       },
+      {
+        // Ảnh mẫu cho dữ liệu demo (thay bằng Cloudinary khi có nội dung thật)
+        protocol: "https",
+        hostname: "picsum.photos",
+      },
     ],
   },
   async headers() {
