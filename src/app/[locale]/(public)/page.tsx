@@ -29,17 +29,19 @@ export default async function Home({ params }: Props) {
     <main className="mx-auto w-full max-w-container px-4 py-8">
       <FeaturedSection posts={featured} locale={loc} />
 
-      {sections.map(
-        ({ category, posts }) =>
-          posts.length > 0 && (
-            <CategorySection
-              key={category.id}
-              category={category}
-              posts={posts}
-              locale={loc}
-            />
-          ),
-      )}
+      <div className="grid gap-x-8 gap-y-8 lg:grid-cols-2">
+        {sections.map(
+          ({ category, posts }) =>
+            posts.length > 0 && (
+              <CategorySection
+                key={category.id}
+                category={category}
+                posts={posts}
+                locale={loc}
+              />
+            ),
+        )}
+      </div>
     </main>
   );
 }
