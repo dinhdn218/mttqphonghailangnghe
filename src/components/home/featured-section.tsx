@@ -20,7 +20,7 @@ export function FeaturedSection({
 
   const hero = posts[0];
   const left = posts.slice(1, 3); // 2 thẻ cột trái
-  const right = posts.slice(3, 7); // tối đa 4 mục cột phải
+  const right = posts.slice(3, 8); // tối đa 5 mục cột phải
 
   return (
     <section className="mb-10">
