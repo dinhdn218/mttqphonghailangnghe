@@ -26,7 +26,7 @@ export default async function Home({ params }: Props) {
   );
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-4 py-8">
+    <main className="mx-auto w-full max-w-container px-4 py-8">
       <FeaturedSection posts={featured} locale={loc} />
 
       {sections.map(

@@ -26,7 +26,7 @@ export async function SiteHeader() {
     <header>
       {/* Dải tiện ích */}
       <div className="bg-red-900 text-red-50">
-        <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3 px-4 py-1.5 text-xs">
+        <div className="mx-auto flex w-full max-w-container items-center justify-between gap-3 px-4 py-1.5 text-xs">
           <span className="hidden sm:inline">{t("header.portal")}</span>
           <div className="flex items-center gap-3">
             <a
@@ -45,7 +45,7 @@ export async function SiteHeader() {
 
       {/* Banner thương hiệu */}
       <div className="bg-gradient-to-r from-red-700 to-red-800 text-white">
-        <div className="mx-auto w-full max-w-5xl px-4 py-3">
+        <div className="mx-auto w-full max-w-container px-4 py-3">
           <Link href="/" className="flex items-center gap-3">
             <Emblem className="h-12 w-12 shrink-0 sm:h-14 sm:w-14" />
             <span className="min-w-0">
@@ -62,7 +62,7 @@ export async function SiteHeader() {
 
       {/* Thanh điều hướng */}
       <nav className="border-t border-red-600/40 bg-red-800">
-        <ul className="mx-auto flex w-full max-w-5xl gap-px overflow-x-auto px-2 text-sm whitespace-nowrap md:flex-wrap md:overflow-visible md:whitespace-normal">
+        <ul className="mx-auto flex w-full max-w-container gap-px overflow-x-auto px-2 text-sm whitespace-nowrap md:flex-wrap md:overflow-visible md:whitespace-normal">
           {navItems.map((item) => (
             <li key={item.href}>
               <Link

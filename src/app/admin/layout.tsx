@@ -16,7 +16,7 @@ export default async function AdminLayout({
   return (
     <div className="flex min-h-full flex-col">
       <header className="border-b border-gray-200 bg-white">
-        <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-4 py-3">
+        <div className="mx-auto flex w-full max-w-container items-center justify-between gap-4 px-4 py-3">
           <div className="flex items-center gap-6">
             <Link href="/admin" className="font-bold text-red-700">
               CMS · MTTQ Phong Hải
@@ -57,7 +57,7 @@ export default async function AdminLayout({
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
+      <main className="mx-auto w-full max-w-container flex-1 px-4 py-8">
         {children}
       </main>
     </div>

@@ -11,7 +11,7 @@ export async function SiteFooter() {
 
   return (
     <footer className="mt-12 bg-red-900 text-red-100">
-      <div className="mx-auto grid w-full max-w-5xl gap-8 px-4 py-8 sm:grid-cols-3">
+      <div className="mx-auto grid w-full max-w-container gap-8 px-4 py-8 sm:grid-cols-3">
         {/* Cơ quan */}
         <div>
           <p className="font-bold text-white uppercase">{t("site.org")}</p>
@@ -79,7 +79,7 @@ export async function SiteFooter() {
 
       {/* Dải bản quyền */}
       <div className="border-t border-red-700/60">
-        <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-4 py-4 text-xs text-red-200 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex w-full max-w-container flex-col gap-2 px-4 py-4 text-xs text-red-200 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p>
               © {year} {t("footer.rights")}
