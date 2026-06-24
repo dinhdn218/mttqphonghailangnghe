@@ -20,7 +20,7 @@
 /* Bề rộng container chung của toàn site — đổi 1 chỗ này là đổi cả trang.
    Utility max-w-container (mặc định = 64rem, tương đương max-w-5xl cũ). */
 @utility max-w-container {
-  max-width: 64rem;
+  max-width: 72rem;
 }
 
 @media (prefers-color-scheme: dark) {
