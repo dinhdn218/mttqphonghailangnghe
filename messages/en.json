@@ -81,12 +81,19 @@
   },
   "connect": {
     "title": "Connect",
-    "intro": "Follow and contact the Phong Hai Commune Fatherland Front Committee through the official channels below.",
+    "intro": "Follow and contact the Phong Hai Commune Fatherland Front Committee through the official channels below to get the latest news and send feedback directly.",
     "contactInfo": "Contact information",
     "hotline": "Hotline",
-    "address": "Address",
+    "emailLabel": "Official email",
+    "addressLabel": "Head office",
+    "viewMap": "View map",
     "platforms": "Platforms & QR codes",
     "openLink": "Open link",
+    "qrCaption": "Scan to connect",
+    "qrPending": "QR code coming soon",
+    "ctaTitle": "Listening to the people",
+    "ctaDesc": "Have feedback or a report to share? Leave your information here.",
+    "ctaButton": "Send feedback now",
     "noPlatforms": "Social media channels will appear here once configured."
   },
   "contact": {

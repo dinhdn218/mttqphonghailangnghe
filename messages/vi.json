@@ -81,12 +81,19 @@
   },
   "connect": {
     "title": "Kết nối",
-    "intro": "Theo dõi và liên hệ với MTTQ xã Phong Hải qua các kênh chính thức dưới đây.",
+    "intro": "Theo dõi và liên hệ với MTTQ xã Phong Hải qua các kênh chính thức dưới đây để cập nhật tin tức nhanh nhất và gửi phản hồi trực tiếp.",
     "contactInfo": "Thông tin liên hệ",
     "hotline": "Đường dây nóng",
-    "address": "Địa chỉ",
-    "platforms": "Nền tảng & mã QR",
+    "emailLabel": "Email chính thức",
+    "addressLabel": "Địa chỉ trụ sở",
+    "viewMap": "Xem bản đồ",
+    "platforms": "Nền tảng & Mã QR",
     "openLink": "Mở liên kết",
+    "qrCaption": "Quét để kết nối",
+    "qrPending": "Mã QR sẽ cập nhật",
+    "ctaTitle": "Lắng nghe ý kiến Nhân dân",
+    "ctaDesc": "Bạn có ý kiến đóng góp hoặc phản ánh? Hãy để lại thông tin tại đây.",
+    "ctaButton": "Gửi phản hồi ngay",
     "noPlatforms": "Các kênh mạng xã hội sẽ hiển thị tại đây khi được cập nhật."
   },
   "contact": {
