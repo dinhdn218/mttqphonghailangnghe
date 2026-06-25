@@ -95,7 +95,7 @@ export default async function ConnectPage({ params }: Props) {
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Cột trái: thông tin liên hệ */}
-        <section className="overflow-hidden border border-gray-200 bg-white shadow-sm">
+        <section className="flex flex-col overflow-hidden border border-gray-200 bg-white shadow-sm">
           <div className="flex items-center gap-2 bg-red-800 px-5 py-4 text-amber-300">
             <Icon path={ICONS.info} className="h-5 w-5" />
             <h2 className="font-bold tracking-wide text-white uppercase">
@@ -125,17 +125,27 @@ export default async function ConnectPage({ params }: Props) {
               </span>
             </ContactRow>
 
-            {/* Bản đồ (placeholder, mở Google Maps) */}
+          </div>
+
+          {/* Bản đồ nhúng Google Maps — chiếm hết chiều cao còn lại */}
+          <div className="relative flex min-h-[300px] flex-1 flex-col">
+            <iframe
+              title={t("viewMap")}
+              src={`https://www.google.com/maps?q=${encodeURIComponent(CONTACT.address)}&output=embed`}
+              className="absolute inset-0 h-full w-full"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
             <a
               href={mapUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-40 items-center justify-center border border-gray-200 bg-gray-100 transition hover:bg-gray-200"
+              className="relative z-10 mt-auto flex items-center justify-center gap-1.5 bg-white/90 px-4 py-2 text-sm font-medium text-gray-600 backdrop-blur-sm transition hover:bg-white hover:text-red-700"
             >
-              <span className="inline-flex items-center gap-1.5 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm">
-                <Icon path={ICONS.map} className="h-4 w-4" />
-                {t("viewMap")}
-              </span>
+              <Icon path={ICONS.map} className="h-4 w-4" />
+              {t("viewMap")}
             </a>
           </div>
         </section>

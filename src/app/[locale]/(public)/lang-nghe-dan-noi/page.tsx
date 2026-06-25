@@ -75,7 +75,7 @@ export default async function ContactPage({ params }: Props) {
         </section>
 
         {/* Sidebar: liên hệ trực tiếp + cam kết */}
-        <aside className="space-y-6">
+        <aside className="flex flex-col gap-6">
           <div className="border border-gray-200 bg-white p-5 shadow-sm">
             <h3 className="mb-4 font-bold tracking-wide text-red-800 uppercase">
               {t("directContact")}
@@ -106,11 +106,14 @@ export default async function ContactPage({ params }: Props) {
           </div>
 
           {/* Cam kết */}
-          <div className="border-l-4 border-amber-400 bg-red-50 p-5">
+          <div className="border-l-4 border-amber-400 bg-red-50 p-5 flex-1">
             <h3 className="font-bold text-red-800">{t("commitTitle")}</h3>
             <ul className="mt-3 space-y-2.5">
               {commitments.map((c) => (
-                <li key={c} className="flex items-start gap-2 text-sm text-gray-700">
+                <li
+                  key={c}
+                  className="flex items-start gap-2 text-sm text-gray-700"
+                >
                   <Icon
                     path={ICONS.check}
                     className="mt-0.5 h-4 w-4 shrink-0 text-red-700"

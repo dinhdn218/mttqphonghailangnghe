@@ -11,7 +11,7 @@ export default function RootNotFound() {
       </p>
       <Link
         href="/"
-        className="mt-6 rounded-lg bg-red-700 px-5 py-2.5 font-medium text-white transition hover:bg-red-800"
+        className="mt-6 bg-red-700 px-5 py-2.5 font-medium text-white transition hover:bg-red-800"
       >
         Về trang chủ
       </Link>

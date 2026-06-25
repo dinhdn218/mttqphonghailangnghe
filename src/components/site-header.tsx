@@ -5,6 +5,7 @@ import { pick } from "@/lib/i18n";
 import { CONTACT } from "@/lib/contacts";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { Emblem } from "@/components/emblem";
+import { NavLinks } from "@/components/nav-links";
 
 // Header phong cách cổng thông tin điện tử cơ quan nhà nước:
 // dải tiện ích → banner thương hiệu (quốc huy + tên cơ quan) → thanh điều hướng đỏ.
@@ -20,6 +21,7 @@ export async function SiteHeader() {
       label: pick(c.nameVi, c.nameEn, locale),
     })),
     { href: "/ket-noi", label: t("nav.connect") },
+    { href: "/lang-nghe-dan-noi", label: t("nav.contact") },
   ];
 
   return (
@@ -62,27 +64,9 @@ export async function SiteHeader() {
 
       {/* Thanh điều hướng */}
       <nav className="border-t border-red-600/40 bg-red-800">
-        <ul className="mx-auto flex w-full max-w-container gap-px overflow-x-auto px-2 text-sm whitespace-nowrap md:flex-wrap md:overflow-visible md:whitespace-normal">
-          {navItems.map((item) => (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className="inline-block px-3 py-2.5 font-medium text-red-50 uppercase transition hover:bg-red-700"
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
-          <li>
-            <Link
-              href="/lang-nghe-dan-noi"
-              className="inline-block bg-amber-500 px-3 py-2.5 font-semibold text-red-950 uppercase transition hover:bg-amber-400"
-            >
-              {t("nav.contact")}
-            </Link>
-          </li>
-        </ul>
+        <NavLinks items={navItems} />
       </nav>
     </header>
   );
 }
+

@@ -13,7 +13,7 @@ export function LanguageSwitcher() {
       <Link
         href={pathname}
         locale="vi"
-        className={`rounded px-1.5 py-0.5 transition ${
+        className={`px-1.5 py-0.5 transition ${
           locale === "vi"
             ? "bg-white text-red-800"
             : "text-red-100 hover:bg-red-800"
@@ -25,7 +25,7 @@ export function LanguageSwitcher() {
       <Link
         href={pathname}
         locale="en"
-        className={`rounded px-1.5 py-0.5 transition ${
+        className={`px-1.5 py-0.5 transition ${
           locale === "en"
             ? "bg-white text-red-800"
             : "text-red-100 hover:bg-red-800"

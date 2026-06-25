@@ -27,7 +27,7 @@ export default function CategoryLoading() {
       </div>
 
       {/* Đường phân cách */}
-      <div className="brocade-divider w-full" />
+      <div className="h-1.5 w-full bg-[repeating-linear-gradient(45deg,#f59e0b_0,#f59e0b_8px,#7f1d1d_8px,#7f1d1d_16px)]" />
 
       {/* Danh sách tin mới nhất */}
       <section>

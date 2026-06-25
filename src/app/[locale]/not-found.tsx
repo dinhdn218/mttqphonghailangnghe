@@ -12,7 +12,7 @@ export default async function NotFound() {
       <p className="mt-2 text-gray-600">{t("desc")}</p>
       <Link
         href="/"
-        className="mt-6 rounded-lg bg-red-700 px-5 py-2.5 font-medium text-white transition hover:bg-red-800"
+        className="mt-6 bg-red-700 px-5 py-2.5 font-medium text-white transition hover:bg-red-800"
       >
         {t("home")}
       </Link>

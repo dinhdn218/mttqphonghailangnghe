@@ -30,8 +30,8 @@ export default async function Home({ params }: Props) {
     <main className="mx-auto w-full max-w-container px-4 py-8">
       <FeaturedSection posts={featured} locale={loc} />
 
-      {/* Đường phân cách hoa văn thổ cẩm (kiểu mẫu cổng tin Bắc Hà) */}
-      <div className="brocade-divider my-8 w-full" />
+      {/* Vạch hoa văn (thổ cẩm) */}
+      <div className="h-1.5 w-full my-8 bg-[repeating-linear-gradient(45deg,#f59e0b_0,#f59e0b_8px,#7f1d1d_8px,#7f1d1d_16px)]" />
 
       <div className="grid gap-x-10 gap-y-10 lg:grid-cols-2">
         {sections.map(

@@ -41,7 +41,9 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     page,
   );
   const name = pick(category.nameVi, category.nameEn, loc);
-  const desc = category.descVi ? pick(category.descVi, category.descEn, loc) : null;
+  const desc = category.descVi
+    ? pick(category.descVi, category.descEn, loc)
+    : null;
 
   // Trang 1: 3 bài đầu lên khối nổi bật bento, phần còn lại xuống danh sách.
   // Các trang sau: tất cả đều ở danh sách.
@@ -76,7 +78,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
 
           {/* Đường phân cách thổ cẩm */}
           {big && listPosts.length > 0 && (
-            <div className="brocade-divider w-full" />
+            <div className="h-1.5 w-full bg-[repeating-linear-gradient(45deg,#f59e0b_0,#f59e0b_8px,#7f1d1d_8px,#7f1d1d_16px)]" />
           )}
 
           {/* Danh sách tin */}
