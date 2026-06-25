@@ -41,6 +41,24 @@ export function getPublishedPostBySlug(slug: string) {
   });
 }
 
+// Tin liên quan: cùng chuyên mục, khác bài hiện tại, mới nhất.
+export function getRelatedPosts(
+  categoryId: string,
+  excludeId: string,
+  take = 3,
+) {
+  return prisma.post.findMany({
+    where: {
+      status: PostStatus.PUBLISHED,
+      categoryId,
+      id: { not: excludeId },
+    },
+    orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
+    take,
+    include: { category: true },
+  });
+}
+
 // Bài nổi bật cho khối đầu trang chủ: ưu tiên bài đánh dấu featured,
 // nếu chưa đủ (hoặc chưa đánh dấu) thì lấp bằng bài mới nhất.
 export async function getFeaturedPosts(take = 5) {

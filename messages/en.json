@@ -19,7 +19,13 @@
   },
   "post": {
     "backToCategory": "Back to category",
-    "notFound": "Not found"
+    "notFound": "Not found",
+    "home": "Home",
+    "related": "Related news",
+    "byline": "Story & photos",
+    "listenTitle": "Listen to the people",
+    "listenDesc": "Send your feedback, reflections and suggestions to the Village Fatherland Front Committee.",
+    "listenCta": "Send feedback now"
   },
   "pagination": {
     "prev": "Previous",

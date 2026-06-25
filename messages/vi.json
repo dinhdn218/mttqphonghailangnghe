@@ -19,7 +19,13 @@
   },
   "post": {
     "backToCategory": "Quay lại chuyên mục",
-    "notFound": "Không tìm thấy"
+    "notFound": "Không tìm thấy",
+    "home": "Trang chủ",
+    "related": "Tin tức liên quan",
+    "byline": "Tin, ảnh",
+    "listenTitle": "Lắng nghe dân nói",
+    "listenDesc": "Gửi ý kiến, phản ánh, kiến nghị của bạn đến Ủy ban MTTQ Việt Nam xã.",
+    "listenCta": "Gửi ý kiến ngay"
   },
   "pagination": {
     "prev": "Trước",
