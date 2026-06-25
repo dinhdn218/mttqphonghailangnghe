@@ -15,13 +15,14 @@ export default async function Home({ params }: Props) {
   setRequestLocale(locale);
   const loc = locale as Locale;
 
-  // Khối nổi bật (8 bài: 1 hero + 2 cột trái + 5 cột phải) + mỗi chuyên mục 5 bài.
-  const featured = await getFeaturedPosts(8);
+  // Khối nổi bật: 1 hero + 2 thẻ + đổ dư tin cho hộp "Tin tiêu điểm" (cắt gọn lấp đầy chiều cao).
+  const featured = await getFeaturedPosts(13);
   const categories = await getCategoriesOrdered();
   const sections = await Promise.all(
     categories.map(async (category) => ({
       category,
-      posts: await getLatestByCategory(category.id, 5),
+      // 2 tin có ảnh song song + tối đa 4 tin dạng text
+      posts: await getLatestByCategory(category.id, 6),
     })),
   );
 
@@ -29,7 +30,10 @@ export default async function Home({ params }: Props) {
     <main className="mx-auto w-full max-w-container px-4 py-8">
       <FeaturedSection posts={featured} locale={loc} />
 
-      <div className="grid gap-x-8 gap-y-8 lg:grid-cols-2">
+      {/* Đường phân cách hoa văn thổ cẩm (kiểu mẫu cổng tin Bắc Hà) */}
+      <div className="brocade-divider my-8 w-full" />
+
+      <div className="grid gap-x-10 gap-y-10 lg:grid-cols-2">
         {sections.map(
           ({ category, posts }) =>
             posts.length > 0 && (

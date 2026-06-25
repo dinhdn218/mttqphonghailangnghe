@@ -23,6 +23,31 @@
   max-width: 72rem;
 }
 
+/* Đường phân cách hoa văn thổ cẩm (vàng – đỏ) kiểu mẫu cổng tin Bắc Hà. */
+@utility brocade-divider {
+  height: 4px;
+  background-image: repeating-linear-gradient(
+      45deg,
+      #ffd700 25%,
+      transparent 25%,
+      transparent 75%,
+      #ffd700 75%,
+      #ffd700
+    ),
+    repeating-linear-gradient(
+      45deg,
+      #ffd700 25%,
+      #610000 25%,
+      #610000 75%,
+      #ffd700 75%,
+      #ffd700
+    );
+  background-position:
+    0 0,
+    4px 4px;
+  background-size: 8px 8px;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

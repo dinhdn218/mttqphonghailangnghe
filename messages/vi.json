@@ -8,7 +8,10 @@
   "home": {
     "latest": "Bài viết mới",
     "categories": "Chuyên mục",
-    "noPosts": "Chưa có bài viết."
+    "noPosts": "Chưa có bài viết.",
+    "featured": "Tin nổi bật",
+    "highlights": "Tin tiêu điểm",
+    "seeAll": "Xem tất cả"
   },
   "category": {
     "empty": "Chưa có bài viết trong chuyên mục này."
