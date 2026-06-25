@@ -2,7 +2,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { getCategoryBySlug, getPublishedPostsByCategory } from "@/lib/posts";
-import { PostCard } from "@/components/post-card";
+import { CategoryFeatured } from "@/components/category/category-featured";
+import { PostListItem } from "@/components/post-list-item";
 import { Pagination } from "@/components/pagination";
 import { pick } from "@/lib/i18n";
 import type { Locale } from "@/lib/constants";
@@ -28,6 +29,7 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   const { locale, slug } = await params;
   const { page: pageParam } = await searchParams;
   setRequestLocale(locale);
+  const loc = locale as Locale;
   const t = await getTranslations();
 
   const category = await getCategoryBySlug(slug);
@@ -38,35 +40,66 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     category.id,
     page,
   );
-  const name = pick(category.nameVi, category.nameEn, locale as Locale);
-  const desc = category.descVi
-    ? pick(category.descVi, category.descEn, locale as Locale)
-    : null;
+  const name = pick(category.nameVi, category.nameEn, loc);
+  const desc = category.descVi ? pick(category.descVi, category.descEn, loc) : null;
+
+  // Trang 1: 3 bài đầu lên khối nổi bật bento, phần còn lại xuống danh sách.
+  // Các trang sau: tất cả đều ở danh sách.
+  const showFeatured = page === 1 && posts.length >= 3;
+  const big = showFeatured ? posts[0] : null;
+  const small = showFeatured ? posts.slice(1, 3) : [];
+  const listPosts = showFeatured ? posts.slice(3) : posts;
 
   return (
-    <main className="mx-auto w-full max-w-container px-4 py-8">
-      <header className="mb-6">
-        <h1 className="text-2xl font-bold">{name}</h1>
-        {desc && <p className="mt-1 text-gray-600">{desc}</p>}
+    <main className="mx-auto flex w-full max-w-container flex-col gap-8 px-4 py-8">
+      {/* Header: tiêu đề + mô tả */}
+      <header className="border-b border-gray-200 pb-4">
+        <h1 className="text-2xl font-bold text-red-700 sm:text-3xl">{name}</h1>
+        <p className="mt-2 text-gray-600">
+          {desc ?? `Cập nhật thông tin mới nhất về ${name.toLowerCase()}.`}
+        </p>
       </header>
 
-      {posts.length > 0 ? (
+      {posts.length === 0 ? (
+        <p className="text-gray-500">{t("category.empty")}</p>
+      ) : (
         <>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post) => (
-              <PostCard key={post.id} post={post} locale={locale as Locale} />
-            ))}
-          </div>
+          {/* Khối nổi bật bento (chỉ trang 1) */}
+          {big && (
+            <CategoryFeatured
+              big={big}
+              small={small}
+              locale={loc}
+              featuredLabel={t("home.featured")}
+            />
+          )}
+
+          {/* Đường phân cách thổ cẩm */}
+          {big && listPosts.length > 0 && (
+            <div className="brocade-divider w-full" />
+          )}
+
+          {/* Danh sách tin */}
+          {listPosts.length > 0 && (
+            <section>
+              <h2 className="mb-5 flex items-center gap-2 text-xl font-bold text-gray-900">
+                <span className="h-6 w-1 bg-red-700" />
+                {t("category.latest")}
+              </h2>
+              <div className="flex flex-col gap-4">
+                {listPosts.map((post) => (
+                  <PostListItem key={post.id} post={post} locale={loc} />
+                ))}
+              </div>
+            </section>
+          )}
+
           <Pagination
             basePath={`/chuyen-muc/${slug}`}
             currentPage={page}
             totalPages={totalPages}
-            prevLabel={t("pagination.prev")}
-            nextLabel={t("pagination.next")}
           />
         </>
-      ) : (
-        <p className="text-gray-500">{t("category.empty")}</p>
       )}
     </main>
   );

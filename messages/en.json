@@ -14,7 +14,8 @@
     "seeAll": "See all"
   },
   "category": {
-    "empty": "No posts in this category yet."
+    "empty": "No posts in this category yet.",
+    "latest": "Latest news"
   },
   "post": {
     "backToCategory": "Back to category",

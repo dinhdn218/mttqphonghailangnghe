@@ -14,7 +14,8 @@
     "seeAll": "Xem tất cả"
   },
   "category": {
-    "empty": "Chưa có bài viết trong chuyên mục này."
+    "empty": "Chưa có bài viết trong chuyên mục này.",
+    "latest": "Tin tức mới nhất"
   },
   "post": {
     "backToCategory": "Quay lại chuyên mục",
