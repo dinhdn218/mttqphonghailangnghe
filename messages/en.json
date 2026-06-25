@@ -106,7 +106,13 @@
     "optional": "optional",
     "submit": "Send feedback",
     "submitting": "Sending…",
-    "success": "Your feedback has been sent. Thank you!"
+    "success": "Your feedback has been sent. Thank you!",
+    "formTitle": "Submit feedback",
+    "directContact": "Direct contact",
+    "commitTitle": "Our commitment",
+    "commit1": "We receive all feedback and suggestions from citizens.",
+    "commit2": "Your personal information is kept confidential.",
+    "commit3": "We forward to the authorities and respond promptly."
   },
   "lang": {
     "label": "Language",

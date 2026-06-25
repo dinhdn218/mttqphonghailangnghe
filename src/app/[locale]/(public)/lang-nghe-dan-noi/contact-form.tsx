@@ -7,6 +7,10 @@ import { submitFeedback, type FeedbackState } from "./actions";
 
 const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
+// Ô nhập phẳng (không bo góc) + focus đỏ.
+const INPUT =
+  "w-full border border-gray-300 bg-white px-3 py-2.5 outline-none transition focus:border-red-600 focus:ring-1 focus:ring-red-600";
+
 export function ContactForm() {
   const t = useTranslations("contact");
   const [state, formAction, pending] = useActionState<FeedbackState, FormData>(
@@ -19,8 +23,8 @@ export function ContactForm() {
 
   if (state.ok) {
     return (
-      <div className="rounded-xl border border-green-200 bg-green-50 p-6 text-center">
-        <p className="text-2xl">✓</p>
+      <div className="border border-green-200 bg-green-50 p-6 text-center">
+        <p className="text-3xl text-green-600">✓</p>
         <p className="mt-2 font-medium text-green-800">{t("success")}</p>
       </div>
     );
@@ -37,19 +41,14 @@ export function ContactForm() {
       </div>
 
       {state.error && (
-        <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">
+        <p className="border-l-4 border-red-600 bg-red-50 px-4 py-2 text-sm text-red-700">
           {state.error}
         </p>
       )}
 
       <div>
         <Label htmlFor="name">{t("name")} *</Label>
-        <input
-          id="name"
-          name="name"
-          required
-          className="w-full rounded-lg border border-gray-300 px-3 py-2"
-        />
+        <input id="name" name="name" required className={INPUT} />
         <ErrorText msg={fieldErrors.name} />
       </div>
 
@@ -64,7 +63,7 @@ export function ContactForm() {
             name="phone"
             type="tel"
             inputMode="tel"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2"
+            className={INPUT}
           />
         </div>
         <div>
@@ -72,12 +71,7 @@ export function ContactForm() {
             {t("email")}{" "}
             <span className="text-gray-400">({t("optional")})</span>
           </Label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            className="w-full rounded-lg border border-gray-300 px-3 py-2"
-          />
+          <input id="email" name="email" type="email" className={INPUT} />
           <ErrorText msg={fieldErrors.email} />
         </div>
       </div>
@@ -89,7 +83,7 @@ export function ContactForm() {
           name="message"
           rows={6}
           required
-          className="w-full rounded-lg border border-gray-300 px-3 py-2"
+          className={INPUT}
         />
         <ErrorText msg={fieldErrors.message} />
       </div>
@@ -108,7 +102,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-lg bg-red-700 px-5 py-3 font-medium text-white transition hover:bg-red-800 disabled:opacity-60 sm:w-auto"
+        className="w-full bg-red-700 px-6 py-3 font-semibold text-white transition hover:bg-red-800 disabled:opacity-60 sm:w-auto"
       >
         {pending ? t("submitting") : t("submit")}
       </button>

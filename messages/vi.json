@@ -106,7 +106,13 @@
     "optional": "không bắt buộc",
     "submit": "Gửi phản ánh",
     "submitting": "Đang gửi…",
-    "success": "Đã gửi phản ánh. Cảm ơn bạn đã đóng góp!"
+    "success": "Đã gửi phản ánh. Cảm ơn bạn đã đóng góp!",
+    "formTitle": "Gửi phản ánh",
+    "directContact": "Liên hệ trực tiếp",
+    "commitTitle": "Cam kết của chúng tôi",
+    "commit1": "Tiếp nhận mọi ý kiến, phản ánh của nhân dân.",
+    "commit2": "Bảo mật thông tin người gửi.",
+    "commit3": "Chuyển tới cơ quan chức năng và phản hồi sớm nhất."
   },
   "lang": {
     "label": "Ngôn ngữ",
