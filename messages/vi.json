@@ -57,10 +57,27 @@
     "attribution": "Ghi rõ nguồn khi phát hành lại thông tin từ Cổng thông tin."
   },
   "about": {
-    "title": "Giới thiệu",
-    "p1": "Ủy ban Mặt trận Tổ quốc Việt Nam xã Phong Hải (tỉnh Lào Cai) là tổ chức liên minh chính trị, liên hiệp tự nguyện của các tổ chức chính trị – xã hội và các tầng lớp nhân dân trên địa bàn xã.",
-    "p2": "Trang thông tin này nhằm tuyên truyền chủ trương, đường lối của Đảng, chính sách, pháp luật của Nhà nước; giới thiệu các phong trào thi đua, mô hình hay, gương người tốt việc tốt; và tiếp nhận ý kiến phản ánh của nhân dân.",
-    "p3": "(Nội dung giới thiệu chi tiết sẽ được cơ quan cập nhật.)"
+    "title": "Giới thiệu về Ủy ban MTTQ Việt Nam xã Phong Hải",
+    "subtitle": "Cầu nối vững chắc giữa Đảng, Chính quyền và Nhân dân các dân tộc xã Phong Hải trong sự nghiệp xây dựng và bảo vệ Tổ quốc.",
+    "historyTitle": "Lịch sử hình thành",
+    "history1": "Được hình thành từ những ngày đầu tái lập xã, Ủy ban Mặt trận Tổ quốc (MTTQ) xã Phong Hải luôn giữ vai trò nòng cốt trong việc tập hợp, vận động các tầng lớp nhân dân, phát huy sức mạnh khối đại đoàn kết toàn dân tộc.",
+    "history2": "Qua các thời kỳ, MTTQ xã không ngừng đổi mới nội dung và phương thức hoạt động, gắn bó mật thiết với đời sống của đồng bào các dân tộc trên địa bàn, góp phần quan trọng vào sự phát triển kinh tế – xã hội của địa phương.",
+    "quote": "Đoàn kết, đoàn kết, đại đoàn kết. Thành công, thành công, đại thành công.",
+    "quoteAuthor": "Chủ tịch Hồ Chí Minh",
+    "functionsTitle": "Chức năng & Nhiệm vụ",
+    "fn1Title": "Đại đoàn kết",
+    "fn1Desc": "Tập hợp, xây dựng khối đại đoàn kết toàn dân tộc, thực hiện dân chủ, tăng cường đồng thuận xã hội.",
+    "fn2Title": "Giám sát & Phản biện",
+    "fn2Desc": "Đại diện, bảo vệ quyền và lợi ích hợp pháp, chính đáng của Nhân dân; tham gia xây dựng Đảng, Nhà nước.",
+    "fn3Title": "Phong trào thi đua",
+    "fn3Desc": "Tuyên truyền, vận động Nhân dân thực hiện quyền làm chủ, thực hiện đường lối, chủ trương của Đảng.",
+    "orgTitle": "Cơ cấu tổ chức",
+    "orgNote": "Cùng nhiều Ủy viên đại diện cho các tổ chức thành viên và cá nhân tiêu biểu.",
+    "roleChairman": "Chủ tịch Ủy ban MTTQ xã",
+    "roleVice": "Phó Chủ tịch Thường trực",
+    "roleMember": "Ủy viên Thường trực",
+    "ctaTitle": "Bạn muốn đóng góp ý kiến cho địa phương?",
+    "ctaDesc": "Chúng tôi luôn lắng nghe và trân trọng mọi phản hồi từ nhân dân."
   },
   "connect": {
     "title": "Kết nối",

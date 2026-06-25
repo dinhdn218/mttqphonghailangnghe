@@ -57,10 +57,27 @@
     "attribution": "Please cite the source when republishing information from this portal."
   },
   "about": {
-    "title": "About",
-    "p1": "The Vietnam Fatherland Front Committee of Phong Hai Commune (Lao Cai Province) is a political alliance and voluntary union of socio-political organizations and people from all walks of life in the commune.",
-    "p2": "This portal aims to communicate the policies of the Party and State; to highlight emulation movements, good models and exemplary citizens; and to receive feedback from the people.",
-    "p3": "(Detailed introduction content will be updated by the agency.)"
+    "title": "About the Vietnam Fatherland Front Committee of Phong Hai Commune",
+    "subtitle": "A solid bridge between the Party, the Government and the people of all ethnic groups in Phong Hai Commune in building and defending the Homeland.",
+    "historyTitle": "History",
+    "history1": "Formed from the early days of the commune's re-establishment, the Fatherland Front Committee of Phong Hai Commune has always played a core role in uniting and mobilizing all classes of people and promoting the great national unity bloc.",
+    "history2": "Through different periods, the committee has continuously renewed its content and methods of operation, staying close to the lives of local ethnic communities and contributing significantly to local socio-economic development.",
+    "quote": "Unity, unity, great unity. Success, success, great success.",
+    "quoteAuthor": "President Ho Chi Minh",
+    "functionsTitle": "Functions & Duties",
+    "fn1Title": "Great Unity",
+    "fn1Desc": "Gather and build the great national unity bloc, exercise democracy and strengthen social consensus.",
+    "fn2Title": "Oversight & Feedback",
+    "fn2Desc": "Represent and protect the legitimate rights and interests of the people; contribute to building the Party and State.",
+    "fn3Title": "Emulation Movements",
+    "fn3Desc": "Communicate and mobilize the people to exercise their right to mastery and carry out the Party's guidelines.",
+    "orgTitle": "Organization",
+    "orgNote": "Together with many members representing affiliated organizations and exemplary individuals.",
+    "roleChairman": "Chairman of the Commune Fatherland Front Committee",
+    "roleVice": "Standing Vice Chairman",
+    "roleMember": "Standing Member",
+    "ctaTitle": "Would you like to share your feedback?",
+    "ctaDesc": "We always listen to and value every response from the people."
   },
   "connect": {
     "title": "Connect",
