@@ -17,7 +17,7 @@ export function ArticleCardTop({
   return (
     <Link href={`/bai-viet/${post.slug}`} className="group block space-y-2">
       {post.coverImage && (
-        <div className="relative aspect-[3/2] w-full overflow-hidden rounded bg-gray-100">
+        <div className="relative aspect-[3/2] w-full overflow-hidden bg-gray-100">
           <Image
             src={post.coverImage}
             alt={title}

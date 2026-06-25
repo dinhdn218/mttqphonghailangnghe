@@ -46,7 +46,7 @@ export async function FeaturedSection({
           chiều cao cột trái; đổ dư tin, phần vượt bị overflow-hidden cắt gọn. */}
       {highlights.length > 0 && (
         <div className="lg:relative lg:col-span-4">
-          <aside className="flex h-full flex-col rounded-lg border border-gray-200 bg-gray-50/60 p-4 lg:absolute lg:inset-0">
+          <aside className="flex h-full flex-col border border-gray-200 bg-gray-50/60 p-4 lg:absolute lg:inset-0">
             <h2 className="mb-3 border-b-2 border-red-700 pb-2 text-lg font-bold tracking-wide text-red-700 uppercase">
               {t("highlights")}
             </h2>
@@ -86,7 +86,7 @@ function HeroArticle({
   return (
     <Link
       href={`/bai-viet/${post.slug}`}
-      className="group relative block h-72 overflow-hidden rounded-lg bg-gray-100 sm:h-100"
+      className="group relative block h-72 overflow-hidden bg-gray-100 sm:h-100"
     >
       {post.coverImage && (
         <Image
@@ -100,7 +100,7 @@ function HeroArticle({
       )}
       {/* Gradient + nội dung overlay */}
       <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/85 via-black/40 to-transparent p-5 text-white sm:p-6">
-        <span className="mb-2 inline-block rounded bg-red-700 px-2.5 py-1 text-xs font-semibold tracking-wider uppercase">
+        <span className="mb-2 inline-block bg-red-700 px-2.5 py-1 text-xs font-semibold tracking-wider uppercase">
           {featuredLabel}
         </span>
         <h2 className="line-clamp-3 text-xl leading-snug font-bold sm:text-[28px] sm:leading-tight">
@@ -135,7 +135,7 @@ function HighlightItem({ post, locale }: { post: HomePost; locale: Locale }) {
         )}
       </div>
       {post.coverImage && (
-        <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded bg-gray-100">
+        <div className="relative h-16 w-20 shrink-0 overflow-hidden bg-gray-100">
           <Image
             src={post.coverImage}
             alt={title}

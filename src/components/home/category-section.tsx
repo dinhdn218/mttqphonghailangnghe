@@ -30,7 +30,7 @@ export function CategorySection({
         href={`/chuyen-muc/${category.slug}`}
         className="group flex items-center gap-2 border-b border-gray-200 pb-2"
       >
-        <span className="h-6 w-1 rounded bg-red-700" />
+        <span className="h-6 w-1 bg-red-700" />
         <h2 className="text-lg font-bold tracking-wide text-red-700 uppercase transition group-hover:underline">
           {name}
         </h2>
@@ -76,7 +76,7 @@ function FeaturedCard({ post, locale }: { post: HomePost; locale: Locale }) {
   return (
     <Link href={`/bai-viet/${post.slug}`} className="group flex flex-col gap-2">
       {post.coverImage && (
-        <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-gray-100">
+        <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
           <Image
             src={post.coverImage}
             alt={title}
