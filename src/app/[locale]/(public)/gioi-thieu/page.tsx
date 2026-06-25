@@ -66,7 +66,7 @@ export default async function AboutPage({ params }: Props) {
   return (
     <main className="mx-auto w-full max-w-container space-y-12 px-4 py-8">
       {/* Hero */}
-      <section className="relative flex min-h-[300px] items-end overflow-hidden rounded-xl sm:min-h-[400px]">
+      <section className="relative flex min-h-[300px] items-end overflow-hidden sm:min-h-[400px]">
         <Image
           src={HERO_IMG}
           alt={t("title")}
@@ -92,7 +92,7 @@ export default async function AboutPage({ params }: Props) {
       </section>
 
       {/* Vạch hoa văn (thổ cẩm) */}
-      <div className="h-1.5 w-full rounded-full bg-[repeating-linear-gradient(45deg,#f59e0b_0,#f59e0b_8px,#7f1d1d_8px,#7f1d1d_16px)]" />
+      <div className="h-1.5 w-full bg-[repeating-linear-gradient(45deg,#f59e0b_0,#f59e0b_8px,#7f1d1d_8px,#7f1d1d_16px)]" />
 
       {/* Lịch sử hình thành */}
       <section className="grid items-center gap-8 md:grid-cols-2">
@@ -107,7 +107,7 @@ export default async function AboutPage({ params }: Props) {
             </span>
           </blockquote>
         </div>
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-gray-100 shadow-md">
+        <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100 shadow-md">
           <Image
             src={HISTORY_IMG}
             alt={t("historyTitle")}
@@ -119,20 +119,20 @@ export default async function AboutPage({ params }: Props) {
       </section>
 
       {/* Chức năng & Nhiệm vụ */}
-      <section className="rounded-xl border border-gray-200 bg-gray-50 p-6 sm:p-8">
+      <section className="border border-gray-200 bg-gray-50 p-6 sm:p-8">
         <div className="mb-6 text-center">
           <h2 className="text-lg font-bold tracking-wide text-red-800 uppercase">
             {t("functionsTitle")}
           </h2>
-          <span className="mx-auto mt-2 block h-1 w-20 rounded bg-amber-400" />
+          <span className="mx-auto mt-2 block h-1 w-20 bg-amber-400" />
         </div>
         <div className="grid gap-5 md:grid-cols-3">
           {functions.map((f) => (
             <div
               key={f.title}
-              className="group rounded-lg border border-gray-200 bg-white p-6 transition hover:border-amber-400 hover:shadow-sm"
+              className="group border border-gray-200 bg-white p-6 transition hover:border-amber-400 hover:shadow-sm"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-800 text-amber-300 transition group-hover:bg-red-700">
+              <div className="flex h-12 w-12 items-center justify-center bg-red-800 text-amber-300 transition group-hover:bg-red-700">
                 <Icon path={f.icon} />
               </div>
               <h3 className="mt-4 font-bold text-red-800">{f.title}</h3>
@@ -151,7 +151,7 @@ export default async function AboutPage({ params }: Props) {
           {leaders.map((l) => (
             <div
               key={l.name}
-              className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md"
+              className="overflow-hidden border border-gray-200 bg-white shadow-sm transition hover:shadow-md"
             >
               <div className="flex h-40 items-center justify-center bg-gradient-to-b from-red-50 to-gray-100 text-red-200">
                 <Icon path={ICONS.user} className="h-16 w-16" />
@@ -169,7 +169,7 @@ export default async function AboutPage({ params }: Props) {
             </div>
           ))}
           {/* Thẻ ghi chú thêm */}
-          <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-red-200 bg-red-50/40 p-6 text-center">
+          <div className="flex flex-col items-center justify-center border-2 border-dashed border-red-200 bg-red-50/40 p-6 text-center">
             <Icon path={ICONS.users} className="mb-2 h-9 w-9 text-red-300" />
             <p className="text-sm text-red-700/70">{t("orgNote")}</p>
           </div>
@@ -177,14 +177,14 @@ export default async function AboutPage({ params }: Props) {
       </section>
 
       {/* CTA */}
-      <section className="flex flex-col items-center justify-between gap-6 rounded-xl border-b-4 border-amber-400 bg-red-800 p-6 text-white sm:p-8 md:flex-row">
+      <section className="flex flex-col items-center justify-between gap-6 border-b-4 border-amber-400 bg-red-800 p-6 text-white sm:p-8 md:flex-row">
         <div className="text-center md:text-left">
           <h2 className="text-lg font-bold sm:text-xl">{t("ctaTitle")}</h2>
           <p className="mt-1 text-white/85">{t("ctaDesc")}</p>
         </div>
         <Link
           href="/lang-nghe-dan-noi"
-          className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-amber-400 px-6 py-3 font-bold text-red-900 transition hover:bg-amber-300"
+          className="inline-flex shrink-0 items-center gap-2 bg-amber-400 px-6 py-3 font-bold text-red-900 transition hover:bg-amber-300"
         >
           {tn("contact")} →
         </Link>
@@ -197,7 +197,7 @@ export default async function AboutPage({ params }: Props) {
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-2">
-      <span className="h-6 w-1 rounded bg-red-700" />
+      <span className="h-6 w-1 bg-red-700" />
       <h2 className="text-lg font-bold tracking-wide text-red-800 uppercase">
         {children}
       </h2>

@@ -80,7 +80,7 @@ export default async function ConnectPage({ params }: Props) {
   return (
     <main className="mx-auto w-full max-w-container space-y-8 px-4 py-8">
       {/* Tiêu đề trang */}
-      <header className="flex items-center justify-between gap-4 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+      <header className="flex items-center justify-between gap-4 border border-gray-200 bg-white p-6 shadow-sm">
         <div className="border-l-4 border-red-700 pl-4">
           <h1 className="text-2xl font-bold text-red-800 sm:text-3xl">
             {t("title")}
@@ -95,7 +95,7 @@ export default async function ConnectPage({ params }: Props) {
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Cột trái: thông tin liên hệ */}
-        <section className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+        <section className="overflow-hidden border border-gray-200 bg-white shadow-sm">
           <div className="flex items-center gap-2 bg-red-800 px-5 py-4 text-amber-300">
             <Icon path={ICONS.info} className="h-5 w-5" />
             <h2 className="font-bold tracking-wide text-white uppercase">
@@ -130,9 +130,9 @@ export default async function ConnectPage({ params }: Props) {
               href={mapUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-40 items-center justify-center rounded-lg border border-gray-200 bg-gray-100 transition hover:bg-gray-200"
+              className="flex h-40 items-center justify-center border border-gray-200 bg-gray-100 transition hover:bg-gray-200"
             >
-              <span className="inline-flex items-center gap-1.5 rounded-lg bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm">
+              <span className="inline-flex items-center gap-1.5 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm">
                 <Icon path={ICONS.map} className="h-4 w-4" />
                 {t("viewMap")}
               </span>
@@ -142,7 +142,7 @@ export default async function ConnectPage({ params }: Props) {
 
         {/* Cột phải: nền tảng + CTA */}
         <div className="space-y-6">
-          <section className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+          <section className="border border-gray-200 bg-white p-5 shadow-sm">
             <div className="mb-4 flex items-center gap-2 text-red-800">
               <Icon path={ICONS.qr} className="h-5 w-5" />
               <h2 className="font-bold tracking-wide uppercase">
@@ -162,7 +162,7 @@ export default async function ConnectPage({ params }: Props) {
           </section>
 
           {/* CTA */}
-          <section className="flex flex-col items-start justify-between gap-4 rounded-xl bg-red-800 p-6 text-white sm:flex-row sm:items-center">
+          <section className="flex flex-col items-start justify-between gap-4 bg-red-800 p-6 text-white sm:flex-row sm:items-center">
             <div>
               <h2 className="text-lg font-bold text-amber-300">
                 {t("ctaTitle")}
@@ -171,7 +171,7 @@ export default async function ConnectPage({ params }: Props) {
             </div>
             <Link
               href="/lang-nghe-dan-noi"
-              className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-amber-400 px-5 py-3 font-bold text-red-900 transition hover:bg-amber-300"
+              className="inline-flex shrink-0 items-center gap-2 bg-amber-400 px-5 py-3 font-bold text-red-900 transition hover:bg-amber-300"
             >
               <Icon path={ICONS.chat} className="h-5 w-5" />
               {t("ctaButton")}
@@ -181,7 +181,7 @@ export default async function ConnectPage({ params }: Props) {
       </div>
 
       {/* Vạch hoa văn thổ cẩm */}
-      <div className="h-1.5 w-full rounded-full bg-[repeating-linear-gradient(45deg,#f59e0b_0,#f59e0b_8px,#7f1d1d_8px,#7f1d1d_16px)]" />
+      <div className="h-1.5 w-full bg-[repeating-linear-gradient(45deg,#f59e0b_0,#f59e0b_8px,#7f1d1d_8px,#7f1d1d_16px)]" />
     </main>
   );
 }
@@ -198,7 +198,7 @@ function ContactRow({
 }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-700">
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-red-50 text-red-700">
         <Icon path={icon} className="h-5 w-5" />
       </div>
       <div className="min-w-0">
@@ -223,9 +223,9 @@ function PlatformCard({
 }) {
   const bg = BRAND_BG[platform.key] ?? "bg-gray-700";
   return (
-    <div className="flex flex-col items-center rounded-lg border border-gray-200 p-4 text-center transition hover:border-red-300 hover:shadow-sm">
+    <div className="flex flex-col items-center border border-gray-200 p-4 text-center transition hover:border-red-300 hover:shadow-sm">
       <div
-        className={`flex h-12 w-12 items-center justify-center rounded-xl text-white ${bg}`}
+        className={`flex h-12 w-12 items-center justify-center text-white ${bg}`}
       >
         <BrandMark kind={platform.key} />
       </div>
@@ -242,7 +242,7 @@ function PlatformCard({
             <QrCode value={platform.url} size={120} alt={`QR ${platform.label}`} />
           </a>
         ) : (
-          <div className="flex h-[120px] w-[120px] items-center justify-center rounded-lg border-2 border-dashed border-gray-300 px-2 text-[11px] text-gray-400">
+          <div className="flex h-[120px] w-[120px] items-center justify-center border-2 border-dashed border-gray-300 px-2 text-[11px] text-gray-400">
             {qrPending}
           </div>
         )}

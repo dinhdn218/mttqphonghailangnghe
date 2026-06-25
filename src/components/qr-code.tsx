@@ -24,7 +24,7 @@ export async function QrCode({
       alt={alt}
       width={size}
       height={size}
-      className="rounded-lg border border-gray-200"
+      className="border border-gray-200"
     />
   );
 }
