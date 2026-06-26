@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/i18n";
+import { formatDate } from "@/lib/format";
 import type { Locale } from "@/lib/constants";
 import type { HomePost } from "./types";
 
@@ -89,6 +90,11 @@ function FeaturedCard({ post, locale }: { post: HomePost; locale: Locale }) {
       <h3 className="line-clamp-2 text-base leading-snug font-semibold text-gray-900 transition group-hover:text-red-700">
         {title}
       </h3>
+      {post.publishedAt && (
+        <span className="text-xs text-gray-500">
+          {formatDate(post.publishedAt)}
+        </span>
+      )}
       {excerpt && (
         <p className="line-clamp-2 text-sm leading-relaxed text-gray-600">
           {excerpt}
