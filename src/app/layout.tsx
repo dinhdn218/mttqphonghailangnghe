@@ -11,10 +11,20 @@ const beVietnamPro = Be_Vietnam_Pro({
   weight: ["400", "500", "600", "700"],
 });
 
+// Lấy URL gốc an toàn: env có thể rỗng/sai định dạng (vd thiếu https://) trên server,
+// new URL(...) sẽ ném "Invalid URL" và làm sập build → kiểm tra trước, sai thì dùng mặc định.
+function getSiteUrl(): URL {
+  const fallback = "https://phonghailangnghe.com";
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  try {
+    return new URL(raw && raw.length > 0 ? raw : fallback);
+  } catch {
+    return new URL(fallback);
+  }
+}
+
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://phonghailangnghe.com",
-  ),
+  metadataBase: getSiteUrl(),
   title: {
     default: "MTTQ xã Phong Hải",
     template: "%s | MTTQ xã Phong Hải",
