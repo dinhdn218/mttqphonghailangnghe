@@ -5,4 +5,7 @@ export const routing = defineRouting({
   locales: ["vi", "en"],
   defaultLocale: "vi",
   localePrefix: "as-needed",
+  // TẮT tự dò ngôn ngữ trình duyệt: luôn mặc định tiếng Việt, không tự nhảy /en
+  // khi trình duyệt người dùng đặt Accept-Language: en. Người dùng tự đổi qua nút VI/EN.
+  localeDetection: false,
 });
