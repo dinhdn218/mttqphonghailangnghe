@@ -5,16 +5,26 @@ import { PostStatus } from "@/generated/prisma/client";
 
 const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://phonghailangnghe.com";
 
+// Sinh lúc request (không prerender lúc build) — tránh phụ thuộc DB khi build
+// và luôn phản ánh bài mới nhất.
+export const dynamic = "force-dynamic";
+
 // Tạo URL cho cả 2 ngôn ngữ: tiếng Việt (gốc) + tiếng Anh (/en).
 function bothLocales(path: string): string[] {
   return [`${base}${path}` || base, `${base}/en${path}`];
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await prisma.post.findMany({
-    where: { status: PostStatus.PUBLISHED },
-    select: { slug: true, updatedAt: true },
-  });
+  // Không để DB tạm lỗi lúc build làm sập cả deploy — sitemap vẫn ra phần tĩnh.
+  let posts: { slug: string; updatedAt: Date }[] = [];
+  try {
+    posts = await prisma.post.findMany({
+      where: { status: PostStatus.PUBLISHED },
+      select: { slug: true, updatedAt: true },
+    });
+  } catch (e) {
+    console.error("sitemap: không truy vấn được bài viết:", e);
+  }
 
   const entries: MetadataRoute.Sitemap = [];
 
