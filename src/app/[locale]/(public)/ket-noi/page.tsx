@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { CONTACT, PLATFORMS, type Platform } from "@/lib/contacts";
+import { getSettings, type Platform } from "@/lib/settings";
 import { QrCode } from "@/components/qr-code";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -74,8 +74,9 @@ export default async function ConnectPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations("connect");
 
-  const tel = CONTACT.hotline.replace(/\s/g, "");
-  const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CONTACT.address)}`;
+  const { contact, platforms } = await getSettings();
+  const tel = contact.hotline.replace(/\s/g, "");
+  const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address)}`;
 
   return (
     <main className="mx-auto w-full max-w-container space-y-8 px-4 py-8">
@@ -108,20 +109,20 @@ export default async function ConnectPage({ params }: Props) {
                 href={`tel:${tel}`}
                 className="text-lg font-bold text-red-700 hover:underline"
               >
-                {CONTACT.hotline}
+                {contact.hotline}
               </a>
             </ContactRow>
             <ContactRow icon={ICONS.mail} label={t("emailLabel")}>
               <a
-                href={`mailto:${CONTACT.email}`}
+                href={`mailto:${contact.email}`}
                 className="font-medium break-all text-gray-800 hover:text-red-700"
               >
-                {CONTACT.email}
+                {contact.email}
               </a>
             </ContactRow>
             <ContactRow icon={ICONS.location} label={t("addressLabel")}>
               <span className="font-medium text-gray-800">
-                {CONTACT.address}
+                {contact.address}
               </span>
             </ContactRow>
 
@@ -131,7 +132,7 @@ export default async function ConnectPage({ params }: Props) {
           <div className="relative flex min-h-[300px] flex-1 flex-col">
             <iframe
               title={t("viewMap")}
-              src={`https://www.google.com/maps?q=${encodeURIComponent(CONTACT.address)}&output=embed`}
+              src={`https://www.google.com/maps?q=${encodeURIComponent(contact.address)}&output=embed`}
               className="absolute inset-0 h-full w-full"
               style={{ border: 0 }}
               allowFullScreen
@@ -160,7 +161,7 @@ export default async function ConnectPage({ params }: Props) {
               </h2>
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-              {PLATFORMS.map((p) => (
+              {platforms.map((p) => (
                 <PlatformCard
                   key={p.key}
                   platform={p}

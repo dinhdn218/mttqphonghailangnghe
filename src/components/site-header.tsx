@@ -2,7 +2,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { CATEGORIES, type Locale } from "@/lib/constants";
 import { pick } from "@/lib/i18n";
-import { CONTACT } from "@/lib/contacts";
+import { getSettings } from "@/lib/settings";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { Emblem } from "@/components/emblem";
 import { NavLinks } from "@/components/nav-links";
@@ -12,6 +12,7 @@ import { NavLinks } from "@/components/nav-links";
 export async function SiteHeader() {
   const locale = (await getLocale()) as Locale;
   const t = await getTranslations();
+  const { contact } = await getSettings();
 
   const navItems = [
     { href: "/", label: t("nav.home") },
@@ -32,10 +33,10 @@ export async function SiteHeader() {
           <span className="hidden sm:inline">{t("header.portal")}</span>
           <div className="flex items-center gap-3">
             <a
-              href={`mailto:${CONTACT.email}`}
+              href={`mailto:${contact.email}`}
               className="hidden hover:underline md:inline"
             >
-              {CONTACT.email}
+              {contact.email}
             </a>
             <Link href="/ket-noi" className="hover:underline">
               {t("header.contact")}

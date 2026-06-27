@@ -1,13 +1,14 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { CONTACT } from "@/lib/contacts";
+import { getSettings } from "@/lib/settings";
 
 // Footer phong cách cổng thông tin nhà nước: nền đỏ tối, nhiều cột thông tin
 // cơ quan + liên kết nhanh + đường dây nóng, dải dưới bản quyền & ghi nguồn.
 export async function SiteFooter() {
   const t = await getTranslations();
   const year = new Date().getFullYear();
-  const tel = CONTACT.hotline.replace(/\s/g, "");
+  const { contact } = await getSettings();
+  const tel = contact.hotline.replace(/\s/g, "");
 
   return (
     <footer className="mt-12 bg-red-900 text-red-100">
@@ -19,15 +20,15 @@ export async function SiteFooter() {
             {t("footer.authority")}: {t("footer.office")}
           </p>
           <p className="mt-2 text-sm">
-            {t("footer.addressLabel")}: {CONTACT.address}
+            {t("footer.addressLabel")}: {contact.address}
           </p>
           <p className="text-sm">
-            {t("footer.phoneLabel")}: {CONTACT.hotline}
+            {t("footer.phoneLabel")}: {contact.hotline}
           </p>
           <p className="text-sm">
             Email:{" "}
-            <a href={`mailto:${CONTACT.email}`} className="hover:underline">
-              {CONTACT.email}
+            <a href={`mailto:${contact.email}`} className="hover:underline">
+              {contact.email}
             </a>
           </p>
         </div>
@@ -66,7 +67,7 @@ export async function SiteFooter() {
             href={`tel:${tel}`}
             className="mt-2 block text-2xl font-bold text-amber-300 hover:underline"
           >
-            {CONTACT.hotline}
+            {contact.hotline}
           </a>
           <Link
             href="/lang-nghe-dan-noi"

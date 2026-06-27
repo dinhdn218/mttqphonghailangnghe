@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { ContactForm } from "./contact-form";
-import { CONTACT } from "@/lib/contacts";
+import { getSettings } from "@/lib/settings";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -45,7 +45,8 @@ export default async function ContactPage({ params }: Props) {
   const t = await getTranslations("contact");
   const tc = await getTranslations("connect");
 
-  const tel = CONTACT.hotline.replace(/\s/g, "");
+  const { contact } = await getSettings();
+  const tel = contact.hotline.replace(/\s/g, "");
   const commitments = [t("commit1"), t("commit2"), t("commit3")];
 
   return (
@@ -86,20 +87,20 @@ export default async function ContactPage({ params }: Props) {
                   href={`tel:${tel}`}
                   className="font-bold text-red-700 hover:underline"
                 >
-                  {CONTACT.hotline}
+                  {contact.hotline}
                 </a>
               </ContactItem>
               <ContactItem icon={ICONS.mail} label={tc("emailLabel")}>
                 <a
-                  href={`mailto:${CONTACT.email}`}
+                  href={`mailto:${contact.email}`}
                   className="font-medium break-all text-gray-800 hover:text-red-700"
                 >
-                  {CONTACT.email}
+                  {contact.email}
                 </a>
               </ContactItem>
               <ContactItem icon={ICONS.location} label={tc("addressLabel")}>
                 <span className="font-medium text-gray-800">
-                  {CONTACT.address}
+                  {contact.address}
                 </span>
               </ContactItem>
             </div>

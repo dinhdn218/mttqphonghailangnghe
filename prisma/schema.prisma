@@ -169,3 +169,13 @@ model Media {
 
   createdAt DateTime @default(now())
 }
+
+// ----------------------------------------------------------------------------
+// Setting — cấu hình site dạng key/value (liên hệ, link nền tảng, tên trang…)
+// Cán bộ sửa qua CMS; mã nguồn cung cấp giá trị mặc định nếu key chưa có.
+// ----------------------------------------------------------------------------
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
