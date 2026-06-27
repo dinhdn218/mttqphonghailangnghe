@@ -1,0 +1,166 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+
+type User = { name: string | null; email: string };
+
+const NAV = [
+  {
+    href: "/admin",
+    label: "Tổng quan",
+    exact: true,
+    icon: "M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z",
+  },
+  {
+    href: "/admin/bai-viet",
+    label: "Bài viết",
+    icon: "M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z",
+  },
+];
+
+function Icon({ path, className }: { path: string; className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.7}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className ?? "h-5 w-5"}
+      aria-hidden="true"
+    >
+      <path d={path} />
+    </svg>
+  );
+}
+
+export function AdminShell({
+  user,
+  roleLabel,
+  signOutAction,
+  children,
+}: {
+  user: User;
+  roleLabel: string;
+  signOutAction: () => Promise<void>;
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  const isActive = (item: (typeof NAV)[number]) =>
+    item.exact ? pathname === item.href : pathname.startsWith(item.href);
+
+  const Sidebar = ({ onNavigate }: { onNavigate?: () => void }) => (
+    <div className="flex h-full flex-col">
+      {/* Thương hiệu */}
+      <Link
+        href="/admin"
+        onClick={onNavigate}
+        className="flex items-center gap-2 border-b border-red-800 px-5 py-4"
+      >
+        <span className="flex h-8 w-8 items-center justify-center bg-amber-400 text-red-900">
+          <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
+            <path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01z" />
+          </svg>
+        </span>
+        <span className="font-bold text-white">CMS · Phong Hải</span>
+      </Link>
+
+      {/* Điều hướng */}
+      <nav className="flex-1 space-y-1 p-3">
+        {NAV.map((item) => {
+          const active = isActive(item);
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={onNavigate}
+              className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition ${
+                active
+                  ? "border-l-4 border-amber-400 bg-red-800 pl-2 text-white"
+                  : "text-red-100 hover:bg-red-800 hover:text-white"
+              }`}
+            >
+              <Icon path={item.icon} />
+              {item.label}
+            </Link>
+          );
+        })}
+      </nav>
+
+      {/* Về trang web */}
+      <div className="border-t border-red-800 p-3">
+        <Link
+          href="/"
+          onClick={onNavigate}
+          className="flex items-center gap-2 px-3 py-2 text-sm text-red-100 transition hover:text-amber-300"
+        >
+          ← Về trang web
+        </Link>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="flex min-h-dvh bg-gray-50">
+      {/* Sidebar cố định (desktop) */}
+      <aside className="hidden w-60 shrink-0 bg-red-900 lg:block">
+        <Sidebar />
+      </aside>
+
+      {/* Drawer (mobile) */}
+      {open && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <button
+            aria-label="Đóng menu"
+            className="absolute inset-0 bg-black/40"
+            onClick={() => setOpen(false)}
+          />
+          <aside className="absolute inset-y-0 left-0 w-64 bg-red-900 shadow-xl">
+            <Sidebar onNavigate={() => setOpen(false)} />
+          </aside>
+        </div>
+      )}
+
+      {/* Khu vực phải: header + nội dung */}
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="flex items-center justify-between gap-3 border-b border-gray-200 bg-white px-4 py-3">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              aria-label="Mở menu"
+              onClick={() => setOpen(true)}
+              className="border border-gray-300 p-1.5 text-gray-700 lg:hidden"
+            >
+              <Icon path="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </button>
+            <span className="font-semibold text-red-800 lg:hidden">
+              CMS · Phong Hải
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3 text-sm">
+            <span className="hidden text-gray-600 sm:inline">
+              {user.name ?? user.email} ·{" "}
+              <span className="font-medium text-red-800">{roleLabel}</span>
+            </span>
+            <form action={signOutAction}>
+              <button
+                type="submit"
+                className="border border-gray-300 px-3 py-1.5 text-sm font-medium transition hover:bg-gray-50"
+              >
+                Đăng xuất
+              </button>
+            </form>
+          </div>
+        </header>
+
+        <main className="min-w-0 flex-1 p-4 sm:p-6">{children}</main>
+      </div>
+    </div>
+  );
+}
