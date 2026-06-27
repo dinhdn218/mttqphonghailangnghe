@@ -22,21 +22,39 @@ export async function getPostStats(user: SessionUser) {
   return counts;
 }
 
+export const ADMIN_PAGE_SIZE = 20;
+
 // Danh sách bài cho trang quản lý. EDITOR chỉ thấy bài của mình.
-// Lọc theo trạng thái nếu truyền `status`.
-export function listPostsForUser(
+// Lọc theo trạng thái + chuyên mục (slug) và phân trang. Trả kèm tổng số trang.
+export async function listPostsForUser(
   user: SessionUser,
-  status?: PostStatus,
+  opts: { status?: PostStatus; categorySlug?: string; page?: number } = {},
 ) {
-  return prisma.post.findMany({
-    where: {
-      ...(user.role === Role.EDITOR ? { authorId: user.id } : {}),
-      ...(status ? { status } : {}),
-    },
-    orderBy: { updatedAt: "desc" },
-    include: {
-      category: { select: { nameVi: true } },
-      author: { select: { name: true, email: true } },
-    },
-  });
+  const page = Math.max(1, opts.page ?? 1);
+  const where = {
+    ...(user.role === Role.EDITOR ? { authorId: user.id } : {}),
+    ...(opts.status ? { status: opts.status } : {}),
+    ...(opts.categorySlug ? { category: { slug: opts.categorySlug } } : {}),
+  };
+
+  const [posts, total] = await Promise.all([
+    prisma.post.findMany({
+      where,
+      orderBy: { updatedAt: "desc" },
+      skip: (page - 1) * ADMIN_PAGE_SIZE,
+      take: ADMIN_PAGE_SIZE,
+      include: {
+        category: { select: { nameVi: true } },
+        author: { select: { name: true, email: true } },
+      },
+    }),
+    prisma.post.count({ where }),
+  ]);
+
+  return {
+    posts,
+    total,
+    page,
+    totalPages: Math.max(1, Math.ceil(total / ADMIN_PAGE_SIZE)),
+  };
 }
