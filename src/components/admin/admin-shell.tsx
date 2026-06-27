@@ -4,9 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-type User = { name: string | null; email: string };
+type User = { name: string | null; email: string; role: string };
 
-const NAV = [
+type NavItem = {
+  href: string;
+  label: string;
+  icon: string;
+  exact?: boolean;
+  adminOnly?: boolean;
+};
+
+const NAV: NavItem[] = [
   {
     href: "/admin",
     label: "Tổng quan",
@@ -17,6 +25,12 @@ const NAV = [
     href: "/admin/bai-viet",
     label: "Bài viết",
     icon: "M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z",
+  },
+  {
+    href: "/admin/nguoi-dung",
+    label: "Người dùng",
+    adminOnly: true,
+    icon: "M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z",
   },
 ];
 
@@ -51,8 +65,12 @@ export function AdminShell({
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  const isActive = (item: (typeof NAV)[number]) =>
+  const isActive = (item: NavItem) =>
     item.exact ? pathname === item.href : pathname.startsWith(item.href);
+
+  const navItems = NAV.filter(
+    (item) => !item.adminOnly || user.role === "ADMIN",
+  );
 
   const Sidebar = ({ onNavigate }: { onNavigate?: () => void }) => (
     <div className="flex h-full flex-col">
@@ -72,7 +90,7 @@ export function AdminShell({
 
       {/* Điều hướng */}
       <nav className="flex-1 space-y-1 p-3">
-        {NAV.map((item) => {
+        {navItems.map((item) => {
           const active = isActive(item);
           return (
             <Link

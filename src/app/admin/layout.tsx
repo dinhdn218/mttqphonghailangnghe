@@ -20,7 +20,11 @@ export default async function AdminLayout({
 
   return (
     <AdminShell
-      user={{ name: user.name ?? null, email: user.email ?? "" }}
+      user={{
+        name: user.name ?? null,
+        email: user.email ?? "",
+        role: user.role,
+      }}
       roleLabel={ROLE_LABELS[user.role] ?? user.role}
       signOutAction={doSignOut}
     >
