@@ -4,6 +4,7 @@ import { listPostsForUser } from "@/lib/admin-data";
 import { canCreatePost } from "@/lib/post-permissions";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { PostFilters } from "@/components/admin/post-filters";
+import { AdminPagination } from "@/components/admin/admin-pagination";
 import { formatDate } from "@/lib/format";
 import { PostStatus } from "@/generated/prisma/client";
 import { STATUS_LABELS, CATEGORIES } from "@/lib/constants";
@@ -32,16 +33,6 @@ export default async function PostListPage({ searchParams }: Props) {
     user,
     { status, categorySlug: category, page },
   );
-
-  // Link phân trang giữ nguyên bộ lọc hiện tại.
-  const pageHref = (p: number) => {
-    const params = new URLSearchParams();
-    if (status) params.set("status", status);
-    if (category) params.set("category", category);
-    if (p > 1) params.set("page", String(p));
-    const qs = params.toString();
-    return qs ? `/admin/bai-viet?${qs}` : "/admin/bai-viet";
-  };
 
   return (
     <div className="space-y-4">
@@ -115,72 +106,13 @@ export default async function PostListPage({ searchParams }: Props) {
       </div>
 
       {/* Tổng số + phân trang */}
-      <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-gray-500">
-        <span>
-          {total > 0
-            ? `${total} bài · trang ${curPage}/${totalPages}`
-            : "0 bài"}
-        </span>
-        {totalPages > 1 && (
-          <nav className="flex items-center gap-1">
-            <PageLink href={pageHref(curPage - 1)} disabled={curPage <= 1}>
-              ‹
-            </PageLink>
-            {Array.from({ length: totalPages }, (_, i) => i + 1)
-              .filter((p) => Math.abs(p - curPage) <= 2 || p === 1 || p === totalPages)
-              .map((p, idx, arr) => (
-                <span key={p} className="flex items-center gap-1">
-                  {idx > 0 && p - arr[idx - 1] > 1 && (
-                    <span className="px-1 text-gray-400">…</span>
-                  )}
-                  <PageLink href={pageHref(p)} active={p === curPage}>
-                    {p}
-                  </PageLink>
-                </span>
-              ))}
-            <PageLink
-              href={pageHref(curPage + 1)}
-              disabled={curPage >= totalPages}
-            >
-              ›
-            </PageLink>
-          </nav>
-        )}
-      </div>
+      <AdminPagination
+        page={curPage}
+        totalPages={totalPages}
+        basePath="/admin/bai-viet"
+        summary={`${total} bài`}
+        params={{ status, category }}
+      />
     </div>
-  );
-}
-
-// Ô phân trang vuông; vô hiệu hoá thì render span thay vì link.
-function PageLink({
-  href,
-  active,
-  disabled,
-  children,
-}: {
-  href: string;
-  active?: boolean;
-  disabled?: boolean;
-  children: React.ReactNode;
-}) {
-  const base =
-    "flex h-9 min-w-9 items-center justify-center border px-2 text-sm font-medium";
-  if (disabled) {
-    return (
-      <span className={`${base} border-gray-200 text-gray-300`}>{children}</span>
-    );
-  }
-  return (
-    <Link
-      href={href}
-      aria-current={active ? "page" : undefined}
-      className={`${base} ${
-        active
-          ? "border-red-700 bg-red-700 text-white"
-          : "border-gray-300 text-gray-700 hover:bg-gray-100"
-      }`}
-    >
-      {children}
-    </Link>
   );
 }

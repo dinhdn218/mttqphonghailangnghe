@@ -4,6 +4,7 @@ import { requireUser } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/format";
 import { Role, PostStatus } from "@/generated/prisma/client";
+import { AdminPagination } from "@/components/admin/admin-pagination";
 import { toggleFeatured } from "./actions";
 
 const PAGE_SIZE = 20;
@@ -43,14 +44,6 @@ export default async function FeaturedAdminPage({ searchParams }: Props) {
     }),
   ]);
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-
-  const pageHref = (p: number) => {
-    const params = new URLSearchParams();
-    if (onlyFeatured) params.set("featured", "1");
-    if (p > 1) params.set("page", String(p));
-    const qs = params.toString();
-    return qs ? `/admin/noi-bat?${qs}` : "/admin/noi-bat";
-  };
 
   return (
     <div className="space-y-4">
@@ -160,31 +153,13 @@ export default async function FeaturedAdminPage({ searchParams }: Props) {
         )}
       </div>
 
-      <div className="flex items-center justify-between text-sm text-gray-500">
-        <span>
-          {total} bài · trang {page}/{totalPages}
-        </span>
-        {totalPages > 1 && (
-          <nav className="flex items-center gap-1">
-            {page > 1 && (
-              <Link
-                href={pageHref(page - 1)}
-                className="flex h-9 min-w-9 items-center justify-center border border-gray-300 px-2 font-medium text-gray-700 hover:bg-gray-100"
-              >
-                ‹
-              </Link>
-            )}
-            {page < totalPages && (
-              <Link
-                href={pageHref(page + 1)}
-                className="flex h-9 min-w-9 items-center justify-center border border-gray-300 px-2 font-medium text-gray-700 hover:bg-gray-100"
-              >
-                ›
-              </Link>
-            )}
-          </nav>
-        )}
-      </div>
+      <AdminPagination
+        page={page}
+        totalPages={totalPages}
+        basePath="/admin/noi-bat"
+        summary={`${total} bài`}
+        params={{ featured: onlyFeatured ? "1" : undefined }}
+      />
     </div>
   );
 }

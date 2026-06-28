@@ -3,6 +3,7 @@ import Link from "next/link";
 import { requireUser } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/format";
+import { AdminPagination } from "@/components/admin/admin-pagination";
 import { MediaUploader } from "./media-uploader";
 import { CopyUrl } from "./copy-url";
 import { deleteMedia } from "./actions";
@@ -29,9 +30,6 @@ export default async function MediaLibraryPage({ searchParams }: Props) {
     prisma.media.count(),
   ]);
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-
-  const pageHref = (p: number) =>
-    p > 1 ? `/admin/thu-vien?page=${p}` : "/admin/thu-vien";
 
   return (
     <div className="space-y-4">
@@ -115,30 +113,13 @@ export default async function MediaLibraryPage({ searchParams }: Props) {
         </div>
       )}
 
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between text-sm text-gray-500">
-          <span>
-            Trang {page}/{totalPages}
-          </span>
-          <nav className="flex items-center gap-1">
-            {page > 1 && (
-              <Link
-                href={pageHref(page - 1)}
-                className="flex h-9 min-w-9 items-center justify-center border border-gray-300 px-2 font-medium text-gray-700 hover:bg-gray-100"
-              >
-                ‹
-              </Link>
-            )}
-            {page < totalPages && (
-              <Link
-                href={pageHref(page + 1)}
-                className="flex h-9 min-w-9 items-center justify-center border border-gray-300 px-2 font-medium text-gray-700 hover:bg-gray-100"
-              >
-                ›
-              </Link>
-            )}
-          </nav>
-        </div>
+      {items.length > 0 && (
+        <AdminPagination
+          page={page}
+          totalPages={totalPages}
+          basePath="/admin/thu-vien"
+          summary={`${total} mục`}
+        />
       )}
     </div>
   );

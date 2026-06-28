@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requireUser } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/format";
+import { AdminPagination } from "@/components/admin/admin-pagination";
 import { FeedbackStatus } from "@/generated/prisma/client";
 
 const PAGE_SIZE = 20;
@@ -41,13 +42,6 @@ export default async function FeedbackListPage({ searchParams }: Props) {
 
   const tabHref = (s?: FeedbackStatus) =>
     s ? `/admin/phan-anh?status=${s}` : "/admin/phan-anh";
-  const pageHref = (p: number) => {
-    const params = new URLSearchParams();
-    if (status) params.set("status", status);
-    if (p > 1) params.set("page", String(p));
-    const qs = params.toString();
-    return qs ? `/admin/phan-anh?${qs}` : "/admin/phan-anh";
-  };
 
   return (
     <div className="space-y-4">
@@ -138,34 +132,13 @@ export default async function FeedbackListPage({ searchParams }: Props) {
         )}
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-gray-500">
-        <span>
-          {total > 0 ? `${total} phản ánh · trang ${page}/${totalPages}` : "0 phản ánh"}
-        </span>
-        {totalPages > 1 && (
-          <nav className="flex items-center gap-1">
-            {page > 1 && (
-              <Link
-                href={pageHref(page - 1)}
-                className="flex h-9 min-w-9 items-center justify-center border border-gray-300 px-2 font-medium text-gray-700 hover:bg-gray-100"
-              >
-                ‹
-              </Link>
-            )}
-            <span className="px-2">
-              {page} / {totalPages}
-            </span>
-            {page < totalPages && (
-              <Link
-                href={pageHref(page + 1)}
-                className="flex h-9 min-w-9 items-center justify-center border border-gray-300 px-2 font-medium text-gray-700 hover:bg-gray-100"
-              >
-                ›
-              </Link>
-            )}
-          </nav>
-        )}
-      </div>
+      <AdminPagination
+        page={page}
+        totalPages={totalPages}
+        basePath="/admin/phan-anh"
+        summary={`${total} phản ánh`}
+        params={{ status }}
+      />
     </div>
   );
 }

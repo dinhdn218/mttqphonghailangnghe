@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/format";
 import { ROLE_LABELS } from "@/lib/constants";
 import { Role } from "@/generated/prisma/client";
+import { AdminPagination } from "@/components/admin/admin-pagination";
 import { deleteUser } from "./actions";
 
 const ROLE_BADGE: Record<string, string> = {
@@ -43,9 +44,6 @@ export default async function UserListPage({ searchParams }: Props) {
     prisma.user.count(),
   ]);
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-
-  const pageHref = (p: number) =>
-    p > 1 ? `/admin/nguoi-dung?page=${p}` : "/admin/nguoi-dung";
 
   return (
     <div className="space-y-4">
@@ -148,70 +146,12 @@ export default async function UserListPage({ searchParams }: Props) {
         </table>
       </div>
 
-      {/* Tổng số + phân trang */}
-      <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-gray-500">
-        <span>
-          {total} người dùng · trang {page}/{totalPages}
-        </span>
-        {totalPages > 1 && (
-          <nav className="flex items-center gap-1">
-            <PageLink href={pageHref(page - 1)} disabled={page <= 1}>
-              ‹
-            </PageLink>
-            {Array.from({ length: totalPages }, (_, i) => i + 1)
-              .filter(
-                (p) => Math.abs(p - page) <= 2 || p === 1 || p === totalPages,
-              )
-              .map((p, idx, arr) => (
-                <span key={p} className="flex items-center gap-1">
-                  {idx > 0 && p - arr[idx - 1] > 1 && (
-                    <span className="px-1 text-gray-400">…</span>
-                  )}
-                  <PageLink href={pageHref(p)} active={p === page}>
-                    {p}
-                  </PageLink>
-                </span>
-              ))}
-            <PageLink href={pageHref(page + 1)} disabled={page >= totalPages}>
-              ›
-            </PageLink>
-          </nav>
-        )}
-      </div>
+      <AdminPagination
+        page={page}
+        totalPages={totalPages}
+        basePath="/admin/nguoi-dung"
+        summary={`${total} người dùng`}
+      />
     </div>
-  );
-}
-
-// Ô phân trang vuông; vô hiệu hoá thì render span thay vì link.
-function PageLink({
-  href,
-  active,
-  disabled,
-  children,
-}: {
-  href: string;
-  active?: boolean;
-  disabled?: boolean;
-  children: React.ReactNode;
-}) {
-  const base =
-    "flex h-9 min-w-9 items-center justify-center border px-2 text-sm font-medium";
-  if (disabled) {
-    return (
-      <span className={`${base} border-gray-200 text-gray-300`}>{children}</span>
-    );
-  }
-  return (
-    <Link
-      href={href}
-      aria-current={active ? "page" : undefined}
-      className={`${base} ${
-        active
-          ? "border-red-700 bg-red-700 text-white"
-          : "border-gray-300 text-gray-700 hover:bg-gray-100"
-      }`}
-    >
-      {children}
-    </Link>
   );
 }
