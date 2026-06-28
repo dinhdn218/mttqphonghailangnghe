@@ -15,7 +15,4 @@ export const env = {
     apiKey: process.env.CLOUDINARY_API_KEY ?? "",
     apiSecret: process.env.CLOUDINARY_API_SECRET ?? "",
   },
-  resendApiKey: process.env.RESEND_API_KEY ?? "",
-  // Email nhận phản ánh từ form "Lắng nghe dân nói"
-  contactInbox: process.env.CONTACT_INBOX_EMAIL ?? "",
 };

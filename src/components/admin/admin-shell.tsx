@@ -27,6 +27,11 @@ const NAV: NavItem[] = [
     icon: "M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z",
   },
   {
+    href: "/admin/phan-anh",
+    label: "Phản ánh",
+    icon: "M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.068.157 2.148.279 3.238.364.466.037.893.281 1.153.671L12 21l2.652-3.978c.26-.39.687-.634 1.153-.67 1.09-.086 2.17-.208 3.238-.365 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z",
+  },
+  {
     href: "/admin/nguoi-dung",
     label: "Người dùng",
     adminOnly: true,
@@ -61,11 +66,13 @@ export function AdminShell({
   user,
   roleLabel,
   signOutAction,
+  badges,
   children,
 }: {
   user: User;
   roleLabel: string;
   signOutAction: () => Promise<void>;
+  badges?: Record<string, number>;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -98,6 +105,7 @@ export function AdminShell({
       <nav className="flex-1 space-y-1 p-3">
         {navItems.map((item) => {
           const active = isActive(item);
+          const badge = badges?.[item.href] ?? 0;
           return (
             <Link
               key={item.href}
@@ -110,7 +118,12 @@ export function AdminShell({
               }`}
             >
               <Icon path={item.icon} />
-              {item.label}
+              <span className="flex-1">{item.label}</span>
+              {badge > 0 && (
+                <span className="min-w-5 bg-amber-400 px-1.5 text-center text-xs font-bold text-red-900">
+                  {badge}
+                </span>
+              )}
             </Link>
           );
         })}

@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth-guards";
 import { signOut } from "@/auth";
+import { prisma } from "@/lib/prisma";
 import { ROLE_LABELS } from "@/lib/constants";
 import { AdminShell } from "@/components/admin/admin-shell";
 
@@ -18,6 +19,11 @@ export default async function AdminLayout({
     await signOut({ redirectTo: "/dang-nhap" });
   }
 
+  // Số phản ánh chưa xử lý → hiển thị badge trên menu.
+  const newFeedback = await prisma.feedback
+    .count({ where: { status: "NEW" } })
+    .catch(() => 0);
+
   return (
     <AdminShell
       user={{
@@ -27,6 +33,7 @@ export default async function AdminLayout({
       }}
       roleLabel={ROLE_LABELS[user.role] ?? user.role}
       signOutAction={doSignOut}
+      badges={{ "/admin/phan-anh": newFeedback }}
     >
       {children}
     </AdminShell>

@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { z } from "zod";
-import { sendFeedbackEmail } from "@/lib/email";
+import { prisma } from "@/lib/prisma";
 import { verifyTurnstile } from "@/lib/turnstile";
 
 export type FeedbackState = {
@@ -23,21 +23,13 @@ const schema = z.object({
   message: z.string().trim().min(10, "Nội dung phản ánh quá ngắn"),
 });
 
-function escapeHtml(s: string): string {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
 export async function submitFeedback(
   _prev: FeedbackState,
   formData: FormData,
 ): Promise<FeedbackState> {
   // 1) Honeypot: trường ẩn "company" phải trống. Bot thường điền hết.
   if (String(formData.get("company") ?? "").trim() !== "") {
-    return { ok: true }; // giả thành công, không gửi
+    return { ok: true }; // giả thành công, không lưu
   }
 
   // 2) Captcha (nếu đã bật Turnstile)
@@ -69,25 +61,18 @@ export async function submitFeedback(
   }
   const { name, phone, email, message } = parsed.data;
 
-  // 4) Gửi email về hộp thư của xã
-  const html = `
-    <h2>Phản ánh mới từ "Lắng nghe dân nói"</h2>
-    <p><strong>Họ tên:</strong> ${escapeHtml(name)}</p>
-    <p><strong>Điện thoại:</strong> ${escapeHtml(phone ?? "—")}</p>
-    <p><strong>Email:</strong> ${escapeHtml(email || "—")}</p>
-    <p><strong>Nội dung:</strong></p>
-    <p style="white-space:pre-wrap">${escapeHtml(message)}</p>
-    <hr/>
-    <p style="color:#888;font-size:12px">Gửi lúc ${new Date().toLocaleString("vi-VN")}</p>
-  `;
-
-  const sent = await sendFeedbackEmail({
-    subject: `Phản ánh mới từ ${name}`,
-    html,
-    replyTo: email || undefined,
-  });
-
-  if (!sent) {
+  // 4) Lưu vào DB để cán bộ xử lý trong CMS (không gửi email).
+  try {
+    await prisma.feedback.create({
+      data: {
+        name,
+        phone: phone || null,
+        email: email || null,
+        message,
+      },
+    });
+  } catch (e) {
+    console.error("Lỗi lưu phản ánh:", e);
     return {
       error: "Không gửi được phản ánh lúc này. Vui lòng thử lại sau.",
     };
