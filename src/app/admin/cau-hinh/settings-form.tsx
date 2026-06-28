@@ -28,7 +28,7 @@ export function SettingsForm({
   const fe = state.fieldErrors ?? {};
 
   return (
-    <form action={formAction} className="max-w-2xl space-y-6">
+    <form action={formAction} className="max-w-full space-y-6">
       {state.success && (
         <p className="border-l-4 border-green-600 bg-green-50 px-4 py-3 text-sm text-green-700">
           Đã lưu cấu hình.
