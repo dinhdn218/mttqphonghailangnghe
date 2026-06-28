@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/format";
 import { Role, PostStatus } from "@/generated/prisma/client";
 import { AdminPagination } from "@/components/admin/admin-pagination";
+import { AdminSearch } from "@/components/admin/admin-search";
 import { toggleFeatured } from "./actions";
 
 const PAGE_SIZE = 20;
@@ -12,7 +13,7 @@ const PAGE_SIZE = 20;
 const HOME_SLOTS = 13;
 
 type Props = {
-  searchParams: Promise<{ featured?: string; page?: string }>;
+  searchParams: Promise<{ featured?: string; q?: string; page?: string }>;
 };
 
 export default async function FeaturedAdminPage({ searchParams }: Props) {
@@ -23,11 +24,28 @@ export default async function FeaturedAdminPage({ searchParams }: Props) {
 
   const sp = await searchParams;
   const onlyFeatured = sp.featured === "1";
+  const q = sp.q?.trim() || undefined;
   const page = Math.max(1, Number.parseInt(sp.page ?? "1", 10) || 1);
 
   const where = {
     status: PostStatus.PUBLISHED,
     ...(onlyFeatured ? { featured: true } : {}),
+    ...(q
+      ? {
+          OR: [
+            { titleVi: { contains: q, mode: "insensitive" as const } },
+            { titleEn: { contains: q, mode: "insensitive" as const } },
+          ],
+        }
+      : {}),
+  };
+
+  const tabHref = (featuredOnly: boolean) => {
+    const params = new URLSearchParams();
+    if (featuredOnly) params.set("featured", "1");
+    if (q) params.set("q", q);
+    const qs = params.toString();
+    return qs ? `/admin/noi-bat?${qs}` : "/admin/noi-bat";
   };
 
   const [posts, total, featuredCount] = await Promise.all([
@@ -51,15 +69,22 @@ export default async function FeaturedAdminPage({ searchParams }: Props) {
         <h1 className="text-2xl font-bold">Bài nổi bật</h1>
         <p className="mt-1 text-sm text-gray-500">
           Bật ⭐ để đưa bài lên khối đầu trang chủ. Trang chủ hiển thị tối đa{" "}
-          {HOME_SLOTS} bài nổi bật (mới nhất trước); còn trống thì tự lấp bằng bài
-          mới nhất.
+          {HOME_SLOTS} bài nổi bật (mới nhất trước); còn trống thì tự lấp bằng
+          bài mới nhất.
         </p>
       </div>
+
+      <AdminSearch
+        basePath="/admin/noi-bat"
+        params={{ featured: onlyFeatured ? "1" : undefined }}
+        defaultValue={q}
+        placeholder="Tìm theo tiêu đề…"
+      />
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex gap-2 text-sm">
           <Link
-            href="/admin/noi-bat"
+            href={tabHref(false)}
             className={`px-3 py-1.5 font-medium transition ${
               !onlyFeatured
                 ? "bg-red-700 text-white"
@@ -69,7 +94,7 @@ export default async function FeaturedAdminPage({ searchParams }: Props) {
             Tất cả đã đăng
           </Link>
           <Link
-            href="/admin/noi-bat?featured=1"
+            href={tabHref(true)}
             className={`px-3 py-1.5 font-medium transition ${
               onlyFeatured
                 ? "bg-red-700 text-white"
@@ -97,7 +122,9 @@ export default async function FeaturedAdminPage({ searchParams }: Props) {
           <table className="w-full text-sm">
             <thead className="bg-gray-50 text-left text-gray-600">
               <tr>
-                <th className="w-16 px-4 py-2 text-center font-medium">Nổi bật</th>
+                <th className="w-22 px-4 py-2 text-center font-medium">
+                  Nổi bật
+                </th>
                 <th className="px-4 py-2 font-medium">Tiêu đề</th>
                 <th className="hidden px-4 py-2 font-medium sm:table-cell">
                   Chuyên mục
@@ -158,7 +185,7 @@ export default async function FeaturedAdminPage({ searchParams }: Props) {
         totalPages={totalPages}
         basePath="/admin/noi-bat"
         summary={`${total} bài`}
-        params={{ featured: onlyFeatured ? "1" : undefined }}
+        params={{ featured: onlyFeatured ? "1" : undefined, q }}
       />
     </div>
   );

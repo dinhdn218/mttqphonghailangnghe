@@ -5,6 +5,7 @@ import { canCreatePost } from "@/lib/post-permissions";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { PostFilters } from "@/components/admin/post-filters";
 import { AdminPagination } from "@/components/admin/admin-pagination";
+import { AdminSearch } from "@/components/admin/admin-search";
 import { formatDate } from "@/lib/format";
 import { PostStatus } from "@/generated/prisma/client";
 import { STATUS_LABELS, CATEGORIES } from "@/lib/constants";
@@ -16,7 +17,12 @@ const STATUS_OPTIONS = STATUS_VALUES.map((v) => ({
 }));
 
 type Props = {
-  searchParams: Promise<{ status?: string; category?: string; page?: string }>;
+  searchParams: Promise<{
+    status?: string;
+    category?: string;
+    q?: string;
+    page?: string;
+  }>;
 };
 
 export default async function PostListPage({ searchParams }: Props) {
@@ -27,11 +33,12 @@ export default async function PostListPage({ searchParams }: Props) {
     ? (sp.status as PostStatus)
     : undefined;
   const category = CATEGORIES.find((c) => c.slug === sp.category)?.slug;
+  const q = sp.q?.trim() || undefined;
   const page = Math.max(1, Number.parseInt(sp.page ?? "1", 10) || 1);
 
   const { posts, total, page: curPage, totalPages } = await listPostsForUser(
     user,
-    { status, categorySlug: category, page },
+    { status, categorySlug: category, q, page },
   );
 
   return (
@@ -48,12 +55,20 @@ export default async function PostListPage({ searchParams }: Props) {
         )}
       </div>
 
+      <AdminSearch
+        basePath="/admin/bai-viet"
+        params={{ status, category }}
+        defaultValue={q}
+        placeholder="Tìm theo tiêu đề…"
+      />
+
       {/* Bộ lọc: trạng thái + chuyên mục */}
       <PostFilters
         statuses={STATUS_OPTIONS}
         categories={CATEGORIES.map((c) => ({ slug: c.slug, nameVi: c.nameVi }))}
         status={status}
         category={category}
+        q={q}
       />
 
       <div className="overflow-hidden border border-gray-200">
@@ -111,7 +126,7 @@ export default async function PostListPage({ searchParams }: Props) {
         totalPages={totalPages}
         basePath="/admin/bai-viet"
         summary={`${total} bài`}
-        params={{ status, category }}
+        params={{ status, category, q }}
       />
     </div>
   );

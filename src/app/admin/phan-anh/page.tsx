@@ -3,6 +3,7 @@ import { requireUser } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/format";
 import { AdminPagination } from "@/components/admin/admin-pagination";
+import { AdminSearch } from "@/components/admin/admin-search";
 import { FeedbackStatus } from "@/generated/prisma/client";
 
 const PAGE_SIZE = 20;
@@ -14,7 +15,12 @@ const STATUS_TABS: { value?: FeedbackStatus; label: string }[] = [
 ];
 
 type Props = {
-  searchParams: Promise<{ status?: string; page?: string; deleted?: string }>;
+  searchParams: Promise<{
+    status?: string;
+    q?: string;
+    page?: string;
+    deleted?: string;
+  }>;
 };
 
 export default async function FeedbackListPage({ searchParams }: Props) {
@@ -25,8 +31,21 @@ export default async function FeedbackListPage({ searchParams }: Props) {
     sp.status === "NEW" || sp.status === "RESOLVED"
       ? (sp.status as FeedbackStatus)
       : undefined;
+  const q = sp.q?.trim() || undefined;
   const page = Math.max(1, Number.parseInt(sp.page ?? "1", 10) || 1);
-  const where = status ? { status } : {};
+  const where = {
+    ...(status ? { status } : {}),
+    ...(q
+      ? {
+          OR: [
+            { name: { contains: q, mode: "insensitive" as const } },
+            { message: { contains: q, mode: "insensitive" as const } },
+            { email: { contains: q, mode: "insensitive" as const } },
+            { phone: { contains: q, mode: "insensitive" as const } },
+          ],
+        }
+      : {}),
+  };
 
   const [items, total, newCount] = await Promise.all([
     prisma.feedback.findMany({
@@ -40,8 +59,13 @@ export default async function FeedbackListPage({ searchParams }: Props) {
   ]);
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
-  const tabHref = (s?: FeedbackStatus) =>
-    s ? `/admin/phan-anh?status=${s}` : "/admin/phan-anh";
+  const tabHref = (s?: FeedbackStatus) => {
+    const params = new URLSearchParams();
+    if (s) params.set("status", s);
+    if (q) params.set("q", q);
+    const qs = params.toString();
+    return qs ? `/admin/phan-anh?${qs}` : "/admin/phan-anh";
+  };
 
   return (
     <div className="space-y-4">
@@ -59,6 +83,13 @@ export default async function FeedbackListPage({ searchParams }: Props) {
           Đã xoá phản ánh.
         </p>
       )}
+
+      <AdminSearch
+        basePath="/admin/phan-anh"
+        params={{ status }}
+        defaultValue={q}
+        placeholder="Tìm theo tên, nội dung, email, sđt…"
+      />
 
       {/* Lọc trạng thái */}
       <div className="flex flex-wrap gap-2 text-sm">
@@ -137,7 +168,7 @@ export default async function FeedbackListPage({ searchParams }: Props) {
         totalPages={totalPages}
         basePath="/admin/phan-anh"
         summary={`${total} phản ánh`}
-        params={{ status }}
+        params={{ status, q }}
       />
     </div>
   );

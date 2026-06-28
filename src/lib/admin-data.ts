@@ -28,13 +28,27 @@ export const ADMIN_PAGE_SIZE = 20;
 // Lọc theo trạng thái + chuyên mục (slug) và phân trang. Trả kèm tổng số trang.
 export async function listPostsForUser(
   user: SessionUser,
-  opts: { status?: PostStatus; categorySlug?: string; page?: number } = {},
+  opts: {
+    status?: PostStatus;
+    categorySlug?: string;
+    q?: string;
+    page?: number;
+  } = {},
 ) {
   const page = Math.max(1, opts.page ?? 1);
+  const q = opts.q?.trim();
   const where = {
     ...(user.role === Role.EDITOR ? { authorId: user.id } : {}),
     ...(opts.status ? { status: opts.status } : {}),
     ...(opts.categorySlug ? { category: { slug: opts.categorySlug } } : {}),
+    ...(q
+      ? {
+          OR: [
+            { titleVi: { contains: q, mode: "insensitive" as const } },
+            { titleEn: { contains: q, mode: "insensitive" as const } },
+          ],
+        }
+      : {}),
   };
 
   const [posts, total] = await Promise.all([

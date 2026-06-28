@@ -12,11 +12,13 @@ export function PostFilters({
   categories,
   status,
   category,
+  q,
 }: {
   statuses: StatusOption[];
   categories: CategoryOption[];
   status?: string;
   category?: string;
+  q?: string;
 }) {
   const router = useRouter();
 
@@ -26,6 +28,7 @@ export function PostFilters({
     const params = new URLSearchParams();
     if (s) params.set("status", s);
     if (c) params.set("category", c);
+    if (q) params.set("q", q);
     const qs = params.toString();
     router.push(qs ? `/admin/bai-viet?${qs}` : "/admin/bai-viet");
   };

@@ -4,21 +4,37 @@ import { requireUser } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/format";
 import { AdminPagination } from "@/components/admin/admin-pagination";
+import { AdminSearch } from "@/components/admin/admin-search";
 import { MediaUploader } from "./media-uploader";
 import { CopyUrl } from "./copy-url";
 import { deleteMedia } from "./actions";
 
 const PAGE_SIZE = 24;
 
-type Props = { searchParams: Promise<{ page?: string }> };
+type Props = { searchParams: Promise<{ q?: string; page?: string }> };
 
 export default async function MediaLibraryPage({ searchParams }: Props) {
   await requireUser();
   const sp = await searchParams;
+  const q = sp.q?.trim() || undefined;
   const page = Math.max(1, Number.parseInt(sp.page ?? "1", 10) || 1);
+
+  const where = q
+    ? {
+        OR: [
+          { alt: { contains: q, mode: "insensitive" as const } },
+          {
+            post: {
+              is: { titleVi: { contains: q, mode: "insensitive" as const } },
+            },
+          },
+        ],
+      }
+    : {};
 
   const [items, total] = await Promise.all([
     prisma.media.findMany({
+      where,
       orderBy: { createdAt: "desc" },
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
@@ -27,7 +43,7 @@ export default async function MediaLibraryPage({ searchParams }: Props) {
         post: { select: { id: true, titleVi: true } },
       },
     }),
-    prisma.media.count(),
+    prisma.media.count({ where }),
   ]);
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
@@ -42,6 +58,12 @@ export default async function MediaLibraryPage({ searchParams }: Props) {
         </div>
         <MediaUploader />
       </div>
+
+      <AdminSearch
+        basePath="/admin/thu-vien"
+        defaultValue={q}
+        placeholder="Tìm theo mô tả hoặc tên bài…"
+      />
 
       {items.length === 0 ? (
         <p className="border border-gray-200 bg-white p-6 text-center text-gray-500">
@@ -119,6 +141,7 @@ export default async function MediaLibraryPage({ searchParams }: Props) {
           totalPages={totalPages}
           basePath="/admin/thu-vien"
           summary={`${total} mục`}
+          params={{ q }}
         />
       )}
     </div>

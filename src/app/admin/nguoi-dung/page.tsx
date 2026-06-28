@@ -6,6 +6,7 @@ import { formatDate } from "@/lib/format";
 import { ROLE_LABELS } from "@/lib/constants";
 import { Role } from "@/generated/prisma/client";
 import { AdminPagination } from "@/components/admin/admin-pagination";
+import { AdminSearch } from "@/components/admin/admin-search";
 import { deleteUser } from "./actions";
 
 const ROLE_BADGE: Record<string, string> = {
@@ -23,7 +24,12 @@ const ERROR_MESSAGES: Record<string, string> = {
 const PAGE_SIZE = 20;
 
 type Props = {
-  searchParams: Promise<{ error?: string; deleted?: string; page?: string }>;
+  searchParams: Promise<{
+    error?: string;
+    deleted?: string;
+    q?: string;
+    page?: string;
+  }>;
 };
 
 export default async function UserListPage({ searchParams }: Props) {
@@ -32,16 +38,27 @@ export default async function UserListPage({ searchParams }: Props) {
 
   const sp = await searchParams;
   const errorMsg = sp.error ? ERROR_MESSAGES[sp.error] : undefined;
+  const q = sp.q?.trim() || undefined;
   const page = Math.max(1, Number.parseInt(sp.page ?? "1", 10) || 1);
+
+  const where = q
+    ? {
+        OR: [
+          { name: { contains: q, mode: "insensitive" as const } },
+          { email: { contains: q, mode: "insensitive" as const } },
+        ],
+      }
+    : {};
 
   const [users, total] = await Promise.all([
     prisma.user.findMany({
+      where,
       orderBy: [{ role: "asc" }, { createdAt: "asc" }],
       include: { _count: { select: { authoredPosts: true } } },
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
     }),
-    prisma.user.count(),
+    prisma.user.count({ where }),
   ]);
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
@@ -56,6 +73,12 @@ export default async function UserListPage({ searchParams }: Props) {
           + Thêm người dùng
         </Link>
       </div>
+
+      <AdminSearch
+        basePath="/admin/nguoi-dung"
+        defaultValue={q}
+        placeholder="Tìm theo tên hoặc email…"
+      />
 
       {errorMsg && (
         <p className="border-l-4 border-red-600 bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -151,6 +174,7 @@ export default async function UserListPage({ searchParams }: Props) {
         totalPages={totalPages}
         basePath="/admin/nguoi-dung"
         summary={`${total} người dùng`}
+        params={{ q }}
       />
     </div>
   );
