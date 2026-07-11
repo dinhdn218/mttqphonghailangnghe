@@ -23,6 +23,45 @@
   max-width: 72rem;
 }
 
+/* Lắc nhẹ theo chu kỳ (nút nổi liên hệ): đứng yên phần lớn thời gian,
+   lắc nhanh ~0.5s mỗi 4s để gây chú ý mà không gây khó chịu. */
+@keyframes wiggle {
+  0%,
+  86%,
+  100% {
+    transform: rotate(0deg);
+  }
+  88% {
+    transform: rotate(-12deg);
+  }
+  90% {
+    transform: rotate(12deg);
+  }
+  92% {
+    transform: rotate(-9deg);
+  }
+  94% {
+    transform: rotate(9deg);
+  }
+  96% {
+    transform: rotate(-5deg);
+  }
+  98% {
+    transform: rotate(5deg);
+  }
+}
+
+@utility animate-wiggle {
+  animation: wiggle 4s ease-in-out infinite;
+}
+
+/* Tôn trọng người dùng tắt hiệu ứng chuyển động. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-wiggle {
+    animation: none;
+  }
+}
+
 /* Đường phân cách hoa văn thổ cẩm (vàng – đỏ) kiểu mẫu cổng tin Bắc Hà. */
 @utility brocade-divider {
   height: 4px;
