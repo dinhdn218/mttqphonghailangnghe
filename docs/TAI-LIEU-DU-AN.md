@@ -320,12 +320,17 @@ npm run typecheck      # Kiểm tra kiểu TypeScript
 
 ## 12.1. Vercel (khuyến nghị)
 1. Kết nối kho mã với Vercel.
-2. Khai báo biến môi trường như mục 11.2.
+2. Khai báo biến môi trường như mục 11.2 (nhớ `NEXT_PUBLIC_SITE_URL` là tên miền thật).
 3. Vercel tự build (`prisma generate && next build`) và phát hành.
-4. Trỏ tên miền `phonghailangnghe.com` về Vercel (CNAME/A record).
+4. Gắn tên miền `phonghailangnghe.com` vào dự án (Settings → Domains). Vì tên miền đã mua sẵn trên Vercel nên DNS và SSL được cấu hình tự động.
 
 ## 12.2. Tên miền
-Tên miền `phonghailangnghe.com` thuộc cơ quan xã. Cần được cấp quyền quản lý DNS để trỏ về hosting mới (Vercel/VPS). Dev không mua tên miền.
+Tên miền **`phonghailangnghe.com` đã được mua và quản lý trên Vercel** — cùng nền tảng triển khai. Nhờ vậy:
+- Vercel tự cấu hình DNS và **tự cấp chứng chỉ SSL** (HTTPS), tự gia hạn.
+- Không cần thao tác trỏ bản ghi DNS thủ công: chỉ cần thêm tên miền vào dự án trên Vercel (**Project → Settings → Domains**), chọn cả `phonghailangnghe.com` và `www.phonghailangnghe.com` (chuyển hướng www → tên miền chính).
+- Nhớ đặt biến `NEXT_PUBLIC_SITE_URL="https://phonghailangnghe.com"` để sitemap, robots và thẻ chia sẻ (OG) sinh đúng đường dẫn.
+
+**Khi bàn giao:** thống nhất với cơ quan việc chuyển quyền sở hữu tên miền, hoặc dev tiếp tục đứng tên và tính vào phí duy trì hằng năm. Tên miền cần được **gia hạn đúng hạn** để website không gián đoạn.
 
 ## 12.3. VPS (nếu yêu cầu đặt dữ liệu tại Việt Nam)
 Chạy `npm run build` + `npm run start` sau proxy (Nginx) có SSL; dùng PostgreSQL nội bộ thay Neon.

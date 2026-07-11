@@ -91,11 +91,11 @@ Hỗ trợ video ngắn, ảnh, infographic. Đa ngôn ngữ **Anh – Việt**.
 
 ## 9. Ràng buộc & rủi ro cần biết
 
-- **Tên miền `phonghailangnghe.com` ĐÃ có chủ (thuộc cơ quan xã), không mua mới được.**
-  Hiện tại truy cập báo "Website not found" — tên miền đã đăng ký nhưng chưa trỏ về
-  hosting đang chạy (có thể bản WordPress cũ đã sập/hết hạn).
-  → Dev KHÔNG mua tên miền, chỉ cần khách cấp quyền quản lý tên miền để trỏ DNS về hosting mới.
-  → Cần xác minh: AI đang giữ tài khoản đăng ký tên miền (cơ quan, hay bên thứ ba làm web cũ).
+- ~~Tên miền đã có chủ, không mua mới được~~ → **ĐÃ GIẢI QUYẾT:** dev đã **tự mua
+  `phonghailangnghe.com` trên Vercel**. Tên miền nằm cùng nền tảng deploy nên Vercel
+  tự cấp SSL + cấu hình DNS, không cần xin quyền DNS từ cơ quan nữa.
+  → Khi bàn giao: cần thoả thuận chuyển quyền sở hữu tên miền cho cơ quan (hoặc dev
+  giữ và tính vào phí duy trì hằng năm).
 - Backend là điểm yếu của dev → phần CMS/auth/DB là rủi ro tiến độ lớn nhất.
   Bám sát thư viện sẵn có (Auth.js, Prisma), không tự dựng từ đầu.
 - Dự án của cơ quan nhà nước → quy trình duyệt chậm, yêu cầu có thể thay đổi.
