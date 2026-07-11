@@ -28,20 +28,40 @@ const BRAND_BG: Record<string, string> = {
   tiktok: "bg-black",
 };
 
+// Màu vòng sóng (ping) tương ứng — mọi nút đều có, đồng bộ với nút gọi.
+const BRAND_PING: Record<string, string> = {
+  facebook: "bg-[#1877F2]/40",
+  "zalo-oa-xa": "bg-[#0068FF]/40",
+  tiktok: "bg-black/30",
+};
+
+// Vòng sóng nhấp nháy quanh nút. Lệch pha (delay) để các nút gợn sóng lần lượt.
+function PingRing({ color, delay }: { color: string; delay: number }) {
+  return (
+    <span
+      className={`pointer-events-none absolute inset-0 animate-ping rounded-full ${color}`}
+      style={{ animationDelay: `${delay}ms` }}
+      aria-hidden="true"
+    />
+  );
+}
+
 // Nút tròn + nhãn hiện khi rê chuột (ẩn trên mobile).
 function ActionButton({
   href,
   label,
   bg,
+  ping,
+  delay,
   external,
-  wiggle,
   children,
 }: {
   href: string;
   label: string;
   bg: string;
+  ping: string;
+  delay: number;
   external?: boolean;
-  wiggle?: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -58,12 +78,15 @@ function ActionButton({
       <span className="pointer-events-none absolute right-14 hidden whitespace-nowrap bg-gray-900/90 px-2.5 py-1 text-xs font-medium text-white opacity-0 transition group-hover:opacity-100 sm:block">
         {label}
       </span>
-      <span
-        className={`flex h-11 w-11 items-center justify-center rounded-full text-white shadow-lg ring-2 ring-white/70 transition duration-200 group-hover:scale-110 ${bg} ${
-          wiggle ? "animate-wiggle" : ""
-        }`}
-      >
-        {children}
+      {/* Lớp bọc lo phóng to khi hover; lớp trong lo lắc (2 transform tách nhau
+          để animation không đè mất scale). */}
+      <span className="relative transition duration-200 group-hover:scale-110">
+        <PingRing color={ping} delay={delay} />
+        <span
+          className={`animate-wiggle relative flex h-11 w-11 items-center justify-center rounded-full text-white shadow-lg ring-2 ring-white/70 ${bg}`}
+        >
+          {children}
+        </span>
       </span>
     </a>
   );
@@ -77,7 +100,7 @@ export function FloatingActions({
   platforms: FloatingPlatform[];
 }) {
   const [showTop, setShowTop] = useState(false);
-  // Mobile: gom các nền tảng sau một nút mở/đóng cho đỡ chiếm màn hình.
+  // Mobile: gom nền tảng + nút gọi sau một nút ➕ cho đỡ chiếm màn hình.
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -89,11 +112,12 @@ export function FloatingActions({
 
   const tel = hotline.replace(/\s/g, "");
   const hasAny = platforms.length > 0 || tel !== "";
+  const STEP = 250; // độ lệch pha giữa các nút (ms)
 
   return (
     <div className="fixed right-4 bottom-4 z-40 flex flex-col items-end gap-3 sm:right-5 sm:bottom-5">
       {/* Nhóm liên hệ (nền tảng + gọi): mobile gom sau nút ➕, desktop luôn hiện.
-          Dùng hidden/flex (không overflow-hidden) để viền trắng của nút không bị cắt. */}
+          Dùng hidden/flex (không overflow-hidden) để viền nút không bị cắt. */}
       {hasAny && (
         <div
           className={`flex-col items-end gap-3 sm:flex ${open ? "flex" : "hidden"}`}
@@ -108,26 +132,27 @@ export function FloatingActions({
                 href={p.url}
                 label={p.label}
                 bg={BRAND_BG[p.key] ?? "bg-gray-700"}
+                ping={BRAND_PING[p.key] ?? "bg-gray-500/40"}
+                delay={i * STEP}
                 external
-                wiggle
               >
                 <BrandIcon kind={p.key} />
               </ActionButton>
             </div>
           ))}
 
-          {/* Đường dây nóng — có vòng sóng nhấp nháy */}
+          {/* Đường dây nóng */}
           {tel && (
             <div
-              className="animate-fab-in relative"
+              className="animate-fab-in"
               style={{ animationDelay: `${platforms.length * 60}ms` }}
             >
-              <span className="absolute inset-0 animate-ping rounded-full bg-green-500/40" />
               <ActionButton
                 href={`tel:${tel}`}
                 label={`Gọi ${hotline}`}
                 bg="bg-green-600"
-                wiggle
+                ping="bg-green-500/40"
+                delay={platforms.length * STEP}
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -145,15 +170,55 @@ export function FloatingActions({
 
       {/* Nút mở/đóng nhóm liên hệ — CHỈ mobile */}
       {hasAny && (
+        <div className="relative transition duration-200 hover:scale-110 sm:hidden">
+          {!open && <PingRing color="bg-red-600/40" delay={0} />}
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-label={open ? "Đóng liên hệ" : "Mở liên hệ & mạng xã hội"}
+            title="Liên hệ"
+            className={`relative flex h-11 w-11 items-center justify-center rounded-full bg-red-700 text-white shadow-lg ring-2 ring-white/70 hover:bg-red-800 ${
+              open ? "" : "animate-wiggle"
+            }`}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2.2}
+              strokeLinecap="round"
+              className={`h-5 w-5 transition-transform duration-300 ${
+                open ? "rotate-45" : ""
+              }`}
+              aria-hidden="true"
+            >
+              <path d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+          </button>
+        </div>
+      )}
+
+      {/* Lên đầu trang — chỉ hiện khi đã cuộn */}
+      <div
+        className={`relative transition duration-300 hover:scale-110 ${
+          showTop
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none translate-y-3 opacity-0"
+        }`}
+      >
+        {showTop && (
+          <PingRing
+            color="bg-red-600/40"
+            delay={(platforms.length + 1) * STEP}
+          />
+        )}
         <button
           type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-label={open ? "Đóng liên hệ" : "Mở liên hệ & mạng xã hội"}
-          title="Liên hệ"
-          className={`flex h-11 w-11 items-center justify-center rounded-full bg-red-700 text-white shadow-lg ring-2 ring-white/70 transition hover:bg-red-800 sm:hidden ${
-            open ? "" : "animate-wiggle"
-          }`}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          aria-label="Lên đầu trang"
+          title="Lên đầu trang"
+          className="animate-wiggle relative flex h-11 w-11 items-center justify-center rounded-full bg-red-700 text-white shadow-lg ring-2 ring-white/70 hover:bg-red-800"
         >
           <svg
             viewBox="0 0 24 24"
@@ -161,41 +226,14 @@ export function FloatingActions({
             stroke="currentColor"
             strokeWidth={2.2}
             strokeLinecap="round"
-            className={`h-5 w-5 transition-transform duration-300 ${
-              open ? "rotate-45" : ""
-            }`}
+            strokeLinejoin="round"
+            className="h-5 w-5"
             aria-hidden="true"
           >
-            <path d="M12 4.5v15m7.5-7.5h-15" />
+            <path d="M4.5 15.75 12 8.25l7.5 7.5" />
           </svg>
         </button>
-      )}
-
-      {/* Lên đầu trang — chỉ hiện khi đã cuộn */}
-      <button
-        type="button"
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        aria-label="Lên đầu trang"
-        title="Lên đầu trang"
-        className={`flex h-11 w-11 items-center justify-center rounded-full bg-red-700 text-white shadow-lg ring-2 ring-white/70 transition duration-300 hover:scale-110 hover:bg-red-800 ${
-          showTop
-            ? "translate-y-0 opacity-100"
-            : "pointer-events-none translate-y-3 opacity-0"
-        }`}
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2.2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="h-5 w-5"
-          aria-hidden="true"
-        >
-          <path d="M4.5 15.75 12 8.25l7.5 7.5" />
-        </svg>
-      </button>
+      </div>
     </div>
   );
 }
