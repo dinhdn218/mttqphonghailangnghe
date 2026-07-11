@@ -94,11 +94,11 @@ export const SETTING_DEFS: SettingDef[] = [
   {
     key: "platform_zalo_xa_url",
     group: "Nền tảng",
-    label: "Zalo OA xã (URL)",
+    label: "Zalo của xã (URL)",
     type: "url",
     default: "",
-    placeholder: "https://zalo.me/1234567890123456789",
-    hint: "Link Official Account (OA) của xã — lấy trong trang quản lý OA. KHÔNG dùng link Zalo cá nhân dạng zalo.me/<số điện thoại>: người dân bấm vào sẽ bị bắt đăng nhập thay vì thấy trang OA.",
+    placeholder: "https://zalo.me/...",
+    hint: "Ưu tiên link Official Account (OA) lấy trong trang quản lý OA — người dân xem được ngay và bấm “Quan tâm” để nhận tin. Nếu xã chưa có OA, có thể dùng tạm link Zalo của văn phòng xã (zalo.me/<số điện thoại>); vẫn liên hệ được, nhưng trên máy tính người dùng phải đăng nhập Zalo trước.",
   },
   {
     key: "platform_tiktok_url",
@@ -151,9 +151,11 @@ const PLATFORM_META: {
 }[] = [
   { key: "facebook", label: "Facebook", settingKey: "platform_facebook_url" },
   {
+    // Nhãn để "Zalo" chung — đúng cho cả Official Account lẫn Zalo của văn phòng
+    // xã (khi xã chưa có OA). Key giữ nguyên để không phải đổi màu thương hiệu.
     key: "zalo-oa-xa",
-    label: "Zalo OA (xã)",
-    note: "Tài khoản chính thức của xã",
+    label: "Zalo",
+    note: "Kênh Zalo của xã",
     settingKey: "platform_zalo_xa_url",
   },
   { key: "tiktok", label: "TikTok", settingKey: "platform_tiktok_url" },

@@ -39,17 +39,10 @@ export async function updateSettings(
         fieldErrors[def.key] = "URL phải bắt đầu bằng http:// hoặc https://";
         continue;
       }
-      // Zalo OA: chặn nhầm link Zalo CÁ NHÂN (zalo.me/<số điện thoại>). Số điện
-      // thoại VN có 9–11 chữ số và bắt đầu bằng 0; ID của OA dài hơn hẳn (18–19
-      // chữ số) nên phân biệt được. Link cá nhân sẽ bắt người dân đăng nhập.
-      if (
-        def.key === "platform_zalo_xa_url" &&
-        /^https?:\/\/(www\.)?zalo\.me\/0\d{8,10}\/?$/i.test(value)
-      ) {
-        fieldErrors[def.key] =
-          "Đây là link Zalo cá nhân (số điện thoại). Zalo OA cần link lấy từ trang quản lý OA, dạng https://zalo.me/<ID OA>.";
-        continue;
-      }
+      // Ghi chú: KHÔNG chặn link Zalo cá nhân (zalo.me/<số điện thoại>). Xã có thể
+      // chưa có Official Account, khi đó dùng tạm số Zalo của văn phòng xã vẫn hợp
+      // lệ — chỉ là trên máy tính người dùng phải đăng nhập trước. Phần gợi ý ở ô
+      // nhập đã nói rõ ưu/nhược để cán bộ tự chọn.
       if (def.type === "email" && !emailSchema.safeParse(value).success) {
         fieldErrors[def.key] = "Email không hợp lệ";
         continue;
