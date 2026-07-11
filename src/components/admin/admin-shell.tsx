@@ -74,32 +74,24 @@ function Icon({ path, className }: { path: string; className?: string }) {
   );
 }
 
-export function AdminShell({
-  user,
-  roleLabel,
-  signOutAction,
+// Sidebar khai báo ở CẤP MODULE (không lồng trong AdminShell) — nếu định nghĩa
+// bên trong component cha, mỗi lần render sẽ tạo ra một component mới khiến React
+// unmount/mount lại toàn bộ sidebar và mất state.
+function Sidebar({
+  items,
   badges,
-  children,
+  pathname,
+  onNavigate,
 }: {
-  user: User;
-  roleLabel: string;
-  signOutAction: () => Promise<void>;
+  items: NavItem[];
   badges?: Record<string, number>;
-  children: React.ReactNode;
+  pathname: string;
+  onNavigate?: () => void;
 }) {
-  const pathname = usePathname();
-  const [open, setOpen] = useState(false);
-
   const isActive = (item: NavItem) =>
     item.exact ? pathname === item.href : pathname.startsWith(item.href);
 
-  const navItems = NAV.filter((item) => {
-    if (item.adminOnly) return user.role === "ADMIN";
-    if (item.roles) return item.roles.includes(user.role);
-    return true;
-  });
-
-  const Sidebar = ({ onNavigate }: { onNavigate?: () => void }) => (
+  return (
     <div className="flex h-full flex-col">
       {/* Thương hiệu */}
       <Link
@@ -117,7 +109,7 @@ export function AdminShell({
 
       {/* Điều hướng */}
       <nav className="flex-1 space-y-1 p-3">
-        {navItems.map((item) => {
+        {items.map((item) => {
           const active = isActive(item);
           const badge = badges?.[item.href] ?? 0;
           return (
@@ -155,12 +147,35 @@ export function AdminShell({
       </div>
     </div>
   );
+}
+
+export function AdminShell({
+  user,
+  roleLabel,
+  signOutAction,
+  badges,
+  children,
+}: {
+  user: User;
+  roleLabel: string;
+  signOutAction: () => Promise<void>;
+  badges?: Record<string, number>;
+  children: React.ReactNode;
+}) {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  const navItems = NAV.filter((item) => {
+    if (item.adminOnly) return user.role === "ADMIN";
+    if (item.roles) return item.roles.includes(user.role);
+    return true;
+  });
 
   return (
     <div className="flex min-h-dvh bg-gray-50">
       {/* Sidebar cố định (desktop) */}
       <aside className="hidden w-60 shrink-0 bg-red-900 lg:block">
-        <Sidebar />
+        <Sidebar items={navItems} badges={badges} pathname={pathname} />
       </aside>
 
       {/* Drawer (mobile) */}
@@ -172,7 +187,12 @@ export function AdminShell({
             onClick={() => setOpen(false)}
           />
           <aside className="absolute inset-y-0 left-0 w-64 bg-red-900 shadow-xl">
-            <Sidebar onNavigate={() => setOpen(false)} />
+            <Sidebar
+              items={navItems}
+              badges={badges}
+              pathname={pathname}
+              onNavigate={() => setOpen(false)}
+            />
           </aside>
         </div>
       )}

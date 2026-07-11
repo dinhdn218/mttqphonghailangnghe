@@ -17,8 +17,10 @@ export async function QrCode({
     color: { dark: "#7f1d1d", light: "#ffffff" }, // đỏ chủ đạo
   });
 
-  // eslint-disable-next-line @next/next/no-img-element
   return (
+    // Ảnh là data URL sinh tại chỗ (không phải ảnh từ mạng) → next/image không
+    // tối ưu được gì, dùng <img> là đúng.
+    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={dataUrl}
       alt={alt}

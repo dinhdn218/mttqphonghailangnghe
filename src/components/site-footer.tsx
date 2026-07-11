@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import NextLink from "next/link";
 import { Link } from "@/i18n/navigation";
 import { getSettings } from "@/lib/settings";
 
@@ -87,9 +88,11 @@ export async function SiteFooter() {
             </p>
             <p>{t("footer.attribution")}</p>
           </div>
-          <a href="/admin" className="shrink-0 hover:underline">
+          {/* Khu quản trị KHÔNG đa ngôn ngữ → dùng Link thường, không dùng Link
+              của next-intl (sẽ thành /en/admin khi đang xem tiếng Anh). */}
+          <NextLink href="/admin" className="shrink-0 hover:underline">
             {t("site.admin")}
-          </a>
+          </NextLink>
         </div>
       </div>
     </footer>
