@@ -78,6 +78,8 @@ export function FloatingActions({
   platforms: FloatingPlatform[];
 }) {
   const [showTop, setShowTop] = useState(false);
+  // Mobile: gom các nền tảng sau một nút mở/đóng cho đỡ chiếm màn hình.
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 320);
@@ -87,9 +89,63 @@ export function FloatingActions({
   }, []);
 
   const tel = hotline.replace(/\s/g, "");
+  const hasPlatforms = platforms.length > 0;
 
   return (
     <div className="fixed right-4 bottom-4 z-40 flex flex-col items-end gap-3 sm:right-5 sm:bottom-5">
+      {/* Nền tảng: mobile thu gọn (bung ra khi bấm nút +), desktop luôn hiện.
+          -mb-3 khi đóng để triệt tiêu khoảng gap của flex. */}
+      {hasPlatforms && (
+        <div
+          className={`flex flex-col items-end gap-3 overflow-hidden transition-all duration-300 ease-out sm:pointer-events-auto sm:mb-0 sm:max-h-none sm:scale-100 sm:overflow-visible sm:opacity-100 ${
+            open
+              ? "max-h-72 scale-100 opacity-100"
+              : "pointer-events-none -mb-3 max-h-0 scale-90 opacity-0"
+          }`}
+        >
+          {platforms.map((p) => (
+            <ActionButton
+              key={p.key}
+              href={p.url}
+              label={p.label}
+              bg={BRAND_BG[p.key] ?? "bg-gray-700"}
+              external
+              wiggle
+            >
+              <BrandIcon kind={p.key} />
+            </ActionButton>
+          ))}
+        </div>
+      )}
+
+      {/* Nút mở/đóng nền tảng — CHỈ mobile */}
+      {hasPlatforms && (
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-label={open ? "Đóng liên kết mạng xã hội" : "Mở liên kết mạng xã hội"}
+          title="Mạng xã hội"
+          className={`flex h-11 w-11 items-center justify-center rounded-full bg-red-700 text-white shadow-lg ring-2 ring-white/70 transition hover:bg-red-800 sm:hidden ${
+            open ? "" : "animate-wiggle"
+          }`}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2.2}
+            strokeLinecap="round"
+            className={`h-5 w-5 transition-transform duration-300 ${
+              open ? "rotate-45" : ""
+            }`}
+            aria-hidden="true"
+          >
+            <path d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+        </button>
+      )}
+
       {/* Đường dây nóng — có vòng sóng nhấp nháy */}
       {tel && (
         <div className="relative">
@@ -111,20 +167,6 @@ export function FloatingActions({
           </ActionButton>
         </div>
       )}
-
-      {/* Nền tảng đã cấu hình */}
-      {platforms.map((p) => (
-        <ActionButton
-          key={p.key}
-          href={p.url}
-          label={p.label}
-          bg={BRAND_BG[p.key] ?? "bg-gray-700"}
-          external
-          wiggle
-        >
-          <BrandIcon kind={p.key} />
-        </ActionButton>
-      ))}
 
       {/* Lên đầu trang — chỉ hiện khi đã cuộn */}
       <button
