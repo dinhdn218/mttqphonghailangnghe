@@ -3,6 +3,8 @@ import { LoginForm } from "./login-form";
 
 export const metadata = {
   title: "Đăng nhập",
+  // Không lập chỉ mục trang đăng nhập.
+  robots: { index: false, follow: false },
 };
 
 export default function LoginPage() {

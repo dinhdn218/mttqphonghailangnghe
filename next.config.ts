@@ -12,6 +12,12 @@ const securityHeaders = [
     key: "Strict-Transport-Security",
     value: "max-age=63072000; includeSubDomains; preload",
   },
+  {
+    // Tắt các quyền trình duyệt không dùng đến.
+    // (KHÔNG chặn camera: widget upload Cloudinary có nguồn "camera".)
+    key: "Permissions-Policy",
+    value: "microphone=(), geolocation=(), browsing-topics=()",
+  },
 ];
 
 const nextConfig: NextConfig = {

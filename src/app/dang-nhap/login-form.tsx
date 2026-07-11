@@ -28,7 +28,12 @@ export function LoginForm() {
     setLoading(false);
 
     if (res?.error) {
-      setError("Email hoặc mật khẩu không đúng.");
+      // code "rate_limited" do RateLimitedError trong authorize trả về.
+      setError(
+        res.code === "rate_limited"
+          ? "Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau 15 phút."
+          : "Email hoặc mật khẩu không đúng.",
+      );
       return;
     }
     router.push(callbackUrl);

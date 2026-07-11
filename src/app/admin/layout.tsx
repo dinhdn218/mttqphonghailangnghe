@@ -1,9 +1,16 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth-guards";
 import { signOut } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { ROLE_LABELS } from "@/lib/constants";
 import { AdminShell } from "@/components/admin/admin-shell";
+
+// Không cho công cụ tìm kiếm lập chỉ mục khu quản trị (robots.txt đã chặn,
+// đây là lớp phòng thủ thứ hai ngay trong thẻ meta).
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default async function AdminLayout({
   children,

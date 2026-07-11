@@ -200,3 +200,17 @@ model Feedback {
 
   @@index([status, createdAt])
 }
+
+// ----------------------------------------------------------------------------
+// LoginAttempt — ghi lại các lần đăng nhập SAI để giới hạn tần suất
+// (chống dò mật khẩu). Bản ghi cũ được dọn tự động sau cửa sổ thời gian.
+// ----------------------------------------------------------------------------
+model LoginAttempt {
+  id        String   @id @default(cuid())
+  email     String
+  ip        String?
+  createdAt DateTime @default(now())
+
+  @@index([email, createdAt])
+  @@index([ip, createdAt])
+}
