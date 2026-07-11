@@ -1,3 +1,4 @@
+import { CARD_IMAGE } from "@/lib/ui";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { formatDate } from "@/lib/format";
@@ -30,7 +31,7 @@ export function RelatedItem({
             alt={title}
             fill
             sizes="80px"
-            className="object-cover transition group-hover:opacity-80"
+            className={CARD_IMAGE}
           />
         </div>
       )}

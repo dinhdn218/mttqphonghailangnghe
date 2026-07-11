@@ -1,3 +1,4 @@
+import { CARD_IMAGE } from "@/lib/ui";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -94,7 +95,7 @@ function HeroArticle({
           alt={title}
           fill
           sizes="(max-width: 1024px) 100vw, 780px"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className={CARD_IMAGE}
           priority
         />
       )}
@@ -141,7 +142,7 @@ function HighlightItem({ post, locale }: { post: HomePost; locale: Locale }) {
             alt={title}
             fill
             sizes="80px"
-            className="object-cover transition group-hover:scale-110"
+            className={CARD_IMAGE}
           />
         </div>
       )}

@@ -1,3 +1,4 @@
+import { CARD_IMAGE } from "@/lib/ui";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { formatDate } from "@/lib/format";
@@ -72,7 +73,7 @@ function BigCard({
             alt={title}
             fill
             sizes="(max-width: 1024px) 100vw, 760px"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className={CARD_IMAGE}
             priority
           />
           {/* Gradient mỏng ở đáy ảnh để liền mạch với dải text */}
@@ -119,7 +120,7 @@ function SmallCard({ post, locale }: { post: FeaturedPost; locale: Locale }) {
             alt={title}
             fill
             sizes="(max-width: 1024px) 100vw, 360px"
-            className="object-cover transition group-hover:scale-105"
+            className={CARD_IMAGE}
           />
         </div>
       )}

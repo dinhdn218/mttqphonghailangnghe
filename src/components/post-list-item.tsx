@@ -1,3 +1,4 @@
+import { CARD_IMAGE } from "@/lib/ui";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { formatDate } from "@/lib/format";
@@ -41,7 +42,7 @@ export function PostListItem({
             alt={title}
             fill
             sizes="(max-width: 640px) 100vw, 256px"
-            className="object-cover transition group-hover:scale-105"
+            className={CARD_IMAGE}
           />
         </div>
       )}

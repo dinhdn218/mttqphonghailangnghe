@@ -1,3 +1,4 @@
+import { CARD_IMAGE } from "@/lib/ui";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/i18n";
@@ -23,7 +24,7 @@ export function ArticleCardTop({
             alt={title}
             fill
             sizes="(max-width: 1024px) 100vw, 280px"
-            className="object-cover"
+            className={CARD_IMAGE}
           />
         </div>
       )}

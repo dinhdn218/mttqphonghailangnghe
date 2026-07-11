@@ -1,3 +1,4 @@
+import { CARD_IMAGE } from "@/lib/ui";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/i18n";
@@ -83,7 +84,7 @@ function FeaturedCard({ post, locale }: { post: HomePost; locale: Locale }) {
             alt={title}
             fill
             sizes="(max-width: 640px) 100vw, 280px"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className={CARD_IMAGE}
           />
         </div>
       )}
