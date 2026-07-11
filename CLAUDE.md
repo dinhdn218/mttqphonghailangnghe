@@ -50,7 +50,7 @@ theo chuyên mục — KHÔNG code 11 lần:
 8. Thư viện (văn bản / ảnh / video / infographic)
 9. **Lắng nghe dân nói** — form tiếp nhận phản ánh, GỬI VỀ EMAIL (có chống spam/captcha).
    KHÔNG cần hệ thống quản lý phản ánh, không lưu DB.
-10. Zalo OA (tỉnh + xã) — nhúng link
+10. Zalo OA (xã) — nhúng link. (Zalo OA tỉnh ĐÃ BỎ theo yêu cầu khách.)
 11. Mã QR cho các nền tảng — yêu cầu thiết kế QR có hoa văn thổ cẩm (phần thiết kế, không phải code)
 
 ### Tích hợp nền tảng

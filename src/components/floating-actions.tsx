@@ -25,7 +25,6 @@ function BrandIcon({ kind }: { kind: string }) {
 const BRAND_BG: Record<string, string> = {
   facebook: "bg-[#1877F2]",
   "zalo-oa-xa": "bg-[#0068FF]",
-  "zalo-oa-tinh": "bg-[#0068FF]",
   tiktok: "bg-black",
 };
 

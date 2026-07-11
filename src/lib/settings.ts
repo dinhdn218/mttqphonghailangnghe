@@ -11,7 +11,6 @@ export type SettingKey =
   | "contact_address"
   | "platform_facebook_url"
   | "platform_zalo_xa_url"
-  | "platform_zalo_tinh_url"
   | "platform_tiktok_url";
 
 export type SettingType = "text" | "textarea" | "url" | "email" | "tel";
@@ -83,15 +82,6 @@ export const SETTING_DEFS: SettingDef[] = [
     hint: "Tài khoản Zalo chính thức của xã.",
   },
   {
-    key: "platform_zalo_tinh_url",
-    group: "Nền tảng",
-    label: "Zalo OA tỉnh (URL)",
-    type: "url",
-    default: "",
-    placeholder: "https://zalo.me/...",
-    hint: "Tài khoản Zalo chính thức của tỉnh.",
-  },
-  {
     key: "platform_tiktok_url",
     group: "Nền tảng",
     label: "TikTok (URL)",
@@ -146,12 +136,6 @@ const PLATFORM_META: {
     label: "Zalo OA (xã)",
     note: "Tài khoản chính thức của xã",
     settingKey: "platform_zalo_xa_url",
-  },
-  {
-    key: "zalo-oa-tinh",
-    label: "Zalo OA (tỉnh)",
-    note: "Tài khoản chính thức của tỉnh",
-    settingKey: "platform_zalo_tinh_url",
   },
   { key: "tiktok", label: "TikTok", settingKey: "platform_tiktok_url" },
 ];

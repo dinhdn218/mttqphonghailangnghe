@@ -45,7 +45,7 @@ Phần lớn nội dung dùng chung **một khuôn "bài viết"** (trang danh s
 
 Ngoài ra:
 - **Lắng nghe dân nói** — form tiếp nhận phản ánh của người dân (lưu vào hệ thống, cán bộ xử lý trong CMS).
-- **Kết nối** — liên kết Facebook, Zalo OA (xã + tỉnh), TikTok, đường dây nóng; hiển thị mã QR từng nền tảng.
+- **Kết nối** — liên kết Facebook, Zalo OA (xã), TikTok, đường dây nóng; hiển thị mã QR từng nền tảng.
 - **Giới thiệu** — trang giới thiệu cố định về MTTQ xã.
 
 ---
@@ -209,7 +209,7 @@ Bài **chỉ hiển thị công khai khi ở trạng thái PUBLISHED**. Cơ ch�
 | **Chuyên mục** | Danh sách bài theo chuyên mục, có phân trang. |
 | **Chi tiết bài viết** | Nội dung đầy đủ (ảnh, video, định dạng), hiển thị theo ngôn ngữ đang chọn. |
 | **Giới thiệu** | Trang tĩnh giới thiệu MTTQ xã. |
-| **Kết nối** | Thông tin liên hệ (đường dây nóng, email, địa chỉ + bản đồ), liên kết & mã QR các nền tảng (Facebook, Zalo OA xã/tỉnh, TikTok). |
+| **Kết nối** | Thông tin liên hệ (đường dây nóng, email, địa chỉ + bản đồ), liên kết & mã QR các nền tảng (Facebook, Zalo OA xã, TikTok). |
 | **Lắng nghe dân nói** | Form gửi phản ánh: họ tên, điện thoại, email, nội dung. Có chống spam (honeypot + Turnstile). |
 
 **Bài nổi bật trang chủ:** ưu tiên các bài được cán bộ đánh dấu ⭐; nếu chưa đủ 13 bài thì tự lấp bằng bài mới nhất. Khối đầu trang gồm: 1 tin hero ảnh lớn + 2 thẻ + tối đa 10 tin trong hộp "Tin tiêu điểm".
