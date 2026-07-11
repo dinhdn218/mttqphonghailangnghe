@@ -55,9 +55,26 @@
   animation: wiggle 4s ease-in-out infinite;
 }
 
+/* Nút nổi bung ra: mờ + trượt lên + phóng nhẹ. */
+@keyframes fab-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility animate-fab-in {
+  animation: fab-in 0.25s ease-out both;
+}
+
 /* Tôn trọng người dùng tắt hiệu ứng chuyển động. */
 @media (prefers-reduced-motion: reduce) {
-  .animate-wiggle {
+  .animate-wiggle,
+  .animate-fab-in {
     animation: none;
   }
 }
