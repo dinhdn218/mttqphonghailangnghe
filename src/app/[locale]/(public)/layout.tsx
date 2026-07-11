@@ -1,7 +1,12 @@
+import { getLocale } from "next-intl/server";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { FloatingActions } from "@/components/floating-actions";
-import { getSettings } from "@/lib/settings";
+import {
+  getSettings,
+  siteNameFor,
+  siteDescriptionFor,
+} from "@/lib/settings";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://phonghailangnghe.com";
@@ -13,17 +18,19 @@ export default async function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { contact, activePlatforms, siteName, siteDescription } =
-    await getSettings();
+  const locale = await getLocale();
+  const settings = await getSettings();
+  const { contact, activePlatforms } = settings;
 
   // Dữ liệu có cấu trúc: khai báo đây là cơ quan nhà nước để Google hiểu đúng
   // (tên, logo, đường dây nóng, địa chỉ, các kênh mạng xã hội chính thức).
   const orgJsonLd = {
     "@context": "https://schema.org",
     "@type": "GovernmentOrganization",
-    name: siteName,
-    alternateName: "Ủy ban MTTQ Việt Nam xã Phong Hải",
-    description: siteDescription,
+    name: siteNameFor(settings, locale),
+    alternateName:
+      locale === "en" ? settings.siteName : settings.siteNameEn || undefined,
+    description: siteDescriptionFor(settings, locale),
     url: SITE_URL,
     logo: `${SITE_URL}/icon.svg`,
     image: `${SITE_URL}/opengraph-image.png`,

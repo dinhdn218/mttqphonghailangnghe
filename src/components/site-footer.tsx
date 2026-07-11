@@ -1,13 +1,17 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { getSettings } from "@/lib/settings";
+import { getSettings, siteNameFor } from "@/lib/settings";
 
 // Footer phong cách cổng thông tin nhà nước: nền đỏ tối, nhiều cột thông tin
 // cơ quan + liên kết nhanh + đường dây nóng, dải dưới bản quyền & ghi nguồn.
 export async function SiteFooter() {
   const t = await getTranslations();
+  const locale = await getLocale();
   const year = new Date().getFullYear();
-  const { contact } = await getSettings();
+  // Tên cơ quan lấy từ Cấu hình CMS (nguồn duy nhất).
+  const settings = await getSettings();
+  const { contact } = settings;
+  const orgName = siteNameFor(settings, locale);
   const tel = contact.hotline.replace(/\s/g, "");
 
   return (
@@ -15,7 +19,7 @@ export async function SiteFooter() {
       <div className="mx-auto grid w-full max-w-container gap-8 px-4 py-8 sm:grid-cols-3">
         {/* Cơ quan */}
         <div>
-          <p className="font-bold text-white uppercase">{t("site.org")}</p>
+          <p className="font-bold text-white uppercase">{orgName}</p>
           <p className="mt-2 text-sm">
             {t("footer.authority")}: {t("footer.office")}
           </p>

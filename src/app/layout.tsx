@@ -3,6 +3,11 @@ import { Be_Vietnam_Pro } from "next/font/google";
 import { getLocale } from "next-intl/server";
 import "./globals.css";
 import { Providers } from "@/components/providers";
+import {
+  getSettings,
+  siteNameFor,
+  siteDescriptionFor,
+} from "@/lib/settings";
 
 // Font hỗ trợ đầy đủ dấu tiếng Việt, hợp với người dùng vùng dân tộc thiểu số.
 const beVietnamPro = Be_Vietnam_Pro({
@@ -23,50 +28,55 @@ function getSiteUrl(): URL {
   }
 }
 
-const SITE_NAME = "MTTQ xã Phong Hải";
-const SITE_DESC =
-  "Trang thông tin – tuyên truyền của Ủy ban MTTQ Việt Nam xã Phong Hải, tỉnh Lào Cai: tin tức, chuyển đổi số, dịch vụ công, gương người tốt việc tốt và tiếp nhận phản ánh của nhân dân.";
+// Tên + mô tả site lấy từ CẤU HÌNH CMS (/admin/cau-hinh) — nguồn duy nhất, khách
+// tự sửa được. Lỗi DB thì getSettings() tự lùi về giá trị mặc định trong mã.
+// Ảnh chia sẻ mặc định lấy từ src/app/opengraph-image.png (Next tự gắn og:image);
+// trang bài viết ghi đè bằng ảnh bìa của bài.
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const settings = await getSettings();
+  const name = siteNameFor(settings, locale);
+  const description = siteDescriptionFor(settings, locale);
 
-// Ảnh chia sẻ mặc định lấy từ src/app/opengraph-image.png (Next tự gắn og:image).
-// Trang bài viết ghi đè bằng ảnh bìa của bài.
-export const metadata: Metadata = {
-  metadataBase: getSiteUrl(),
-  title: {
-    default: SITE_NAME,
-    template: `%s | ${SITE_NAME}`,
-  },
-  description: SITE_DESC,
-  applicationName: SITE_NAME,
-  keywords: [
-    "MTTQ xã Phong Hải",
-    "Mặt trận Tổ quốc Phong Hải",
-    "xã Phong Hải",
-    "Lào Cai",
-    "tuyên truyền",
-    "dịch vụ công trực tuyến",
-    "chuyển đổi số",
-  ],
-  authors: [{ name: "Ủy ban MTTQ Việt Nam xã Phong Hải" }],
-  openGraph: {
-    type: "website",
-    siteName: SITE_NAME,
-    locale: "vi_VN",
-    alternateLocale: ["en_US"],
-    url: "/",
-    title: SITE_NAME,
-    description: SITE_DESC,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: SITE_NAME,
-    description: SITE_DESC,
-  },
-  alternates: {
-    canonical: "/",
-    languages: { vi: "/", en: "/en" },
-  },
-  robots: { index: true, follow: true },
-};
+  return {
+    metadataBase: getSiteUrl(),
+    title: {
+      default: name,
+      template: `%s | ${name}`,
+    },
+    description,
+    applicationName: name,
+    keywords: [
+      "MTTQ xã Phong Hải",
+      "Mặt trận Tổ quốc Phong Hải",
+      "xã Phong Hải",
+      "Lào Cai",
+      "tuyên truyền",
+      "dịch vụ công trực tuyến",
+      "chuyển đổi số",
+    ],
+    authors: [{ name: settings.siteName }],
+    openGraph: {
+      type: "website",
+      siteName: name,
+      locale: locale === "en" ? "en_US" : "vi_VN",
+      alternateLocale: locale === "en" ? ["vi_VN"] : ["en_US"],
+      url: "/",
+      title: name,
+      description,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: name,
+      description,
+    },
+    alternates: {
+      canonical: "/",
+      languages: { vi: "/", en: "/en" },
+    },
+    robots: { index: true, follow: true },
+  };
+}
 
 // Ưu tiên mobile (người dùng chủ yếu truy cập bằng điện thoại).
 export const viewport: Viewport = {

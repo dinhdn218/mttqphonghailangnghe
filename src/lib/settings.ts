@@ -5,7 +5,9 @@ import { prisma } from "@/lib/prisma";
 
 export type SettingKey =
   | "site_name"
+  | "site_name_en"
   | "site_description"
+  | "site_description_en"
   | "contact_hotline"
   | "contact_email"
   | "contact_address"
@@ -31,17 +33,34 @@ export const SETTING_DEFS: SettingDef[] = [
   {
     key: "site_name",
     group: "Trang",
-    label: "Tên trang",
+    label: "Tên cơ quan (tiếng Việt)",
     type: "text",
-    default: "MTTQ xã Phong Hải",
+    default: "Ủy ban MTTQ Việt Nam xã Phong Hải",
+    hint: "Hiển thị ở header, tiêu đề trình duyệt và thẻ chia sẻ. Nên ngắn gọn — phần mô tả dài để ở ô bên dưới.",
+  },
+  {
+    key: "site_name_en",
+    group: "Trang",
+    label: "Tên cơ quan (tiếng Anh)",
+    type: "text",
+    default: "Vietnam Fatherland Front Committee of Phong Hai Commune",
   },
   {
     key: "site_description",
     group: "Trang",
-    label: "Mô tả ngắn",
+    label: "Mô tả ngắn (tiếng Việt)",
     type: "textarea",
     default:
-      "Trang thông tin – tuyên truyền của Ủy ban MTTQ Việt Nam xã Phong Hải, tỉnh Lào Cai.",
+      "Trang thông tin – tuyên truyền của Ủy ban MTTQ Việt Nam xã Phong Hải, tỉnh Lào Cai: tin tức, chuyển đổi số, dịch vụ công, gương người tốt việc tốt và tiếp nhận phản ánh của nhân dân.",
+    hint: "Dùng cho Google và thẻ chia sẻ mạng xã hội. Nên 120–160 ký tự.",
+  },
+  {
+    key: "site_description_en",
+    group: "Trang",
+    label: "Mô tả ngắn (tiếng Anh)",
+    type: "textarea",
+    default:
+      "Official information and communications portal of the Vietnam Fatherland Front Committee of Phong Hai Commune, Lao Cai Province.",
   },
   {
     key: "contact_hotline",
@@ -141,12 +160,25 @@ const PLATFORM_META: {
 ];
 
 export type SiteSettings = {
-  siteName: string;
-  siteDescription: string;
+  siteName: string; // tiếng Việt
+  siteNameEn: string;
+  siteDescription: string; // tiếng Việt
+  siteDescriptionEn: string;
   contact: { hotline: string; email: string; address: string };
   platforms: Platform[];
   activePlatforms: Platform[];
 };
+
+// Chọn tên/mô tả theo ngôn ngữ đang xem; thiếu bản tiếng Anh thì lùi về tiếng Việt.
+export function siteNameFor(s: SiteSettings, locale: string): string {
+  return locale === "en" && s.siteNameEn.trim() ? s.siteNameEn : s.siteName;
+}
+
+export function siteDescriptionFor(s: SiteSettings, locale: string): string {
+  return locale === "en" && s.siteDescriptionEn.trim()
+    ? s.siteDescriptionEn
+    : s.siteDescription;
+}
 
 // Cấu hình đã “gói” sẵn cho UI dùng. Cache theo request.
 export const getSettings = cache(async (): Promise<SiteSettings> => {
@@ -159,7 +191,9 @@ export const getSettings = cache(async (): Promise<SiteSettings> => {
   }));
   return {
     siteName: s.site_name,
+    siteNameEn: s.site_name_en,
     siteDescription: s.site_description,
+    siteDescriptionEn: s.site_description_en,
     contact: {
       hotline: s.contact_hotline,
       email: s.contact_email,

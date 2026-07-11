@@ -2,7 +2,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { CATEGORIES, type Locale } from "@/lib/constants";
 import { pick } from "@/lib/i18n";
-import { getSettings } from "@/lib/settings";
+import { getSettings, siteNameFor } from "@/lib/settings";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { Emblem } from "@/components/emblem";
 import { NavLinks } from "@/components/nav-links";
@@ -12,7 +12,10 @@ import { NavLinks } from "@/components/nav-links";
 export async function SiteHeader() {
   const locale = (await getLocale()) as Locale;
   const t = await getTranslations();
-  const { contact } = await getSettings();
+  // Tên cơ quan lấy từ Cấu hình CMS (nguồn duy nhất) — khách tự sửa được.
+  const settings = await getSettings();
+  const { contact } = settings;
+  const orgName = siteNameFor(settings, locale);
 
   const navItems = [
     { href: "/", label: t("nav.home") },
@@ -53,7 +56,7 @@ export async function SiteHeader() {
             <Emblem className="h-12 w-12 shrink-0 sm:h-14 sm:w-14" />
             <span className="min-w-0">
               <span className="block text-sm font-bold uppercase leading-tight sm:text-lg">
-                {t("site.org")}
+                {orgName}
               </span>
               <span className="block text-xs text-red-100 sm:text-sm">
                 {t("site.title")}
