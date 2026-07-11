@@ -124,7 +124,6 @@ export default async function ConnectPage({ params }: Props) {
                 {contact.address}
               </span>
             </ContactRow>
-
           </div>
 
           {/* Bản đồ nhúng Google Maps — chiếm hết chiều cao còn lại */}
@@ -150,16 +149,16 @@ export default async function ConnectPage({ params }: Props) {
           </div>
         </section>
 
-        {/* Cột phải: nền tảng + CTA */}
-        <div className="space-y-6">
-          <section className="border border-gray-200 bg-white p-5 shadow-sm">
+        {/* Cột phải: nền tảng + CTA — cao bằng cột trái, khối QR giãn lấp phần dư */}
+        <div className="flex flex-col gap-6">
+          <section className="flex flex-1 flex-col border border-gray-200 bg-white p-5 shadow-sm">
             <div className="mb-4 flex items-center gap-2 text-red-800">
               <Icon path={ICONS.qr} className="h-5 w-5" />
               <h2 className="font-bold tracking-wide uppercase">
                 {t("platforms")}
               </h2>
             </div>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-3">
               {platforms.map((p) => (
                 <PlatformCard
                   key={p.key}
@@ -233,7 +232,7 @@ function PlatformCard({
 }) {
   const bg = BRAND_BG[platform.key] ?? "bg-gray-700";
   return (
-    <div className="flex flex-col items-center border border-gray-200 p-4 text-center transition hover:border-red-300 hover:shadow-sm">
+    <div className="flex flex-col justify-between items-center border border-gray-200 p-4 text-center transition hover:border-red-300 hover:shadow-sm">
       <div
         className={`flex h-12 w-12 items-center justify-center text-white ${bg}`}
       >
@@ -242,14 +241,18 @@ function PlatformCard({
       <p className="mt-2 text-sm font-semibold text-gray-800">
         {platform.label}
       </p>
-      {platform.note && (
+      {/* {platform.note && (
         <p className="text-xs text-gray-500">{platform.note}</p>
-      )}
+      )} */}
 
       <div className="mt-3">
         {platform.url ? (
           <a href={platform.url} target="_blank" rel="noopener noreferrer">
-            <QrCode value={platform.url} size={120} alt={`QR ${platform.label}`} />
+            <QrCode
+              value={platform.url}
+              size={120}
+              alt={`QR ${platform.label}`}
+            />
           </a>
         ) : (
           <div className="flex h-[120px] w-[120px] items-center justify-center border-2 border-dashed border-gray-300 px-2 text-[11px] text-gray-400">
