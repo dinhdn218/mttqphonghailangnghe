@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type User = { name: string | null; email: string; role: string };
 
@@ -173,8 +173,10 @@ export function AdminShell({
 
   return (
     <div className="flex min-h-dvh bg-gray-50">
-      {/* Sidebar cố định (desktop) */}
-      <aside className="hidden w-60 shrink-0 bg-red-900 lg:block">
+      {/* Sidebar (desktop) — DÍNH theo màn hình: trang soạn bài rất dài, nếu
+          sidebar cuộn mất thì phải cuộn ngược lên đầu mới bấm được menu.
+          self-start để flex không kéo giãn, nhờ đó sticky mới có tác dụng. */}
+      <aside className="hidden w-60 shrink-0 bg-red-900 lg:sticky lg:top-0 lg:block lg:h-dvh lg:self-start lg:overflow-y-auto">
         <Sidebar items={navItems} badges={badges} pathname={pathname} />
       </aside>
 
@@ -199,7 +201,7 @@ export function AdminShell({
 
       {/* Khu vực phải: header + nội dung */}
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex items-center justify-between gap-3 border-b border-gray-200 bg-white px-4 py-3">
+        <header className="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-gray-200 bg-white px-4 py-3">
           <div className="flex items-center gap-3">
             <button
               type="button"
@@ -236,6 +238,48 @@ export function AdminShell({
 
         <main className="min-w-0 flex-1 p-4 sm:p-6">{children}</main>
       </div>
+
+      <BackToTop />
     </div>
+  );
+}
+
+// Nút lên đầu trang cho khu quản trị — kín đáo (không lắc/nhấp nháy như trang
+// công khai). Hữu ích ở trang soạn bài và các danh sách dài.
+function BackToTop() {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > 400);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <button
+      type="button"
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      aria-label="Lên đầu trang"
+      title="Lên đầu trang"
+      className={`fixed right-5 bottom-5 z-40 flex h-10 w-10 items-center justify-center border border-gray-300 bg-white text-gray-600 shadow-md transition hover:border-red-300 hover:text-red-700 ${
+        show
+          ? "translate-y-0 opacity-100"
+          : "pointer-events-none translate-y-3 opacity-0"
+      }`}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2.2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="h-5 w-5"
+        aria-hidden="true"
+      >
+        <path d="M4.5 15.75 12 8.25l7.5 7.5" />
+      </svg>
+    </button>
   );
 }
