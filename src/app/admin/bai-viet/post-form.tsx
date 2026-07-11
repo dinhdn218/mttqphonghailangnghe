@@ -74,6 +74,44 @@ export function PostForm({ categories, post }: Props) {
         <ErrorText msg={fieldErrors.categoryId} />
       </div>
 
+      {/* Ảnh bìa — upload lên Cloudinary. URL lưu vào input ẩn. */}
+      <div>
+        <Label htmlFor="coverImage">Ảnh bìa</Label>
+        <input type="hidden" name="coverImage" value={coverImage} />
+
+        {coverImage && (
+          <div className="relative mb-2 aspect-video w-full max-w-md overflow-hidden rounded-lg border border-gray-200 bg-gray-100">
+            <Image
+              src={coverImage}
+              alt="Ảnh bìa"
+              fill
+              sizes="(max-width: 768px) 100vw, 448px"
+              className="object-cover"
+            />
+          </div>
+        )}
+
+        {/* UploadButton LUÔN ở cùng vị trí trong cây (chỉ đổi nhãn) — nếu render
+            ở hai nhánh khác nhau, đổi state sẽ unmount widget Cloudinary đang mở
+            và làm kẹt overlay + khoá cuộn trang. */}
+        <div className="flex gap-2">
+          <UploadButton
+            label={coverImage ? "Đổi ảnh" : "Tải ảnh bìa lên"}
+            onUploaded={(r) => setCoverImage(r.url)}
+          />
+          {coverImage && (
+            <button
+              type="button"
+              onClick={() => setCoverImage("")}
+              className="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
+            >
+              Xoá ảnh
+            </button>
+          )}
+        </div>
+        <ErrorText msg={fieldErrors.coverImage} />
+      </div>
+
       <label className="flex items-center gap-2 text-sm">
         <input
           type="checkbox"
@@ -158,44 +196,6 @@ export function PostForm({ categories, post }: Props) {
           />
         </div>
       </fieldset>
-
-      {/* Ảnh bìa — upload lên Cloudinary. URL lưu vào input ẩn. */}
-      <div>
-        <Label htmlFor="coverImage">Ảnh bìa</Label>
-        <input type="hidden" name="coverImage" value={coverImage} />
-        {coverImage ? (
-          <div className="space-y-2">
-            <div className="relative aspect-video w-full max-w-md overflow-hidden rounded-lg border border-gray-200 bg-gray-100">
-              <Image
-                src={coverImage}
-                alt="Ảnh bìa"
-                fill
-                sizes="(max-width: 768px) 100vw, 448px"
-                className="object-cover"
-              />
-            </div>
-            <div className="flex gap-2">
-              <UploadButton
-                label="Đổi ảnh"
-                onUploaded={(r) => setCoverImage(r.url)}
-              />
-              <button
-                type="button"
-                onClick={() => setCoverImage("")}
-                className="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
-              >
-                Xoá ảnh
-              </button>
-            </div>
-          </div>
-        ) : (
-          <UploadButton
-            label="Tải ảnh bìa lên"
-            onUploaded={(r) => setCoverImage(r.url)}
-          />
-        )}
-        <ErrorText msg={fieldErrors.coverImage} />
-      </div>
 
       <div className="flex items-center gap-3">
         <button
