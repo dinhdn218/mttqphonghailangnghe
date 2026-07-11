@@ -16,8 +16,11 @@ export default async function Home({ params }: Props) {
   const loc = locale as Locale;
 
   // Khối nổi bật: 1 hero + 2 thẻ + đổ dư tin cho hộp "Tin tiêu điểm" (cắt gọn lấp đầy chiều cao).
-  const featured = await getFeaturedPosts(13);
-  const categories = await getCategoriesOrdered();
+  // Lấy SONG SONG bài nổi bật + danh sách chuyên mục (trước đây chờ lần lượt).
+  const [featured, categories] = await Promise.all([
+    getFeaturedPosts(13),
+    getCategoriesOrdered(),
+  ]);
   const sections = await Promise.all(
     categories.map(async (category) => ({
       category,

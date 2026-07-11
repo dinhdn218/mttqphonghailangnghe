@@ -62,23 +62,33 @@ export function getRelatedPosts(
 // Bài nổi bật cho khối đầu trang chủ: ưu tiên bài đánh dấu featured,
 // nếu chưa đủ (hoặc chưa đánh dấu) thì lấp bằng bài mới nhất.
 export async function getFeaturedPosts(take = 5) {
-  const featured = await prisma.post.findMany({
-    where: { status: PostStatus.PUBLISHED, featured: true },
-    orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
-    take,
-    include: { category: true },
-  });
+  // Chạy SONG SONG 2 truy vấn (trước đây chạy nối tiếp — tốn thêm một vòng
+  // round-trip tới DB): bài đánh dấu nổi bật + bài mới nhất để lấp chỗ thiếu.
+  const orderBy = [
+    { publishedAt: "desc" as const },
+    { createdAt: "desc" as const },
+  ];
+  const [featured, latest] = await Promise.all([
+    prisma.post.findMany({
+      where: { status: PostStatus.PUBLISHED, featured: true },
+      orderBy,
+      take,
+      include: { category: true },
+    }),
+    prisma.post.findMany({
+      where: { status: PostStatus.PUBLISHED },
+      orderBy,
+      take,
+      include: { category: true },
+    }),
+  ]);
+
   if (featured.length >= take) return featured;
 
-  const fill = await prisma.post.findMany({
-    where: {
-      status: PostStatus.PUBLISHED,
-      id: { notIn: featured.map((p) => p.id) },
-    },
-    orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
-    take: take - featured.length,
-    include: { category: true },
-  });
+  const seen = new Set(featured.map((p) => p.id));
+  const fill = latest
+    .filter((p) => !seen.has(p.id))
+    .slice(0, take - featured.length);
   return [...featured, ...fill];
 }
 
