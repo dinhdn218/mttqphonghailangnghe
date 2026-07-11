@@ -97,8 +97,8 @@ export const SETTING_DEFS: SettingDef[] = [
     label: "Zalo OA xã (URL)",
     type: "url",
     default: "",
-    placeholder: "https://zalo.me/...",
-    hint: "Tài khoản Zalo chính thức của xã.",
+    placeholder: "https://zalo.me/1234567890123456789",
+    hint: "Link Official Account (OA) của xã — lấy trong trang quản lý OA. KHÔNG dùng link Zalo cá nhân dạng zalo.me/<số điện thoại>: người dân bấm vào sẽ bị bắt đăng nhập thay vì thấy trang OA.",
   },
   {
     key: "platform_tiktok_url",
