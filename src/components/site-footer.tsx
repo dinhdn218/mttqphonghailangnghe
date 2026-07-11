@@ -1,5 +1,4 @@
 import { getTranslations } from "next-intl/server";
-import NextLink from "next/link";
 import { Link } from "@/i18n/navigation";
 import { getSettings } from "@/lib/settings";
 
@@ -81,18 +80,13 @@ export async function SiteFooter() {
 
       {/* Dải bản quyền */}
       <div className="border-t border-red-700/60">
-        <div className="mx-auto flex w-full max-w-container flex-col gap-2 px-4 py-4 text-xs text-red-200 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p>
-              © {year} {t("footer.rights")}
-            </p>
-            <p>{t("footer.attribution")}</p>
-          </div>
-          {/* Khu quản trị KHÔNG đa ngôn ngữ → dùng Link thường, không dùng Link
-              của next-intl (sẽ thành /en/admin khi đang xem tiếng Anh). */}
-          <NextLink href="/admin" className="shrink-0 hover:underline">
-            {t("site.admin")}
-          </NextLink>
+        {/* Không đặt link tới khu quản trị ở đây: người dân không cần, và cũng
+            không nên chỉ đường vào trang đăng nhập. Cán bộ vào thẳng /dang-nhap. */}
+        <div className="mx-auto w-full max-w-container px-4 py-4 text-xs text-red-200">
+          <p>
+            © {year} {t("footer.rights")}
+          </p>
+          <p>{t("footer.attribution")}</p>
         </div>
       </div>
     </footer>
