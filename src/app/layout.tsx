@@ -23,14 +23,49 @@ function getSiteUrl(): URL {
   }
 }
 
+const SITE_NAME = "MTTQ xã Phong Hải";
+const SITE_DESC =
+  "Trang thông tin – tuyên truyền của Ủy ban MTTQ Việt Nam xã Phong Hải, tỉnh Lào Cai: tin tức, chuyển đổi số, dịch vụ công, gương người tốt việc tốt và tiếp nhận phản ánh của nhân dân.";
+
+// Ảnh chia sẻ mặc định lấy từ src/app/opengraph-image.png (Next tự gắn og:image).
+// Trang bài viết ghi đè bằng ảnh bìa của bài.
 export const metadata: Metadata = {
   metadataBase: getSiteUrl(),
   title: {
-    default: "MTTQ xã Phong Hải",
-    template: "%s | MTTQ xã Phong Hải",
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Trang thông tin – tuyên truyền của Ủy ban MTTQ Việt Nam xã Phong Hải, tỉnh Lào Cai.",
+  description: SITE_DESC,
+  applicationName: SITE_NAME,
+  keywords: [
+    "MTTQ xã Phong Hải",
+    "Mặt trận Tổ quốc Phong Hải",
+    "xã Phong Hải",
+    "Lào Cai",
+    "tuyên truyền",
+    "dịch vụ công trực tuyến",
+    "chuyển đổi số",
+  ],
+  authors: [{ name: "Ủy ban MTTQ Việt Nam xã Phong Hải" }],
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "vi_VN",
+    alternateLocale: ["en_US"],
+    url: "/",
+    title: SITE_NAME,
+    description: SITE_DESC,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: SITE_DESC,
+  },
+  alternates: {
+    canonical: "/",
+    languages: { vi: "/", en: "/en" },
+  },
+  robots: { index: true, follow: true },
 };
 
 // Ưu tiên mobile (người dùng chủ yếu truy cập bằng điện thoại).

@@ -16,12 +16,39 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const post = await getPublishedPostBySlug(slug);
   if (!post) return { title: "404" };
+
+  const loc = locale as Locale;
+  const title = pick(post.titleVi, post.titleEn, loc);
+  const description = post.excerptVi
+    ? pick(post.excerptVi, post.excerptEn, loc)
+    : undefined;
+  // Có ảnh bìa thì dùng làm ảnh chia sẻ; không thì để Next dùng ảnh mặc định
+  // của site (src/app/opengraph-image.png).
+  const images = post.coverImage ? [post.coverImage] : undefined;
+  const path = `/bai-viet/${post.slug}`;
+
   return {
-    title: pick(post.titleVi, post.titleEn, locale as Locale),
-    description: post.excerptVi
-      ? pick(post.excerptVi, post.excerptEn, locale as Locale)
-      : undefined,
-    openGraph: post.coverImage ? { images: [post.coverImage] } : undefined,
+    title,
+    description,
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      images,
+      url: loc === "en" ? `/en${path}` : path,
+      publishedTime: post.publishedAt?.toISOString(),
+      modifiedTime: post.updatedAt.toISOString(),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images,
+    },
+    alternates: {
+      canonical: loc === "en" ? `/en${path}` : path,
+      languages: { vi: path, en: `/en${path}` },
+    },
   };
 }
 
@@ -40,8 +67,31 @@ export default async function PostPage({ params }: Props) {
   const content = pick(post.contentVi, post.contentEn, loc);
   const categoryName = pick(post.category.nameVi, post.category.nameEn, loc);
 
+  // Dữ liệu có cấu trúc cho Google (rich result: tiêu đề, ảnh, ngày đăng).
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: title,
+    description: post.excerptVi
+      ? pick(post.excerptVi, post.excerptEn, loc)
+      : undefined,
+    image: post.coverImage ? [post.coverImage] : undefined,
+    datePublished: post.publishedAt?.toISOString(),
+    dateModified: post.updatedAt.toISOString(),
+    articleSection: categoryName,
+    inLanguage: loc === "en" ? "en" : "vi",
+    publisher: {
+      "@type": "GovernmentOrganization",
+      name: "MTTQ xã Phong Hải",
+    },
+  };
+
   return (
     <main className="mx-auto w-full max-w-container px-4 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       {/* Breadcrumb */}
       <nav
         aria-label="Breadcrumb"
