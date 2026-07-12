@@ -51,17 +51,14 @@ export async function FeaturedSection({
             <h2 className="mb-3 border-b-2 border-red-700 pb-2 text-lg font-bold tracking-wide text-red-700 uppercase">
               {t("highlights")}
             </h2>
+            {/* KHÔNG đặt link "Xem tất cả" ở đây: tin tiêu điểm là bài nổi bật
+                lấy từ MỌI chuyên mục, nên không có một chuyên mục nào để trỏ tới
+                cho đúng. */}
             <div className="flex min-h-0 flex-1 flex-col divide-y divide-gray-200 overflow-hidden">
               {highlights.map((p) => (
                 <HighlightItem key={p.id} post={p} locale={locale} />
               ))}
             </div>
-            <Link
-              href="/chuyen-muc/tin-tuc-su-kien"
-              className="mt-4 flex items-center justify-center gap-1 border-t border-gray-200 pt-3 text-sm font-semibold text-red-700 hover:underline"
-            >
-              {t("seeAll")} →
-            </Link>
           </aside>
         </div>
       )}
