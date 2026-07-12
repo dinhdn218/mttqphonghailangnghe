@@ -10,7 +10,7 @@ import { toggleFeatured } from "./actions";
 
 const PAGE_SIZE = 20;
 // Số bài nổi bật tối đa hiển thị ở khối đầu trang chủ (khớp getFeaturedPosts).
-const HOME_SLOTS = 13;
+const HOME_SLOTS = 10;
 
 type Props = {
   searchParams: Promise<{ featured?: string; q?: string; page?: string }>;

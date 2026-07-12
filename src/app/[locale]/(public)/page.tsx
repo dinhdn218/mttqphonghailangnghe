@@ -15,10 +15,10 @@ export default async function Home({ params }: Props) {
   setRequestLocale(locale);
   const loc = locale as Locale;
 
-  // Khối nổi bật: 1 hero + 2 thẻ + đổ dư tin cho hộp "Tin tiêu điểm" (cắt gọn lấp đầy chiều cao).
+  // Khối nổi bật: 1 hero + 2 thẻ + 7 tin trong hộp "Tin tiêu điểm" = 10 bài.
   // Lấy SONG SONG bài nổi bật + danh sách chuyên mục (trước đây chờ lần lượt).
   const [featured, categories] = await Promise.all([
-    getFeaturedPosts(13),
+    getFeaturedPosts(10),
     getCategoriesOrdered(),
   ]);
   const sections = await Promise.all(
