@@ -8,6 +8,7 @@ import {
   siteNameFor,
   siteDescriptionFor,
 } from "@/lib/settings";
+import { getSiteUrl } from "@/lib/site-url";
 
 // Font hỗ trợ đầy đủ dấu tiếng Việt, hợp với người dùng vùng dân tộc thiểu số.
 const beVietnamPro = Be_Vietnam_Pro({
@@ -15,18 +16,6 @@ const beVietnamPro = Be_Vietnam_Pro({
   subsets: ["latin", "vietnamese"],
   weight: ["400", "500", "600", "700"],
 });
-
-// Lấy URL gốc an toàn: env có thể rỗng/sai định dạng (vd thiếu https://) trên server,
-// new URL(...) sẽ ném "Invalid URL" và làm sập build → kiểm tra trước, sai thì dùng mặc định.
-function getSiteUrl(): URL {
-  const fallback = "https://phonghailangnghe.com";
-  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  try {
-    return new URL(raw && raw.length > 0 ? raw : fallback);
-  } catch {
-    return new URL(fallback);
-  }
-}
 
 // Tên + mô tả site lấy từ CẤU HÌNH CMS (/admin/cau-hinh) — nguồn duy nhất, khách
 // tự sửa được. Lỗi DB thì getSettings() tự lùi về giá trị mặc định trong mã.

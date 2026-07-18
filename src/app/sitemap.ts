@@ -2,8 +2,9 @@ import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { CATEGORIES } from "@/lib/constants";
 import { PostStatus } from "@/generated/prisma/client";
+import { getSiteUrlString } from "@/lib/site-url";
 
-const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://phonghailangnghe.com";
+const base = getSiteUrlString();
 
 // Sinh lúc request (không prerender lúc build) — tránh phụ thuộc DB khi build
 // và luôn phản ánh bài mới nhất.

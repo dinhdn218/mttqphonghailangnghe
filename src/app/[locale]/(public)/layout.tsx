@@ -7,9 +7,9 @@ import {
   siteNameFor,
   siteDescriptionFor,
 } from "@/lib/settings";
+import { getSiteUrlString } from "@/lib/site-url";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://phonghailangnghe.com";
+const SITE_URL = getSiteUrlString();
 
 // Layout cho các trang công khai (trang chủ, chuyên mục, bài viết).
 // Khu vực /admin và /dang-nhap KHÔNG dùng layout này.
