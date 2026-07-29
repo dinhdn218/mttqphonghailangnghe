@@ -5,7 +5,7 @@
 | | |
 |---|---|
 | **Tên dự án** | Trang thông tin – tuyên truyền MTTQ xã Phong Hải |
-| **Tên miền đích** | phonghailangnghe.com |
+| **Tên miền đích** | mttqphonghailangnghe.com |
 | **Loại hệ thống** | Cổng thông tin điện tử + Hệ quản trị nội dung (CMS) |
 | **Đối tượng người dùng** | Người dân (chủ yếu truy cập bằng điện thoại) + cán bộ quản trị |
 | **Phiên bản tài liệu** | 1.1 |
@@ -330,7 +330,7 @@ AUTH_SECRET="…"                        # Khoá ký phiên đăng nhập
 CLOUDINARY_CLOUD_NAME / API_KEY / API_SECRET
 NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME / API_KEY
 TURNSTILE_SECRET_KEY / NEXT_PUBLIC_TURNSTILE_SITE_KEY   # tuỳ chọn captcha
-NEXT_PUBLIC_SITE_URL="https://phonghailangnghe.com"
+NEXT_PUBLIC_SITE_URL="https://mttqphonghailangnghe.com"
 ```
 
 ## 12.3. Các lệnh thường dùng
@@ -354,13 +354,13 @@ npm run typecheck      # Kiểm tra kiểu TypeScript
 1. Kết nối kho mã với Vercel.
 2. Khai báo biến môi trường như mục 12.2 (nhớ `NEXT_PUBLIC_SITE_URL` là tên miền thật).
 3. Vercel tự build (`prisma generate && next build`) và phát hành.
-4. Gắn tên miền `phonghailangnghe.com` vào dự án (Settings → Domains). Vì tên miền đã mua sẵn trên Vercel nên DNS và SSL được cấu hình tự động.
+4. Gắn tên miền `mttqphonghailangnghe.com` vào dự án (Settings → Domains). Vì tên miền đã mua sẵn trên Vercel nên DNS và SSL được cấu hình tự động.
 
 ## 13.2. Tên miền
-Tên miền **`phonghailangnghe.com` đã được mua và quản lý trên Vercel** — cùng nền tảng triển khai. Nhờ vậy:
+Tên miền **`mttqphonghailangnghe.com` đã được mua và quản lý trên Vercel** — cùng nền tảng triển khai. Nhờ vậy:
 - Vercel tự cấu hình DNS và **tự cấp chứng chỉ SSL** (HTTPS), tự gia hạn.
-- Không cần thao tác trỏ bản ghi DNS thủ công: chỉ cần thêm tên miền vào dự án trên Vercel (**Project → Settings → Domains**), chọn cả `phonghailangnghe.com` và `www.phonghailangnghe.com` (chuyển hướng www → tên miền chính).
-- Nhớ đặt biến `NEXT_PUBLIC_SITE_URL="https://phonghailangnghe.com"` để sitemap, robots và thẻ chia sẻ (OG) sinh đúng đường dẫn.
+- Không cần thao tác trỏ bản ghi DNS thủ công: chỉ cần thêm tên miền vào dự án trên Vercel (**Project → Settings → Domains**), chọn cả `mttqphonghailangnghe.com` và `www.mttqphonghailangnghe.com` (chuyển hướng www → tên miền chính).
+- Nhớ đặt biến `NEXT_PUBLIC_SITE_URL="https://mttqphonghailangnghe.com"` để sitemap, robots và thẻ chia sẻ (OG) sinh đúng đường dẫn.
 
 **Khi bàn giao:** thống nhất với cơ quan việc chuyển quyền sở hữu tên miền, hoặc dev tiếp tục đứng tên và tính vào phí duy trì hằng năm. Tên miền cần được **gia hạn đúng hạn** để website không gián đoạn.
 
@@ -383,9 +383,9 @@ Chạy `npm run build` + `npm run start` sau proxy (Nginx) có SSL; dùng Postgr
 ## 15.1. Tài khoản mẫu (dữ liệu seed — đổi mật khẩu ngay sau bàn giao)
 | Vai trò | Email | Mật khẩu mặc định |
 |---|---|---|
-| Quản trị | admin@phonghailangnghe.com | Admin@12345 |
-| Biên tập | bientap@phonghailangnghe.com | Test@12345 |
-| Duyệt | duyet@phonghailangnghe.com | Test@12345 |
+| Quản trị | admin@mttqphonghailangnghe.com | Admin@12345 |
+| Biên tập | bientap@mttqphonghailangnghe.com | Test@12345 |
+| Duyệt | duyet@mttqphonghailangnghe.com | Test@12345 |
 
 ## 15.2. Sơ đồ trạng thái bài viết
 `DRAFT` (Nháp) → `PENDING` (Chờ duyệt) → `PUBLISHED` (Đã đăng) hoặc `REJECTED` (Trả lại).

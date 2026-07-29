@@ -9,7 +9,7 @@ chính trị – xã hội của xã Phong Hải (Lào Cai). Đây là dự án 
 ra nhận và tự code toàn bộ.
 
 Website tham chiếu (mẫu khách muốn làm tương tự): `bachalangnghe.vn` của một xã khác.
-Tên miền đích: `phonghailangnghe.com` (xem mục Ràng buộc & rủi ro bên dưới — tên miền này
+Tên miền đích: `mttqphonghailangnghe.com` (xem mục Ràng buộc & rủi ro bên dưới — tên miền này
 đã có chủ).
 
 Người dùng cuối chủ yếu là người dân vùng dân tộc thiểu số, **truy cập bằng điện thoại**
@@ -92,7 +92,7 @@ Hỗ trợ video ngắn, ảnh, infographic. Đa ngôn ngữ **Anh – Việt**.
 ## 9. Ràng buộc & rủi ro cần biết
 
 - ~~Tên miền đã có chủ, không mua mới được~~ → **ĐÃ GIẢI QUYẾT:** dev đã **tự mua
-  `phonghailangnghe.com` trên Vercel**. Tên miền nằm cùng nền tảng deploy nên Vercel
+  `mttqphonghailangnghe.com` trên Vercel**. Tên miền nằm cùng nền tảng deploy nên Vercel
   tự cấp SSL + cấu hình DNS, không cần xin quyền DNS từ cơ quan nữa.
   → Khi bàn giao: cần thoả thuận chuyển quyền sở hữu tên miền cho cơ quan (hoặc dev
   giữ và tính vào phí duy trì hằng năm).
