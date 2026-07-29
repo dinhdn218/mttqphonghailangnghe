@@ -29,12 +29,14 @@ export async function SiteFooter() {
           <p className="text-sm">
             {t("footer.phoneLabel")}: {contact.hotline}
           </p>
-          <p className="text-sm">
-            Email:{" "}
-            <a href={`mailto:${contact.email}`} className="hover:underline">
-              {contact.email}
-            </a>
-          </p>
+          {contact.email && (
+            <p className="text-sm">
+              Email:{" "}
+              <a href={`mailto:${contact.email}`} className="hover:underline">
+                {contact.email}
+              </a>
+            </p>
+          )}
         </div>
 
         {/* Liên kết nhanh */}

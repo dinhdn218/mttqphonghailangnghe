@@ -35,12 +35,14 @@ export async function SiteHeader() {
         <div className="mx-auto flex w-full max-w-container items-center justify-between gap-3 px-4 py-1.5 text-xs">
           <span className="hidden sm:inline">{t("header.portal")}</span>
           <div className="flex items-center gap-3">
-            <a
-              href={`mailto:${contact.email}`}
-              className="hidden hover:underline md:inline"
-            >
-              {contact.email}
-            </a>
+            {contact.email && (
+              <a
+                href={`mailto:${contact.email}`}
+                className="hidden hover:underline md:inline"
+              >
+                {contact.email}
+              </a>
+            )}
             <Link href="/ket-noi" className="hover:underline">
               {t("header.contact")}
             </Link>

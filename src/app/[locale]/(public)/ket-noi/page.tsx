@@ -111,14 +111,16 @@ export default async function ConnectPage({ params }: Props) {
                 {contact.hotline}
               </a>
             </ContactRow>
-            <ContactRow icon={ICONS.mail} label={t("emailLabel")}>
-              <a
-                href={`mailto:${contact.email}`}
-                className="font-medium break-all text-gray-800 hover:text-red-700"
-              >
-                {contact.email}
-              </a>
-            </ContactRow>
+            {contact.email && (
+              <ContactRow icon={ICONS.mail} label={t("emailLabel")}>
+                <a
+                  href={`mailto:${contact.email}`}
+                  className="font-medium break-all text-gray-800 hover:text-red-700"
+                >
+                  {contact.email}
+                </a>
+              </ContactRow>
+            )}
             <ContactRow icon={ICONS.location} label={t("addressLabel")}>
               <span className="font-medium text-gray-800">
                 {contact.address}

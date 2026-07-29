@@ -90,14 +90,16 @@ export default async function ContactPage({ params }: Props) {
                   {contact.hotline}
                 </a>
               </ContactItem>
-              <ContactItem icon={ICONS.mail} label={tc("emailLabel")}>
-                <a
-                  href={`mailto:${contact.email}`}
-                  className="font-medium break-all text-gray-800 hover:text-red-700"
-                >
-                  {contact.email}
-                </a>
-              </ContactItem>
+              {contact.email && (
+                <ContactItem icon={ICONS.mail} label={tc("emailLabel")}>
+                  <a
+                    href={`mailto:${contact.email}`}
+                    className="font-medium break-all text-gray-800 hover:text-red-700"
+                  >
+                    {contact.email}
+                  </a>
+                </ContactItem>
+              )}
               <ContactItem icon={ICONS.location} label={tc("addressLabel")}>
                 <span className="font-medium text-gray-800">
                   {contact.address}
