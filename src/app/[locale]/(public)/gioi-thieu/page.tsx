@@ -63,31 +63,30 @@ export default async function AboutPage({ params }: Props) {
     {
       name: "Đặng Minh Long",
       role: "Chủ tịch UBMTTQ Việt Nam xã Phong Hải",
-      note: "Ủy viên BTV Đảng ủy",
       photo: "/images/Đặng Minh Long.jpg",
     },
     {
       name: "Phùng Ngọc Hoàng",
       role: "Phó Chủ tịch UBMTTQ Việt Nam xã",
-      note: "Ủy viên BCH Đảng bộ · Chủ tịch Hội Nông dân xã",
+      note: "Chủ tịch Hội Nông dân xã",
       photo: "/images/Phùng Ngọc Hoàng.jpg",
     },
     {
       name: "Nguyễn Thị Sen",
       role: "Phó Chủ tịch UBMTTQ Việt Nam xã",
-      note: "Ủy viên BCH Đảng bộ · Chủ tịch Hội LHPN xã",
+      note: "Chủ tịch Hội LHPN xã",
       photo: "/images/Nguyễn Thị Sen.jpg",
     },
     {
       name: "Phan Văn Quỳnh",
       role: "Phó Chủ tịch UBMTTQ Việt Nam xã",
-      note: "Ủy viên BCH Đảng bộ · Chủ tịch Hội Cựu chiến binh xã",
+      note: "Chủ tịch Hội Cựu chiến binh xã",
       photo: "/images/Phan Văn Quỳnh.jpg",
     },
     {
       name: "Trần Kim Thoa",
       role: "Phó Chủ tịch UBMTTQ Việt Nam xã",
-      note: "Ủy viên BCH Đảng bộ · Bí thư Đoàn TNCS Hồ Chí Minh xã",
+      note: "Bí thư Đoàn TNCS Hồ Chí Minh xã",
       photo: "/images/Trần Kim Thoa.jpg",
     },
   ];
