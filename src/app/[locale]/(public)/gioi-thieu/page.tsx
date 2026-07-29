@@ -179,13 +179,13 @@ export default async function AboutPage({ params }: Props) {
       <section className="space-y-5">
         <SectionHeading>{t("orgTitle")}</SectionHeading>
 
-        {/* Chủ tịch — nổi bật ở hàng trên */}
-        <div className="mx-auto max-w-sm">
+        {/* Chủ tịch — nổi bật ở hàng trên (thu nhỏ dần trên mobile) */}
+        <div className="mx-auto max-w-56 sm:max-w-xs">
           <LeaderCard leader={chairman} featured />
         </div>
 
-        {/* Các Phó chủ tịch */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Các Phó chủ tịch — 2 cột từ mobile để ảnh không quá to, 4 cột trên desktop */}
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {viceLeaders.map((l) => (
             <LeaderCard key={l.name} leader={l} />
           ))}
@@ -238,29 +238,31 @@ function LeaderCard({
         featured ? "border-red-700" : "border-gray-200"
       }`}
     >
-      <div
-        className={`relative flex items-center justify-center overflow-hidden bg-linear-to-b from-red-50 to-gray-100 text-red-200 ${
-          featured ? "h-72" : "h-56"
-        }`}
-      >
-        {leader.photo ? (
-          <Image
-            src={leader.photo}
-            alt={`${leader.name} — ${leader.role}`}
-            fill
-            sizes="(max-width: 640px) 100vw, 280px"
-            className="object-cover object-top"
-          />
-        ) : (
-          <Icon
-            path={ICONS.user}
-            className={featured ? "h-20 w-20" : "h-16 w-16"}
-          />
-        )}
+      {/* Khung tỉ lệ 3:4 khớp ảnh thẻ chân dung → object-cover lấp đầy mà không
+          cắt mặt, không để lại khoảng trắng hai bên. */}
+      <div className="relative w-full overflow-hidden bg-gray-50 text-red-200">
+        <div className="relative aspect-3/4 w-full">
+          {leader.photo ? (
+            <Image
+              src={leader.photo}
+              alt={`${leader.name} — ${leader.role}`}
+              fill
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 280px"
+              className="object-cover object-top"
+            />
+          ) : (
+            <span className="flex h-full items-center justify-center">
+              <Icon
+                path={ICONS.user}
+                className={featured ? "h-20 w-20" : "h-16 w-16"}
+              />
+            </span>
+          )}
+        </div>
       </div>
-      <div className="p-4 text-center">
+      <div className="p-3 text-center sm:p-4">
         <h3
-          className={`font-semibold text-red-800 ${featured ? "text-lg" : ""}`}
+          className={`font-semibold text-red-800 ${featured ? "text-lg" : "text-sm sm:text-base"}`}
         >
           {leader.name}
         </h3>
