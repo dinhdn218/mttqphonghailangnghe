@@ -64,26 +64,31 @@ export default async function AboutPage({ params }: Props) {
       name: "Đặng Minh Long",
       role: "Chủ tịch UBMTTQ Việt Nam xã Phong Hải",
       note: "Ủy viên BTV Đảng ủy",
+      photo: "/images/Đặng Minh Long.jpg",
     },
     {
       name: "Phùng Ngọc Hoàng",
       role: "Phó Chủ tịch UBMTTQ Việt Nam xã",
       note: "Ủy viên BCH Đảng bộ · Chủ tịch Hội Nông dân xã",
+      photo: "/images/Phùng Ngọc Hoàng.jpg",
     },
     {
       name: "Nguyễn Thị Sen",
       role: "Phó Chủ tịch UBMTTQ Việt Nam xã",
       note: "Ủy viên BCH Đảng bộ · Chủ tịch Hội LHPN xã",
+      photo: "/images/Nguyễn Thị Sen.jpg",
     },
     {
       name: "Phan Văn Quỳnh",
       role: "Phó Chủ tịch UBMTTQ Việt Nam xã",
       note: "Ủy viên BCH Đảng bộ · Chủ tịch Hội Cựu chiến binh xã",
+      photo: "/images/Phan Văn Quỳnh.jpg",
     },
     {
       name: "Trần Kim Thoa",
       role: "Phó Chủ tịch UBMTTQ Việt Nam xã",
       note: "Ủy viên BCH Đảng bộ · Bí thư Đoàn TNCS Hồ Chí Minh xã",
+      photo: "/images/Trần Kim Thoa.jpg",
     },
   ];
   const chairman = leaders[0];
@@ -216,9 +221,9 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
-type Leader = { name: string; role: string; note?: string };
+type Leader = { name: string; role: string; note?: string; photo?: string };
 
-// Thẻ nhân sự: ảnh đại diện (placeholder icon) + tên + chức danh + ghi chú kiêm nhiệm.
+// Thẻ nhân sự: ảnh chân dung (nếu có) + tên + chức danh + ghi chú kiêm nhiệm.
 // featured = thẻ Chủ tịch, viền đỏ đậm nổi bật hơn.
 function LeaderCard({
   leader,
@@ -234,11 +239,24 @@ function LeaderCard({
       }`}
     >
       <div
-        className={`flex items-center justify-center bg-linear-to-b from-red-50 to-gray-100 text-red-200 ${
-          featured ? "h-48" : "h-40"
+        className={`relative flex items-center justify-center overflow-hidden bg-linear-to-b from-red-50 to-gray-100 text-red-200 ${
+          featured ? "h-72" : "h-56"
         }`}
       >
-        <Icon path={ICONS.user} className={featured ? "h-20 w-20" : "h-16 w-16"} />
+        {leader.photo ? (
+          <Image
+            src={leader.photo}
+            alt={`${leader.name} — ${leader.role}`}
+            fill
+            sizes="(max-width: 640px) 100vw, 280px"
+            className="object-cover object-top"
+          />
+        ) : (
+          <Icon
+            path={ICONS.user}
+            className={featured ? "h-20 w-20" : "h-16 w-16"}
+          />
+        )}
       </div>
       <div className="p-4 text-center">
         <h3
