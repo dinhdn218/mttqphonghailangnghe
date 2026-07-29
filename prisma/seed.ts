@@ -8,7 +8,7 @@ const prisma = new PrismaClient({ adapter });
 
 async function main() {
   // 1) Tài khoản quản trị mặc định (đổi mật khẩu ngay sau khi bàn giao!)
-  const adminEmail = process.env.SEED_ADMIN_EMAIL ?? "admin@phonghailangnghe.com";
+  const adminEmail = process.env.SEED_ADMIN_EMAIL ?? "admin@mttqphonghailangnghe.com";
   const adminPassword = process.env.SEED_ADMIN_PASSWORD ?? "Admin@12345";
   const passwordHash = await bcrypt.hash(adminPassword, 10);
 
@@ -28,20 +28,20 @@ async function main() {
   //     (Đổi mật khẩu / xoá trước khi đưa vào sử dụng thật.)
   const staffHash = await bcrypt.hash("Test@12345", 10);
   await prisma.user.upsert({
-    where: { email: "bientap@phonghailangnghe.com" },
+    where: { email: "bientap@mttqphonghailangnghe.com" },
     update: {},
     create: {
-      email: "bientap@phonghailangnghe.com",
+      email: "bientap@mttqphonghailangnghe.com",
       name: "Biên tập viên",
       role: "EDITOR",
       passwordHash: staffHash,
     },
   });
   await prisma.user.upsert({
-    where: { email: "duyet@phonghailangnghe.com" },
+    where: { email: "duyet@mttqphonghailangnghe.com" },
     update: {},
     create: {
-      email: "duyet@phonghailangnghe.com",
+      email: "duyet@mttqphonghailangnghe.com",
       name: "Cán bộ duyệt",
       role: "APPROVER",
       passwordHash: staffHash,
