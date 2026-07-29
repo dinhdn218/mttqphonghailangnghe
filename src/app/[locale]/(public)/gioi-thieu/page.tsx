@@ -57,11 +57,37 @@ export default async function AboutPage({ params }: Props) {
     { icon: ICONS.shield, title: t("fn2Title"), desc: t("fn2Desc") },
     { icon: ICONS.megaphone, title: t("fn3Title"), desc: t("fn3Desc") },
   ];
+  // Cơ cấu tổ chức UBMTTQ Việt Nam xã Phong Hải.
+  // Chủ tịch (leaders[0]) hiển thị nổi bật; các Phó chủ tịch xếp lưới bên dưới.
   const leaders = [
-    { name: "Nguyễn Văn A", role: t("roleChairman") },
-    { name: "Trần Thị B", role: t("roleVice") },
-    { name: "Lê Văn C", role: t("roleMember") },
+    {
+      name: "Đặng Minh Long",
+      role: "Chủ tịch UBMTTQ Việt Nam xã Phong Hải",
+      note: "Ủy viên BTV Đảng ủy",
+    },
+    {
+      name: "Phùng Ngọc Hoàng",
+      role: "Phó Chủ tịch UBMTTQ Việt Nam xã",
+      note: "Ủy viên BCH Đảng bộ · Chủ tịch Hội Nông dân xã",
+    },
+    {
+      name: "Nguyễn Thị Sen",
+      role: "Phó Chủ tịch UBMTTQ Việt Nam xã",
+      note: "Ủy viên BCH Đảng bộ · Chủ tịch Hội LHPN xã",
+    },
+    {
+      name: "Phan Văn Quỳnh",
+      role: "Phó Chủ tịch UBMTTQ Việt Nam xã",
+      note: "Ủy viên BCH Đảng bộ · Chủ tịch Hội Cựu chiến binh xã",
+    },
+    {
+      name: "Trần Kim Thoa",
+      role: "Phó Chủ tịch UBMTTQ Việt Nam xã",
+      note: "Ủy viên BCH Đảng bộ · Bí thư Đoàn TNCS Hồ Chí Minh xã",
+    },
   ];
+  const chairman = leaders[0];
+  const viceLeaders = leaders.slice(1);
 
   return (
     <main className="mx-auto w-full max-w-container space-y-12 px-4 py-8">
@@ -147,32 +173,17 @@ export default async function AboutPage({ params }: Props) {
       {/* Cơ cấu tổ chức */}
       <section className="space-y-5">
         <SectionHeading>{t("orgTitle")}</SectionHeading>
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {leaders.map((l) => (
-            <div
-              key={l.name}
-              className="overflow-hidden border border-gray-200 bg-white shadow-sm transition hover:shadow-md"
-            >
-              <div className="flex h-40 items-center justify-center bg-gradient-to-b from-red-50 to-gray-100 text-red-200">
-                <Icon path={ICONS.user} className="h-16 w-16" />
-              </div>
-              <div className="p-4 text-center">
-                <h3 className="font-semibold text-red-800">{l.name}</h3>
-                <p className="mt-1 text-xs tracking-wide text-gray-500 uppercase">
-                  {l.role}
-                </p>
-                <div className="mt-2 flex justify-center gap-3 text-gray-400">
-                  <Icon path={ICONS.mail} className="h-4 w-4" />
-                  <Icon path={ICONS.phone} className="h-4 w-4" />
-                </div>
-              </div>
-            </div>
+
+        {/* Chủ tịch — nổi bật ở hàng trên */}
+        <div className="mx-auto max-w-sm">
+          <LeaderCard leader={chairman} featured />
+        </div>
+
+        {/* Các Phó chủ tịch */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {viceLeaders.map((l) => (
+            <LeaderCard key={l.name} leader={l} />
           ))}
-          {/* Thẻ ghi chú thêm */}
-          <div className="flex flex-col items-center justify-center border-2 border-dashed border-red-200 bg-red-50/40 p-6 text-center">
-            <Icon path={ICONS.users} className="mb-2 h-9 w-9 text-red-300" />
-            <p className="text-sm text-red-700/70">{t("orgNote")}</p>
-          </div>
         </div>
       </section>
 
@@ -201,6 +212,49 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
       <h2 className="text-lg font-bold tracking-wide text-red-800 uppercase">
         {children}
       </h2>
+    </div>
+  );
+}
+
+type Leader = { name: string; role: string; note?: string };
+
+// Thẻ nhân sự: ảnh đại diện (placeholder icon) + tên + chức danh + ghi chú kiêm nhiệm.
+// featured = thẻ Chủ tịch, viền đỏ đậm nổi bật hơn.
+function LeaderCard({
+  leader,
+  featured,
+}: {
+  leader: Leader;
+  featured?: boolean;
+}) {
+  return (
+    <div
+      className={`overflow-hidden border bg-white shadow-sm transition hover:shadow-md ${
+        featured ? "border-red-700" : "border-gray-200"
+      }`}
+    >
+      <div
+        className={`flex items-center justify-center bg-linear-to-b from-red-50 to-gray-100 text-red-200 ${
+          featured ? "h-48" : "h-40"
+        }`}
+      >
+        <Icon path={ICONS.user} className={featured ? "h-20 w-20" : "h-16 w-16"} />
+      </div>
+      <div className="p-4 text-center">
+        <h3
+          className={`font-semibold text-red-800 ${featured ? "text-lg" : ""}`}
+        >
+          {leader.name}
+        </h3>
+        <p className="mt-1 text-xs font-medium tracking-wide text-gray-600 uppercase">
+          {leader.role}
+        </p>
+        {leader.note && (
+          <p className="mt-1.5 text-xs leading-relaxed text-gray-500">
+            {leader.note}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
