@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { requireUser } from "@/lib/auth-guards";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/format";
+import { ToastFromParams } from "@/components/admin/toast-from-params";
 import { setFeedbackStatus, deleteFeedback } from "../actions";
 import { FeedbackBadge } from "../page";
 
@@ -19,6 +20,10 @@ export default async function FeedbackDetailPage({ params }: Props) {
 
   return (
     <div className="max-w-2xl space-y-4">
+      <ToastFromParams
+        toasts={[{ param: "updated", message: "Đã cập nhật trạng thái.", color: "success" }]}
+      />
+
       <Link
         href="/admin/phan-anh"
         className="text-sm text-gray-500 hover:text-red-700"

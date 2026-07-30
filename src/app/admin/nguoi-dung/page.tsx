@@ -7,6 +7,7 @@ import { ROLE_LABELS } from "@/lib/constants";
 import { Role } from "@/generated/prisma/client";
 import { AdminPagination } from "@/components/admin/admin-pagination";
 import { AdminSearch } from "@/components/admin/admin-search";
+import { ToastFromParams } from "@/components/admin/toast-from-params";
 import { deleteUser } from "./actions";
 
 const ROLE_BADGE: Record<string, string> = {
@@ -27,6 +28,7 @@ type Props = {
   searchParams: Promise<{
     error?: string;
     deleted?: string;
+    saved?: string;
     q?: string;
     page?: string;
   }>;
@@ -37,7 +39,6 @@ export default async function UserListPage({ searchParams }: Props) {
   if (current.role !== Role.ADMIN) redirect("/admin");
 
   const sp = await searchParams;
-  const errorMsg = sp.error ? ERROR_MESSAGES[sp.error] : undefined;
   const q = sp.q?.trim() || undefined;
   const page = Math.max(1, Number.parseInt(sp.page ?? "1", 10) || 1);
 
@@ -64,6 +65,17 @@ export default async function UserListPage({ searchParams }: Props) {
 
   return (
     <div className="space-y-4">
+      <ToastFromParams
+        toasts={[
+          { param: "error", match: "self", message: ERROR_MESSAGES.self, color: "danger" },
+          { param: "error", match: "lastadmin", message: ERROR_MESSAGES.lastadmin, color: "danger" },
+          { param: "error", match: "hasposts", message: ERROR_MESSAGES.hasposts, color: "danger" },
+          { param: "deleted", message: "Đã xoá tài khoản.", color: "success" },
+          { param: "saved", match: "created", message: "Đã tạo tài khoản.", color: "success" },
+          { param: "saved", match: "updated", message: "Đã lưu thay đổi.", color: "success" },
+        ]}
+      />
+
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">Người dùng</h1>
         <Link
@@ -79,17 +91,6 @@ export default async function UserListPage({ searchParams }: Props) {
         defaultValue={q}
         placeholder="Tìm theo tên hoặc email…"
       />
-
-      {errorMsg && (
-        <p className="border-l-4 border-red-600 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {errorMsg}
-        </p>
-      )}
-      {sp.deleted && (
-        <p className="border-l-4 border-green-600 bg-green-50 px-4 py-3 text-sm text-green-700">
-          Đã xoá tài khoản.
-        </p>
-      )}
 
       <div className="overflow-x-auto border border-gray-200">
         <table className="w-full text-sm">

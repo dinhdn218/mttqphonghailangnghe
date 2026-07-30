@@ -7,7 +7,7 @@ import { AdminPagination } from "@/components/admin/admin-pagination";
 import { AdminSearch } from "@/components/admin/admin-search";
 import { MediaUploader } from "./media-uploader";
 import { CopyUrl } from "./copy-url";
-import { deleteMedia } from "./actions";
+import { DeleteMediaButton } from "./delete-media-button";
 
 const PAGE_SIZE = 24;
 
@@ -119,15 +119,7 @@ export default async function MediaLibraryPage({ searchParams }: Props) {
                 )}
                 <div className="mt-auto flex items-center justify-between pt-1">
                   <CopyUrl url={m.url} />
-                  <form action={deleteMedia}>
-                    <input type="hidden" name="id" value={m.id} />
-                    <button
-                      type="submit"
-                      className="text-gray-400 hover:text-red-600"
-                    >
-                      Xoá
-                    </button>
-                  </form>
+                  <DeleteMediaButton id={m.id} />
                 </div>
               </div>
             </div>

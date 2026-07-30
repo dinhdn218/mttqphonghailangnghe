@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { PostForm } from "../post-form";
 import { StatusBadge } from "@/components/admin/status-badge";
 import { WorkflowPanel } from "./workflow-panel";
+import { ToastFromParams } from "@/components/admin/toast-from-params";
 import {
   canEditPost,
   canReview,
@@ -41,6 +42,15 @@ export default async function EditPostPage({ params }: Props) {
 
   return (
     <div>
+      <ToastFromParams
+        toasts={[
+          { param: "done", match: "submitted", message: "Đã gửi duyệt.", color: "success" },
+          { param: "done", match: "approved", message: "Đã duyệt & đăng bài.", color: "success" },
+          { param: "done", match: "rejected", message: "Đã trả lại bài.", color: "success" },
+          { param: "done", match: "unpublished", message: "Đã gỡ đăng.", color: "success" },
+        ]}
+      />
+
       <div className="mb-6 flex items-center justify-between gap-4">
         <div>
           <Link

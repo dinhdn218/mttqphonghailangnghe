@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { addToast } from "@heroui/react";
 import { createUser, updateUser, type UserFormState } from "./actions";
 
 type UserInitial = {
@@ -30,9 +31,43 @@ export function UserForm({ user }: { user?: UserInitial }) {
 
   const fe = state.fieldErrors ?? {};
 
+  // Toast báo lỗi — thành công thì action redirect về danh sách nên toast
+  // thành công hiển thị ở đó (xem ToastFromParams trong page.tsx).
+  const lastState = useRef(state);
+  useEffect(() => {
+    if (state === lastState.current) return;
+    lastState.current = state;
+
+    if (state.error) {
+      addToast({ title: state.error, color: "danger" });
+    } else if (state.fieldErrors) {
+      addToast({
+        title: "Không lưu được — vui lòng kiểm tra lại thông tin.",
+        color: "danger",
+      });
+    }
+  }, [state]);
+
   return (
     <form action={formAction} className="max-w-xl space-y-5">
       {isEdit && <input type="hidden" name="id" value={user.id} />}
+
+      {/* Thanh lưu — dính đầu trang, đồng bộ với module Bài viết/Cấu hình. */}
+      <div className="sticky top-[var(--admin-header-h)] z-20 -mx-4 flex items-center gap-3 border-b border-gray-200 bg-white/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
+        <button
+          type="submit"
+          disabled={pending}
+          className="bg-red-700 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-800 disabled:opacity-60"
+        >
+          {pending ? "Đang lưu…" : isEdit ? "Lưu thay đổi" : "Tạo tài khoản"}
+        </button>
+        <Link
+          href="/admin/nguoi-dung"
+          className="px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-900"
+        >
+          Huỷ
+        </Link>
+      </div>
 
       {state.error && (
         <p className="border-l-4 border-red-600 bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -91,22 +126,6 @@ export function UserForm({ user }: { user?: UserInitial }) {
           ))}
         </select>
       </Field>
-
-      <div className="flex items-center gap-3 pt-2">
-        <button
-          type="submit"
-          disabled={pending}
-          className="bg-red-700 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-800 disabled:opacity-60"
-        >
-          {pending ? "Đang lưu…" : isEdit ? "Lưu thay đổi" : "Tạo tài khoản"}
-        </button>
-        <Link
-          href="/admin/nguoi-dung"
-          className="px-4 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-900"
-        >
-          Huỷ
-        </Link>
-      </div>
     </form>
   );
 }

@@ -156,6 +156,7 @@ export async function submitForReview(formData: FormData) {
   });
   revalidatePath("/admin/bai-viet");
   revalidatePath(`/admin/bai-viet/${id}`);
+  redirect(`/admin/bai-viet/${id}?done=submitted`);
 }
 
 export async function approvePost(formData: FormData) {
@@ -176,6 +177,7 @@ export async function approvePost(formData: FormData) {
   revalidatePublic(post.slug, PostStatus.PUBLISHED);
   revalidatePath("/admin/bai-viet");
   revalidatePath(`/admin/bai-viet/${id}`);
+  redirect(`/admin/bai-viet/${id}?done=approved`);
 }
 
 export async function rejectPost(formData: FormData) {
@@ -195,6 +197,7 @@ export async function rejectPost(formData: FormData) {
   });
   revalidatePath("/admin/bai-viet");
   revalidatePath(`/admin/bai-viet/${id}`);
+  redirect(`/admin/bai-viet/${id}?done=rejected`);
 }
 
 export async function unpublishPost(formData: FormData) {
@@ -210,6 +213,7 @@ export async function unpublishPost(formData: FormData) {
   revalidatePublic(post.slug, PostStatus.PUBLISHED);
   revalidatePath("/admin/bai-viet");
   revalidatePath(`/admin/bai-viet/${id}`);
+  redirect(`/admin/bai-viet/${id}?done=unpublished`);
 }
 
 export async function deletePost(formData: FormData) {
@@ -221,7 +225,7 @@ export async function deletePost(formData: FormData) {
   await prisma.post.delete({ where: { id } });
   revalidatePublic(post.slug, post.status);
   revalidatePath("/admin/bai-viet");
-  redirect("/admin/bai-viet");
+  redirect("/admin/bai-viet?deleted=1");
 }
 
 // ---------------------------------------------------------------------------

@@ -54,7 +54,7 @@ export async function createUser(
   await prisma.user.create({ data: { name, email, role, passwordHash } });
 
   revalidatePath("/admin/nguoi-dung");
-  redirect("/admin/nguoi-dung");
+  redirect("/admin/nguoi-dung?saved=created");
 }
 
 // Cập nhật tài khoản (chỉ ADMIN). Để trống mật khẩu = giữ nguyên.
@@ -104,7 +104,7 @@ export async function updateUser(
   });
 
   revalidatePath("/admin/nguoi-dung");
-  redirect("/admin/nguoi-dung");
+  redirect("/admin/nguoi-dung?saved=updated");
 }
 
 // Xoá tài khoản (chỉ ADMIN). Chặn tự xoá, xoá Quản trị cuối, hoặc xoá khi còn bài.

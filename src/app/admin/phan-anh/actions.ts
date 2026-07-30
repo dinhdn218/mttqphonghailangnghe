@@ -20,7 +20,7 @@ export async function setFeedbackStatus(formData: FormData) {
 
   revalidatePath("/admin/phan-anh");
   revalidatePath(`/admin/phan-anh/${id}`);
-  redirect(`/admin/phan-anh/${id}`);
+  redirect(`/admin/phan-anh/${id}?updated=1`);
 }
 
 // Xoá phản ánh.

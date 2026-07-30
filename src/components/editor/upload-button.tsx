@@ -1,6 +1,7 @@
 "use client";
 
 import { CldUploadWidget } from "next-cloudinary";
+import { addToast } from "@heroui/react";
 import { recordMedia } from "@/app/admin/bai-viet/media-actions";
 
 export type UploadResult = {
@@ -47,6 +48,10 @@ export function UploadButton({
         maxFileSize: 15_000_000, // 15MB
       }}
       onClose={releaseScrollLock}
+      onError={(error) => {
+        console.error("Tải lên Cloudinary lỗi:", error);
+        addToast({ title: "Tải ảnh lên thất bại. Vui lòng thử lại.", color: "danger" });
+      }}
       onSuccess={(result, { widget }) => {
         const info = result?.info;
         if (!info || typeof info === "string") return;
@@ -70,6 +75,7 @@ export function UploadButton({
         releaseScrollLock();
 
         onUploaded(r);
+        addToast({ title: "Đã tải ảnh lên.", color: "success" });
 
         // Ghi nhận Media (không chặn UX nếu lỗi).
         recordMedia({

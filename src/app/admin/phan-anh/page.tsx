@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/format";
 import { AdminPagination } from "@/components/admin/admin-pagination";
 import { AdminSearch } from "@/components/admin/admin-search";
+import { ToastFromParams } from "@/components/admin/toast-from-params";
 import { FeedbackStatus } from "@/generated/prisma/client";
 
 const PAGE_SIZE = 20;
@@ -78,11 +79,9 @@ export default async function FeedbackListPage({ searchParams }: Props) {
         )}
       </div>
 
-      {sp.deleted && (
-        <p className="border-l-4 border-green-600 bg-green-50 px-4 py-3 text-sm text-green-700">
-          Đã xoá phản ánh.
-        </p>
-      )}
+      <ToastFromParams
+        toasts={[{ param: "deleted", message: "Đã xoá phản ánh.", color: "success" }]}
+      />
 
       <AdminSearch
         basePath="/admin/phan-anh"

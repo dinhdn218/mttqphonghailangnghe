@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
+import { addToast } from "@heroui/react";
 import { updateSettings, type SettingsFormState } from "./actions";
 
 export type Field = {
@@ -27,13 +28,37 @@ export function SettingsForm({
   >(updateSettings, {});
   const fe = state.fieldErrors ?? {};
 
+  // Toast báo kết quả lưu — chỉ chạy khi `state` thực sự đổi sau khi submit.
+  const lastState = useRef(state);
+  useEffect(() => {
+    if (state === lastState.current) return;
+    lastState.current = state;
+
+    if (state.success) {
+      addToast({ title: "Đã lưu cấu hình.", color: "success" });
+    } else if (state.error) {
+      addToast({ title: state.error, color: "danger" });
+    } else if (state.fieldErrors) {
+      addToast({
+        title: "Không lưu được — vui lòng kiểm tra lại thông tin.",
+        color: "danger",
+      });
+    }
+  }, [state]);
+
   return (
     <form action={formAction} className="max-w-full space-y-6">
-      {state.success && (
-        <p className="border-l-4 border-green-600 bg-green-50 px-4 py-3 text-sm text-green-700">
-          Đã lưu cấu hình.
-        </p>
-      )}
+      {/* Thanh lưu — dính đầu trang vì cấu hình có nhiều nhóm trường, form dài. */}
+      <div className="sticky top-[var(--admin-header-h)] z-20 -mx-4 flex items-center gap-3 border-b border-gray-200 bg-white/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
+        <button
+          type="submit"
+          disabled={pending}
+          className="bg-red-700 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-800 disabled:opacity-60"
+        >
+          {pending ? "Đang lưu…" : "Lưu cấu hình"}
+        </button>
+      </div>
+
       {state.error && (
         <p className="border-l-4 border-red-600 bg-red-50 px-4 py-3 text-sm text-red-700">
           {state.error}
@@ -82,14 +107,6 @@ export function SettingsForm({
           </div>
         </fieldset>
       ))}
-
-      <button
-        type="submit"
-        disabled={pending}
-        className="bg-red-700 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-800 disabled:opacity-60"
-      >
-        {pending ? "Đang lưu…" : "Lưu cấu hình"}
-      </button>
     </form>
   );
 }

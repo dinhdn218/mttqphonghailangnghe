@@ -9,6 +9,7 @@ import { AdminSearch } from "@/components/admin/admin-search";
 import { formatDate } from "@/lib/format";
 import { PostStatus } from "@/generated/prisma/client";
 import { STATUS_LABELS, CATEGORIES } from "@/lib/constants";
+import { ToastFromParams } from "@/components/admin/toast-from-params";
 
 const STATUS_VALUES = Object.values(PostStatus);
 const STATUS_OPTIONS = STATUS_VALUES.map((v) => ({
@@ -43,6 +44,10 @@ export default async function PostListPage({ searchParams }: Props) {
 
   return (
     <div className="space-y-4">
+      <ToastFromParams
+        toasts={[{ param: "deleted", message: "Đã xoá bài viết.", color: "success" }]}
+      />
+
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">Bài viết</h1>
         {canCreatePost(user) && (
