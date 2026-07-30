@@ -1,5 +1,5 @@
 import { CARD_IMAGE } from "@/lib/ui";
-import Image from "next/image";
+import { PostCoverFill } from "@/components/post-cover";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/i18n";
@@ -93,16 +93,13 @@ function HeroArticle({
       href={`/bai-viet/${post.slug}`}
       className="group relative block h-72 overflow-hidden bg-gray-100 sm:h-100"
     >
-      {post.coverImage && (
-        <Image
-          src={post.coverImage}
-          alt={title}
-          fill
-          sizes="(max-width: 1024px) 100vw, 780px"
-          className={CARD_IMAGE}
-          priority
-        />
-      )}
+      <PostCoverFill
+        src={post.coverImage}
+        alt={title}
+        sizes="(max-width: 1024px) 100vw, 780px"
+        className={CARD_IMAGE}
+        priority
+      />
       {/* Gradient + nội dung overlay */}
       <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/85 via-black/40 to-transparent p-5 text-white sm:p-6">
         <span className="mb-2 inline-block bg-red-700 px-2.5 py-1 text-xs font-semibold tracking-wider uppercase">
@@ -140,17 +137,14 @@ function HighlightItem({ post, locale }: { post: HomePost; locale: Locale }) {
           </span>
         )}
       </div>
-      {post.coverImage && (
-        <div className="relative h-16 w-20 shrink-0 overflow-hidden bg-gray-100">
-          <Image
-            src={post.coverImage}
-            alt={title}
-            fill
-            sizes="80px"
-            className={CARD_IMAGE}
-          />
-        </div>
-      )}
+      <div className="relative h-16 w-20 shrink-0 overflow-hidden bg-gray-100">
+        <PostCoverFill
+          src={post.coverImage}
+          alt={title}
+          sizes="80px"
+          className={CARD_IMAGE}
+        />
+      </div>
     </Link>
   );
 }

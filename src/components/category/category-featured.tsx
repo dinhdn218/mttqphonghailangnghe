@@ -1,5 +1,5 @@
 import { CARD_IMAGE } from "@/lib/ui";
-import Image from "next/image";
+import { PostCoverFill } from "@/components/post-cover";
 import { Link } from "@/i18n/navigation";
 import { formatDate } from "@/lib/format";
 import { pick } from "@/lib/i18n";
@@ -66,20 +66,17 @@ function BigCard({
       className="group relative flex h-80 flex-col overflow-hidden border border-gray-200 bg-gray-900 lg:col-span-8 lg:h-full"
     >
       {/* Ảnh chiếm phần trên (flex-1) — co giãn theo chiều cao cột, không bị kéo quá cao */}
-      {post.coverImage && (
-        <div className="relative min-h-0 flex-1 overflow-hidden bg-gray-100">
-          <Image
-            src={post.coverImage}
-            alt={title}
-            fill
-            sizes="(max-width: 1024px) 100vw, 760px"
-            className={CARD_IMAGE}
-            priority
-          />
-          {/* Gradient mỏng ở đáy ảnh để liền mạch với dải text */}
-          <div className="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-gray-900/80 to-transparent" />
-        </div>
-      )}
+      <div className="relative min-h-0 flex-1 overflow-hidden bg-gray-100">
+        <PostCoverFill
+          src={post.coverImage}
+          alt={title}
+          sizes="(max-width: 1024px) 100vw, 760px"
+          className={CARD_IMAGE}
+          priority
+        />
+        {/* Gradient mỏng ở đáy ảnh để liền mạch với dải text */}
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-gray-900/80 to-transparent" />
+      </div>
 
       {/* Dải text dưới ảnh */}
       <div className="shrink-0 bg-gray-900 p-5 text-white sm:p-6">
@@ -113,17 +110,14 @@ function SmallCard({ post, locale }: { post: FeaturedPost; locale: Locale }) {
       href={`/bai-viet/${post.slug}`}
       className="group flex flex-col overflow-hidden border border-gray-200 bg-white transition hover:border-amber-400"
     >
-      {post.coverImage && (
-        <div className="relative aspect-5/2 w-full shrink-0 overflow-hidden bg-gray-100">
-          <Image
-            src={post.coverImage}
-            alt={title}
-            fill
-            sizes="(max-width: 1024px) 100vw, 360px"
-            className={CARD_IMAGE}
-          />
-        </div>
-      )}
+      <div className="relative aspect-5/2 w-full shrink-0 overflow-hidden bg-gray-100">
+        <PostCoverFill
+          src={post.coverImage}
+          alt={title}
+          sizes="(max-width: 1024px) 100vw, 360px"
+          className={CARD_IMAGE}
+        />
+      </div>
       <div className="flex flex-col gap-1 p-4">
         <span className="text-xs font-semibold tracking-wide text-red-700 uppercase">
           {categoryName}

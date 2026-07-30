@@ -1,5 +1,5 @@
 import { CARD_IMAGE } from "@/lib/ui";
-import Image from "next/image";
+import { PostCoverFill } from "@/components/post-cover";
 import { Link } from "@/i18n/navigation";
 import { formatDate } from "@/lib/format";
 import { pick } from "@/lib/i18n";
@@ -35,17 +35,14 @@ export function PostListItem({
       href={`/bai-viet/${post.slug}`}
       className="group flex flex-col gap-4 border border-gray-200 bg-white p-4 transition hover:bg-red-50/40 sm:flex-row sm:gap-6"
     >
-      {post.coverImage && (
-        <div className="relative h-44 w-full shrink-0 overflow-hidden bg-gray-100 sm:h-40 sm:w-64">
-          <Image
-            src={post.coverImage}
-            alt={title}
-            fill
-            sizes="(max-width: 640px) 100vw, 256px"
-            className={CARD_IMAGE}
-          />
-        </div>
-      )}
+      <div className="relative h-44 w-full shrink-0 overflow-hidden bg-gray-100 sm:h-40 sm:w-64">
+        <PostCoverFill
+          src={post.coverImage}
+          alt={title}
+          sizes="(max-width: 640px) 100vw, 256px"
+          className={CARD_IMAGE}
+        />
+      </div>
       <div className="flex flex-1 flex-col">
         <div className="mb-2 flex items-center gap-3">
           <span className="bg-red-700/10 px-2 py-0.5 text-xs font-semibold text-red-700">

@@ -49,7 +49,7 @@ export const Figure = Node.create({
     return [
       "figure",
       {},
-      ["img", mergeAttributes({ class: "rounded-lg" }, { src, alt })],
+      ["img", mergeAttributes({ src, alt })],
       ["figcaption", {}, 0], // 0 = chỗ chứa nội dung chú thích
     ];
   },

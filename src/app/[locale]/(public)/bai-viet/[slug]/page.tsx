@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -8,6 +7,7 @@ import { formatDate } from "@/lib/format";
 import { pick } from "@/lib/i18n";
 import { sanitizePostHtml } from "@/lib/sanitize";
 import { RelatedItem } from "@/components/post/related-item";
+import { PostCoverFill } from "@/components/post-cover";
 import type { Locale } from "@/lib/constants";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
@@ -142,20 +142,17 @@ export default async function PostPage({ params }: Props) {
             </div>
           </header>
 
-          {post.coverImage && (
-            <figure className="mb-8">
-              <div className="relative aspect-video w-full overflow-hidden border border-gray-200 bg-gray-100">
-                <Image
-                  src={post.coverImage}
-                  alt={title}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 720px"
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            </figure>
-          )}
+          <figure className="mb-8">
+            <div className="relative aspect-video w-full overflow-hidden border border-gray-200 bg-gray-100">
+              <PostCoverFill
+                src={post.coverImage}
+                alt={title}
+                sizes="(max-width: 1024px) 100vw, 720px"
+                className="object-cover"
+                priority
+              />
+            </div>
+          </figure>
 
           {/* Nội dung HTML do Tiptap sinh — sanitize chống XSS trước khi render. */}
           <div

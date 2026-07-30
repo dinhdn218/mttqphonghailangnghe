@@ -116,3 +116,19 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
 }
+
+/* Ảnh + chú thích trong nội dung bài viết (Tiptap sinh <figure><img><figcaption>):
+   không bo góc (đồng bộ với khung ảnh), chú thích nền xám — in nghiêng — căn giữa.
+   Đặt !important vì bài cũ đã lưu sẵn class "rounded-lg" ngay trên thẻ <img>. */
+.prose figure img {
+  border-radius: 0 !important;
+  margin-bottom: 0;
+}
+
+.prose figure figcaption {
+  margin-top: 0;
+  background-color: var(--color-gray-100);
+  padding: 0.5rem 1rem;
+  text-align: center;
+  font-style: italic;
+}

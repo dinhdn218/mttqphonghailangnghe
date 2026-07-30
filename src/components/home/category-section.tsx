@@ -1,5 +1,5 @@
 import { CARD_IMAGE } from "@/lib/ui";
-import Image from "next/image";
+import { PostCoverFill } from "@/components/post-cover";
 import { Link } from "@/i18n/navigation";
 import { pick } from "@/lib/i18n";
 import { formatDate } from "@/lib/format";
@@ -77,17 +77,14 @@ function FeaturedCard({ post, locale }: { post: HomePost; locale: Locale }) {
 
   return (
     <Link href={`/bai-viet/${post.slug}`} className="group flex flex-col gap-2">
-      {post.coverImage && (
-        <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
-          <Image
-            src={post.coverImage}
-            alt={title}
-            fill
-            sizes="(max-width: 640px) 100vw, 280px"
-            className={CARD_IMAGE}
-          />
-        </div>
-      )}
+      <div className="relative aspect-video w-full overflow-hidden bg-gray-100">
+        <PostCoverFill
+          src={post.coverImage}
+          alt={title}
+          sizes="(max-width: 640px) 100vw, 280px"
+          className={CARD_IMAGE}
+        />
+      </div>
       <h3 className="line-clamp-2 text-base leading-snug font-semibold text-gray-900 transition group-hover:text-red-700">
         {title}
       </h3>

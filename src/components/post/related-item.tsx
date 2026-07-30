@@ -1,5 +1,5 @@
 import { CARD_IMAGE } from "@/lib/ui";
-import Image from "next/image";
+import { PostCoverFill } from "@/components/post-cover";
 import { Link } from "@/i18n/navigation";
 import { formatDate } from "@/lib/format";
 import { pick } from "@/lib/i18n";
@@ -24,17 +24,9 @@ export function RelatedItem({
   const title = pick(post.titleVi, post.titleEn, locale);
   return (
     <Link href={`/bai-viet/${post.slug}`} className="group flex items-start gap-3">
-      {post.coverImage && (
-        <div className="relative h-20 w-20 shrink-0 overflow-hidden border border-gray-200 bg-gray-100">
-          <Image
-            src={post.coverImage}
-            alt={title}
-            fill
-            sizes="80px"
-            className={CARD_IMAGE}
-          />
-        </div>
-      )}
+      <div className="relative h-20 w-20 shrink-0 overflow-hidden border border-gray-200 bg-gray-100">
+        <PostCoverFill src={post.coverImage} alt={title} sizes="80px" className={CARD_IMAGE} />
+      </div>
       <div className="min-w-0">
         <h4 className="line-clamp-2 text-sm leading-snug font-medium text-gray-900 transition group-hover:text-red-700">
           {title}
