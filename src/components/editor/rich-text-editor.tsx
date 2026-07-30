@@ -21,7 +21,7 @@ export function RichTextEditor({ value, onChange, placeholder }: Props) {
     extensions: [
       StarterKit.configure({ heading: { levels: [2, 3] } }),
       Link.configure({ openOnClick: false, autolink: true }),
-      TiptapImage.configure({ HTMLAttributes: { class: "rounded-lg" } }),
+      TiptapImage,
       Figure,
       Placeholder.configure({ placeholder: placeholder ?? "Nhập nội dung…" }),
     ],
@@ -62,7 +62,7 @@ function Toolbar({ editor }: { editor: Editor }) {
   }, [editor]);
 
   return (
-    <div className="flex flex-wrap gap-1 border-b border-gray-200 bg-gray-50 p-1.5">
+    <div className="sticky top-[calc(var(--admin-header-h)+var(--admin-savebar-h))] z-10 flex flex-wrap gap-1 border-b border-gray-200 bg-gray-50 p-1.5">
       <Btn on={editor.isActive("bold")} onClick={() => editor.chain().focus().toggleBold().run()}>
         <b>B</b>
       </Btn>

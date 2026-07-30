@@ -1,8 +1,9 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { addToast } from "@heroui/react";
 import { RichTextEditor } from "@/components/editor/rich-text-editor";
 import { UploadButton } from "@/components/editor/upload-button";
 import { createPost, updatePost, type FormState } from "./actions";
@@ -41,12 +42,48 @@ export function PostForm({ categories, post }: Props) {
 
   const fieldErrors = state.fieldErrors ?? {};
 
+  // Toast báo kết quả lưu — chỉ chạy khi `state` thực sự đổi sau khi submit
+  // (state ban đầu từ useActionState không có success/error nên không bắn toast).
+  const lastState = useRef(state);
+  useEffect(() => {
+    if (state === lastState.current) return;
+    lastState.current = state;
+
+    if (state.success) {
+      addToast({ title: "Đã lưu thay đổi.", color: "success" });
+    } else if (state.error) {
+      addToast({ title: state.error, color: "danger" });
+    } else if (state.fieldErrors) {
+      addToast({
+        title: "Không lưu được — vui lòng kiểm tra lại thông tin.",
+        color: "danger",
+      });
+    }
+  }, [state]);
+
   return (
     <form action={formAction} className="space-y-6">
       {isEdit && <input type="hidden" name="id" value={post.id} />}
       {/* Nội dung Tiptap được đồng bộ vào input ẩn để gửi kèm form. */}
       <input type="hidden" name="contentVi" value={contentVi} />
       <input type="hidden" name="contentEn" value={contentEn} />
+
+      {/* Thanh lưu — dính đầu trang (dưới header admin) vì form soạn bài rất dài. */}
+      <div className="sticky top-[var(--admin-header-h)] z-20 -mx-4 flex items-center gap-3 border-b border-gray-200 bg-white/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
+        <button
+          type="submit"
+          disabled={pending}
+          className="rounded-lg bg-red-700 px-5 py-2.5 font-medium text-white transition hover:bg-red-800 disabled:opacity-60"
+        >
+          {pending ? "Đang lưu…" : isEdit ? "Lưu thay đổi" : "Tạo bài (lưu nháp)"}
+        </button>
+        <Link
+          href="/admin/bai-viet"
+          className="text-sm text-gray-600 hover:underline"
+        >
+          Huỷ
+        </Link>
+      </div>
 
       {state.error && (
         <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">
@@ -80,7 +117,7 @@ export function PostForm({ categories, post }: Props) {
         <input type="hidden" name="coverImage" value={coverImage} />
 
         {coverImage && (
-          <div className="relative mb-2 aspect-video w-full max-w-md overflow-hidden rounded-lg border border-gray-200 bg-gray-100">
+          <div className="relative mb-2 aspect-video w-full max-w-md overflow-hidden border border-gray-200 bg-gray-100">
             <Image
               src={coverImage}
               alt="Ảnh bìa"
@@ -196,23 +233,6 @@ export function PostForm({ categories, post }: Props) {
           />
         </div>
       </fieldset>
-
-      <div className="flex items-center gap-3">
-        <button
-          type="submit"
-          disabled={pending}
-          className="rounded-lg bg-red-700 px-5 py-2.5 font-medium text-white transition hover:bg-red-800 disabled:opacity-60"
-        >
-          {pending ? "Đang lưu…" : isEdit ? "Lưu thay đổi" : "Tạo bài (lưu nháp)"}
-        </button>
-        <Link
-          href="/admin/bai-viet"
-          className="text-sm text-gray-600 hover:underline"
-        >
-          Huỷ
-        </Link>
-        {state.success && <SavedHint />}
-      </div>
     </form>
   );
 }
@@ -234,8 +254,4 @@ function Label({
 function ErrorText({ msg }: { msg?: string }) {
   if (!msg) return null;
   return <p className="mt-1 text-sm text-red-600">{msg}</p>;
-}
-
-function SavedHint() {
-  return <span className="text-sm text-green-600">Đã lưu.</span>;
 }

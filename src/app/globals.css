@@ -9,6 +9,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* Chiều cao các thanh dính (sticky) xếp chồng trong khu quản trị — đổi ở
+     đây nếu đổi kích thước header (AdminShell) hoặc thanh "Lưu thay đổi"
+     (PostForm), để toolbar Tiptap dính đúng ngay dưới, không bị che/đè. */
+  --admin-header-h: 58px;
+  --admin-savebar-h: 68px;
 }
 
 @theme inline {
@@ -117,11 +122,14 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
-/* Ảnh + chú thích trong nội dung bài viết (Tiptap sinh <figure><img><figcaption>):
-   không bo góc (đồng bộ với khung ảnh), chú thích nền xám — in nghiêng — căn giữa.
+/* Ảnh trong nội dung bài viết: không bo góc (đồng bộ với khung ảnh), kể cả
+   ảnh chèn rời (không có chú thích) lẫn ảnh trong <figure><img><figcaption>.
    Đặt !important vì bài cũ đã lưu sẵn class "rounded-lg" ngay trên thẻ <img>. */
-.prose figure img {
+.prose img {
   border-radius: 0 !important;
+}
+
+.prose figure img {
   margin-bottom: 0;
 }
 
