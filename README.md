@@ -3,6 +3,10 @@
 Trang thông tin – tuyên truyền cho Ủy ban MTTQ Việt Nam xã Phong Hải (Lào Cai).
 Xem [CLAUDE.md](./CLAUDE.md) để biết bối cảnh, phạm vi và ràng buộc dự án.
 
+> **Tài liệu bàn giao:** [docs/TAI-LIEU-DU-AN.md](./docs/TAI-LIEU-DU-AN.md) (kèm bản
+> PDF cùng thư mục). Sửa nội dung ở file `.md` rồi chạy `npm run docs:pdf` để xuất
+> lại PDF cho khớp — **không sửa trực tiếp file PDF**.
+
 ## Stack
 
 - **Next.js 16** (App Router) + **TypeScript** + **Tailwind CSS 4**
@@ -44,9 +48,9 @@ Xem [CLAUDE.md](./CLAUDE.md) để biết bối cảnh, phạm vi và ràng bu�
 
 | Vai | Email | Mật khẩu |
 | --- | --- | --- |
-| Quản trị (ADMIN) | `admin@phonghailangnghe.com` | `Admin@12345` |
-| Biên tập (EDITOR) | `bientap@phonghailangnghe.com` | `Test@12345` |
-| Duyệt (APPROVER) | `duyet@phonghailangnghe.com` | `Test@12345` |
+| Quản trị (ADMIN) | `admin@mttqphonghailangnghe.com` | `Admin@12345` |
+| Biên tập (EDITOR) | `bientap@mttqphonghailangnghe.com` | `Test@12345` |
+| Duyệt (APPROVER) | `duyet@mttqphonghailangnghe.com` | `Test@12345` |
 
 > **Đổi mật khẩu / xoá tài khoản test trước khi sử dụng thật.** Tài khoản admin
 > cấu hình qua `SEED_ADMIN_*` trong `.env`.
@@ -83,6 +87,9 @@ src/
     auth-guards.ts     # requireRole / can — phân quyền server-side
     cloudinary.ts      # cấu hình Cloudinary server
     constants.ts       # 8 chuyên mục, locale, nhãn vai/trạng thái
+    settings.ts        # cấu hình site (tên, liên hệ, nền tảng) — CMS đè default
+    phone.ts           # định dạng số điện thoại hiển thị + href tel:
+    sanitize.ts        # làm sạch HTML bài viết (chống XSS)
     env.ts             # kiểm tra biến môi trường
   app/
     page.tsx           # trang chủ tạm
@@ -108,9 +115,13 @@ src/
 > trên route công khai — do render động (streaming SSR) gửi status trước khi
 > `notFound()` chạy. Hệ quả của URL tiếng Việt không tiền tố; tác động SEO thấp.
 
-> **Cập nhật liên hệ/mạng xã hội:** sửa [src/lib/contacts.ts](src/lib/contacts.ts)
-> — điền số hotline, email, và URL Facebook/Zalo OA/TikTok thật. Nền tảng có URL sẽ
-> tự hiện kèm mã QR ở `/ket-noi`; để trống thì ẩn.
+> **Cập nhật liên hệ/mạng xã hội:** vào **CMS → Cấu hình** (`/admin/cau-hinh`) —
+> điền số hotline, email, địa chỉ và URL Facebook/Zalo/TikTok thật; không cần sửa code.
+> Giá trị mặc định nằm trong [src/lib/settings.ts](src/lib/settings.ts) (`SETTING_DEFS`),
+> CMS lưu vào DB và đè lên default. Nền tảng có URL sẽ tự hiện kèm mã QR ở `/ket-noi`;
+> để trống thì ẩn. Số điện thoại nhập liền hay có dấu cách đều được — khi hiển thị
+> [src/lib/phone.ts](src/lib/phone.ts) tự tách nhóm (`0982832656` → `0982 832 656`),
+> còn link bấm gọi `tel:` vẫn dùng số liền.
 
 > **Ghi chú render:** trang công khai render động (SSR) — hệ quả của URL tiếng Việt
 > không tiền tố (`localePrefix: as-needed`). Truy vấn Neon nhanh nên phù hợp với
@@ -125,7 +136,7 @@ src/
    | --- | --- |
    | `DATABASE_URL` | Neon (dùng connection string **pooled**) |
    | `AUTH_SECRET` | `npx auth secret` |
-   | `NEXT_PUBLIC_SITE_URL` | URL thật, vd `https://phonghailangnghe.com` |
+   | `NEXT_PUBLIC_SITE_URL` | URL thật, vd `https://mttqphonghailangnghe.com` |
    | `CLOUDINARY_*` + `NEXT_PUBLIC_CLOUDINARY_*` | Cloudinary |
    | `RESEND_API_KEY`, `CONTACT_INBOX_EMAIL`, `RESEND_FROM` | Email phản ánh |
    | `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Captcha (tuỳ chọn) |
@@ -133,7 +144,9 @@ src/
 3. Tạo bảng + seed trên DB production (chạy 1 lần với `DATABASE_URL` production):
    `npm run db:push && npm run db:seed`.
 4. **Đổi mật khẩu admin** và **xoá tài khoản test** (bientap@, duyet@) sau seed.
-5. **Tên miền `phonghailangnghe.com`**: xin quyền quản lý DNS từ cơ quan xã, trỏ về
-   Vercel (CNAME/A theo hướng dẫn Vercel). Cập nhật domain trong Turnstile + Resend.
-6. **Resend**: để gửi từ địa chỉ `@phonghailangnghe.com` cần **verify tên miền** trong
+5. **Tên miền `mttqphonghailangnghe.com`**: đã mua trực tiếp trên Vercel nên DNS + SSL
+   do Vercel tự cấu hình, không cần xin quyền DNS từ cơ quan xã. Chỉ cần cập nhật
+   domain trong Turnstile + Resend. Khi bàn giao: thoả thuận chuyển quyền sở hữu
+   tên miền cho cơ quan (hoặc dev giữ và tính vào phí duy trì hằng năm).
+6. **Resend**: để gửi từ địa chỉ `@mttqphonghailangnghe.com` cần **verify tên miền** trong
    Resend (thêm bản ghi DNS). Trước khi có tên miền, dùng `onboarding@resend.dev`.

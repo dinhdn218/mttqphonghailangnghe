@@ -8,7 +8,7 @@
 | **Tên miền đích** | mttqphonghailangnghe.com |
 | **Loại hệ thống** | Cổng thông tin điện tử + Hệ quản trị nội dung (CMS) |
 | **Đối tượng người dùng** | Người dân (chủ yếu truy cập bằng điện thoại) + cán bộ quản trị |
-| **Phiên bản tài liệu** | 1.1 |
+| **Phiên bản tài liệu** | 1.2 |
 
 ---
 
@@ -277,6 +277,8 @@ Vào **Cấu hình** để sửa (lưu là áp dụng ngay ra trang công khai):
 - **Tên cơ quan** và **mô tả ngắn** (mỗi thứ có bản tiếng Việt + tiếng Anh). Tên này hiển thị ở **header, chân trang, tiêu đề trình duyệt và thẻ chia sẻ mạng xã hội** — sửa một chỗ, cả site đổi theo.
 - **Đường dây nóng / email / địa chỉ** (dùng cho chân trang, trang Kết nối, nút gọi, bản đồ).
 - **Link các nền tảng** (Facebook, Zalo, TikTok). Nền tảng **để trống thì tự ẩn** khỏi trang Kết nối và nút nổi — không để lại liên kết chết.
+
+> **Lưu ý về số điện thoại:** nhập liền (`0982832656`) hay có dấu cách đều được — khi hiển thị ra trang công khai hệ thống **tự tách nhóm cho dễ đọc** (`0982 832 656`), còn link bấm gọi trên điện thoại vẫn dùng số liền nên gọi vẫn đúng. Số 10 chữ số tách kiểu 4-3-3, số 11 chữ số tách 4-3-4; nếu nhập dạng khác thường (số máy bàn có mã vùng trong ngoặc, số nước ngoài…) thì hệ thống giữ nguyên đúng như đã nhập.
 
 > **Lưu ý về Zalo:** nên dùng link **Official Account (OA)** của xã (người dân xem được ngay và bấm "Quan tâm" để nhận tin). Nếu xã chưa có OA, có thể dùng tạm link Zalo của văn phòng xã (`zalo.me/<số điện thoại>`) — vẫn liên hệ được, nhưng trên máy tính người dùng phải đăng nhập Zalo trước.
 
