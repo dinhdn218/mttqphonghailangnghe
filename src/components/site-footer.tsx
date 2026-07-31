@@ -1,6 +1,7 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getSettings, siteNameFor } from "@/lib/settings";
+import { formatPhone, telHref } from "@/lib/phone";
 
 // Footer phong cách cổng thông tin nhà nước: nền đỏ tối, nhiều cột thông tin
 // cơ quan + liên kết nhanh + đường dây nóng, dải dưới bản quyền & ghi nguồn.
@@ -12,7 +13,8 @@ export async function SiteFooter() {
   const settings = await getSettings();
   const { contact } = settings;
   const orgName = siteNameFor(settings, locale);
-  const tel = contact.hotline.replace(/\s/g, "");
+  const tel = telHref(contact.hotline);
+  const hotlineDisplay = formatPhone(contact.hotline);
 
   return (
     <footer className="mt-12 bg-red-900 text-red-100">
@@ -27,7 +29,10 @@ export async function SiteFooter() {
             {t("footer.addressLabel")}: {contact.address}
           </p>
           <p className="text-sm">
-            {t("footer.phoneLabel")}: {contact.hotline}
+            {t("footer.phoneLabel")}:{" "}
+            <a href={`tel:${tel}`} className="tabular-nums hover:underline">
+              {hotlineDisplay}
+            </a>
           </p>
           {contact.email && (
             <p className="text-sm">
@@ -71,9 +76,9 @@ export async function SiteFooter() {
           <p className="font-semibold text-white">{t("footer.hotline")}</p>
           <a
             href={`tel:${tel}`}
-            className="mt-2 block text-2xl font-bold text-amber-300 hover:underline"
+            className="mt-2 block text-2xl font-bold tracking-wide text-amber-300 tabular-nums hover:underline"
           >
-            {contact.hotline}
+            {hotlineDisplay}
           </a>
           <Link
             href="/lang-nghe-dan-noi"

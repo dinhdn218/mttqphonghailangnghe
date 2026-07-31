@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getSettings, type Platform } from "@/lib/settings";
+import { formatPhone, telHref } from "@/lib/phone";
 import { QrCode } from "@/components/qr-code";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -74,7 +75,7 @@ export default async function ConnectPage({ params }: Props) {
   const t = await getTranslations("connect");
 
   const { contact, platforms } = await getSettings();
-  const tel = contact.hotline.replace(/\s/g, "");
+  const tel = telHref(contact.hotline);
   const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contact.address)}`;
 
   return (
@@ -106,9 +107,9 @@ export default async function ConnectPage({ params }: Props) {
             <ContactRow icon={ICONS.phone} label={t("hotline")}>
               <a
                 href={`tel:${tel}`}
-                className="text-lg font-bold text-red-700 hover:underline"
+                className="text-lg font-bold tracking-wide text-red-700 tabular-nums hover:underline"
               >
-                {contact.hotline}
+                {formatPhone(contact.hotline)}
               </a>
             </ContactRow>
             {contact.email && (

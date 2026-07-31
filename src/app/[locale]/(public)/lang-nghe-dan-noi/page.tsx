@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { ContactForm } from "./contact-form";
 import { getSettings } from "@/lib/settings";
+import { formatPhone, telHref } from "@/lib/phone";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -46,7 +47,7 @@ export default async function ContactPage({ params }: Props) {
   const tc = await getTranslations("connect");
 
   const { contact } = await getSettings();
-  const tel = contact.hotline.replace(/\s/g, "");
+  const tel = telHref(contact.hotline);
   const commitments = [t("commit1"), t("commit2"), t("commit3")];
 
   return (
@@ -85,9 +86,9 @@ export default async function ContactPage({ params }: Props) {
               <ContactItem icon={ICONS.phone} label={tc("hotline")}>
                 <a
                   href={`tel:${tel}`}
-                  className="font-bold text-red-700 hover:underline"
+                  className="font-bold tracking-wide text-red-700 tabular-nums hover:underline"
                 >
-                  {contact.hotline}
+                  {formatPhone(contact.hotline)}
                 </a>
               </ContactItem>
               {contact.email && (

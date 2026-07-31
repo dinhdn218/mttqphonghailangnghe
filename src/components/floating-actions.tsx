@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { formatPhone, telHref } from "@/lib/phone";
 
 export type FloatingPlatform = { key: string; label: string; url: string };
 
@@ -110,7 +111,7 @@ export function FloatingActions({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const tel = hotline.replace(/\s/g, "");
+  const tel = telHref(hotline);
   const hasAny = platforms.length > 0 || tel !== "";
   const STEP = 250; // độ lệch pha giữa các nút (ms)
 
@@ -149,7 +150,7 @@ export function FloatingActions({
             >
               <ActionButton
                 href={`tel:${tel}`}
-                label={`Gọi ${hotline}`}
+                label={`Gọi ${formatPhone(hotline)}`}
                 bg="bg-green-600"
                 ping="bg-green-500/40"
                 delay={platforms.length * STEP}
