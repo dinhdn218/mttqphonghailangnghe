@@ -3,9 +3,14 @@
 Trang thông tin – tuyên truyền cho Ủy ban MTTQ Việt Nam xã Phong Hải (Lào Cai).
 Xem [CLAUDE.md](./CLAUDE.md) để biết bối cảnh, phạm vi và ràng buộc dự án.
 
-> **Tài liệu bàn giao:** [docs/TAI-LIEU-DU-AN.md](./docs/TAI-LIEU-DU-AN.md) (kèm bản
-> PDF cùng thư mục). Sửa nội dung ở file `.md` rồi chạy `npm run docs:pdf` để xuất
-> lại PDF cho khớp — **không sửa trực tiếp file PDF**.
+> **Tài liệu bàn giao** (mỗi file kèm bản PDF cùng thư mục):
+> - [docs/TAI-LIEU-DU-AN.md](./docs/TAI-LIEU-DU-AN.md) — tài liệu kỹ thuật (kiến trúc,
+>   CSDL, triển khai, bảo mật), dành cho bên kỹ thuật.
+> - [docs/HUONG-DAN-SU-DUNG.md](./docs/HUONG-DAN-SU-DUNG.md) — hướng dẫn thao tác cho
+>   cán bộ xã (viết bài, duyệt, cấu hình, xử lý sự cố).
+>
+> Sửa nội dung ở file `.md` rồi chạy `npm run docs:pdf` để xuất lại PDF cho khớp —
+> **không sửa trực tiếp file PDF**.
 
 ## Stack
 

@@ -1,10 +1,10 @@
-// Xuất docs/TAI-LIEU-DU-AN.md → PDF (A4), dùng Chromium của Playwright.
+// Xuất tài liệu Markdown trong docs/ → PDF (A4), dùng Chromium của Playwright.
 //
 // Chạy:  npm run docs:pdf
 //
-// Cần `marked` (không nằm trong dependencies để khỏi nặng dự án) — lệnh npm script
-// đã kèm `npx --yes marked` nên không phải cài sẵn. Playwright đã có trong devDeps;
-// nếu chưa tải Chromium thì chạy `npx playwright install chromium` một lần.
+// `marked` nằm trong devDependencies (chỉ dùng khi build tài liệu, không vào
+// bundle web). Playwright cũng ở devDeps; nếu chưa tải Chromium thì chạy
+// `npx playwright install chromium` một lần.
 // LƯU Ý: sửa nội dung ở file .md rồi chạy lệnh này để PDF khớp lại — đừng sửa PDF tay.
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -13,13 +13,12 @@ import { marked } from "marked";
 import { chromium } from "playwright";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const SRC = join(ROOT, "docs/TAI-LIEU-DU-AN.md");
-const OUT = join(ROOT, "docs/TAI-LIEU-DU-AN.pdf");
 
-const md = readFileSync(SRC, "utf8");
-
-// Số phiên bản lấy thẳng từ bảng đầu tài liệu để chân trang không bị lệch.
-const version = (md.match(/\*\*Phiên bản tài liệu\*\*\s*\|\s*([^|\s]+)/) || [])[1] ?? "";
+// Danh sách tài liệu cần xuất. Thêm file mới thì thêm một dòng ở đây.
+const DOCS = [
+  { file: "TAI-LIEU-DU-AN", header: "Tài liệu dự án — MTTQ xã Phong Hải" },
+  { file: "HUONG-DAN-SU-DUNG", header: "Hướng dẫn sử dụng — MTTQ xã Phong Hải" },
+];
 
 // Mỗi "# " (heading cấp 1) là một chương → ngắt sang trang mới cho dễ đọc bản in.
 marked.use({
@@ -36,11 +35,11 @@ marked.use({
   },
 });
 
-const body = marked.parse(md, { gfm: true, breaks: false });
-
-const html = `<!doctype html>
+// Dựng HTML hoàn chỉnh cho một tài liệu.
+function buildHtml(body, title) {
+  return `<!doctype html>
 <html lang="vi"><head><meta charset="utf-8">
-<title>Tài liệu dự án — MTTQ xã Phong Hải</title>
+<title>${title}</title>
 <style>
   @page { size: A4; margin: 18mm 16mm 20mm; }
   * { box-sizing: border-box; }
@@ -86,22 +85,39 @@ const html = `<!doctype html>
   hr { border: none; border-top: 1px solid #e5e7eb; margin: 18px 0; }
   a { color: #1d4ed8; text-decoration: none; }
 </style></head><body>${body}</body></html>`;
+}
 
 const browser = await chromium.launch();
 const page = await browser.newPage();
-await page.setContent(html, { waitUntil: "networkidle" });
-await page.pdf({
-  path: OUT,
-  format: "A4",
-  printBackground: true,
-  displayHeaderFooter: true,
-  headerTemplate: `<div style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:7pt;color:#9ca3af;width:100%;padding:0 16mm;">
-    <span style="float:right">Tài liệu dự án — MTTQ xã Phong Hải</span></div>`,
-  footerTemplate: `<div style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:7.5pt;color:#6b7280;width:100%;padding:0 16mm;">
+
+for (const { file, header } of DOCS) {
+  const src = join(ROOT, `docs/${file}.md`);
+  const out = join(ROOT, `docs/${file}.pdf`);
+  const md = readFileSync(src, "utf8");
+
+  // Số phiên bản lấy thẳng từ bảng đầu tài liệu để chân trang không bị lệch.
+  const version =
+    (md.match(/\*\*Phiên bản(?: tài liệu)?\*\*\s*\|\s*([^|\s]+)/) || [])[1] ?? "";
+
+  // Tiêu đề tab/PDF lấy từ dòng "# " đầu tiên, lùi về tên header nếu không có.
+  const title = (md.match(/^#\s+(.+)$/m) || [])[1] ?? header;
+
+  const body = marked.parse(md, { gfm: true, breaks: false });
+  await page.setContent(buildHtml(body, title), { waitUntil: "networkidle" });
+  await page.pdf({
+    path: out,
+    format: "A4",
+    printBackground: true,
+    displayHeaderFooter: true,
+    headerTemplate: `<div style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:7pt;color:#9ca3af;width:100%;padding:0 16mm;">
+    <span style="float:right">${header}</span></div>`,
+    footerTemplate: `<div style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:7.5pt;color:#6b7280;width:100%;padding:0 16mm;">
     <span>Phiên bản ${version}</span>
     <span style="float:right">Trang <span class="pageNumber"></span>/<span class="totalPages"></span></span>
     </div>`,
-  margin: { top: "18mm", bottom: "20mm", left: "16mm", right: "16mm" },
-});
+    margin: { top: "18mm", bottom: "20mm", left: "16mm", right: "16mm" },
+  });
+  console.log("Đã xuất:", out);
+}
+
 await browser.close();
-console.log("Đã xuất:", OUT);

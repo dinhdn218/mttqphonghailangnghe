@@ -8,7 +8,7 @@
 | **Tên miền đích** | mttqphonghailangnghe.com |
 | **Loại hệ thống** | Cổng thông tin điện tử + Hệ quản trị nội dung (CMS) |
 | **Đối tượng người dùng** | Người dân (chủ yếu truy cập bằng điện thoại) + cán bộ quản trị |
-| **Phiên bản tài liệu** | 1.2 |
+| **Phiên bản tài liệu** | 1.3 |
 
 ---
 
@@ -216,7 +216,7 @@ Bài **chỉ hiển thị công khai khi ở trạng thái PUBLISHED**. Cơ ch�
 | **Kết nối** | Thông tin liên hệ (đường dây nóng, email, địa chỉ + bản đồ Google), liên kết & mã QR các nền tảng (Facebook, Zalo, TikTok). |
 | **Lắng nghe dân nói** | Form gửi phản ánh: họ tên, điện thoại, email, nội dung. Có chống spam (honeypot + Turnstile). |
 
-**Bài nổi bật trang chủ:** ưu tiên các bài được cán bộ đánh dấu ⭐; nếu chưa đủ 13 bài thì tự lấp bằng bài mới nhất. Khối đầu trang gồm: 1 tin hero ảnh lớn + 2 thẻ + tối đa 10 tin trong hộp "Tin tiêu điểm".
+**Bài nổi bật trang chủ:** ưu tiên các bài được cán bộ đánh dấu ⭐; nếu chưa đủ 10 bài thì tự lấp bằng bài mới nhất. Khối đầu trang gồm 10 bài: 1 tin hero ảnh lớn + 2 thẻ + 7 tin trong hộp "Tin tiêu điểm".
 
 **Nút nổi ở góc phải dưới màn hình** (mọi trang công khai):
 - **Gọi** đường dây nóng (bấm là gọi ngay), **Facebook**, **Zalo**, **TikTok** — chỉ hiện những nền tảng đã được cấu hình trong CMS; chưa có link thì tự ẩn.
@@ -248,6 +248,10 @@ Tất cả trang danh sách dùng chung **ô tìm kiếm** và **bộ phân tran
 
 # 9. Hướng dẫn sử dụng cho cán bộ
 
+> Phần dưới đây là bản tóm tắt. Bản đầy đủ cho cán bộ — có hướng dẫn từng bước,
+> mẹo soạn bài, xử lý sự cố thường gặp — nằm ở tài liệu riêng
+> **`HUONG-DAN-SU-DUNG.md`** (kèm bản PDF).
+
 ## 9.1. Đăng nhập
 1. Truy cập `…/dang-nhap`.
 2. Nhập email + mật khẩu được cấp.
@@ -262,7 +266,7 @@ Tất cả trang danh sách dùng chung **ô tìm kiếm** và **bộ phân tran
 6. Bài được duyệt sẽ tự công khai.
 
 ## 9.3. Đưa bài lên trang chủ
-- Vào **Bài nổi bật**, bấm ngôi sao ☆ → ★ ở bài muốn nổi bật. Trang chủ hiển thị tối đa 13 bài nổi bật (mới nhất trước).
+- Vào **Bài nổi bật**, bấm ngôi sao ☆ → ★ ở bài muốn nổi bật. Khối đầu trang chủ hiển thị 10 bài (mới nhất trước).
 
 ## 9.4. Xử lý phản ánh của dân
 1. Khi có phản ánh mới, menu **Phản ánh** hiện số đếm.
