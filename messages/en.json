@@ -12,7 +12,10 @@
   },
   "category": {
     "empty": "No posts in this category yet.",
-    "latest": "Latest news"
+    "latest": "Latest news",
+    "emptyHint": "Content is being prepared and will be published soon. Please explore other sections or check back later.",
+    "emptyHome": "Back to home",
+    "emptyBrowse": "See latest news"
   },
   "post": {
     "backToCategory": "Back to category",

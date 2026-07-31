@@ -12,7 +12,10 @@
   },
   "category": {
     "empty": "Chưa có bài viết trong chuyên mục này.",
-    "latest": "Tin tức mới nhất"
+    "latest": "Tin tức mới nhất",
+    "emptyHint": "Nội dung đang được cán bộ biên soạn và sẽ đăng trong thời gian tới. Mời bạn xem các chuyên mục khác hoặc quay lại sau.",
+    "emptyHome": "Về trang chủ",
+    "emptyBrowse": "Xem tin mới nhất"
   },
   "post": {
     "backToCategory": "Quay lại chuyên mục",

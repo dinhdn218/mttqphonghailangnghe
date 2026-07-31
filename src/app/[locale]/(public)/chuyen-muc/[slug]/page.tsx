@@ -3,10 +3,14 @@ import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { getCategoryBySlug, getPublishedPostsByCategory } from "@/lib/posts";
 import { CategoryFeatured } from "@/components/category/category-featured";
+import { CategoryEmpty } from "@/components/category/category-empty";
 import { PostListItem } from "@/components/post-list-item";
 import { Pagination } from "@/components/pagination";
 import { pick } from "@/lib/i18n";
-import type { Locale } from "@/lib/constants";
+import { CATEGORIES, type Locale } from "@/lib/constants";
+
+// Chuyên mục gợi ý khi chuyên mục đang xem chưa có bài (mục đầu = Tin tức – Sự kiện).
+const NEWS_SLUG = CATEGORIES[0].slug;
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -63,7 +67,16 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       </header>
 
       {posts.length === 0 ? (
-        <p className="text-gray-500">{t("category.empty")}</p>
+        <CategoryEmpty
+          title={t("category.empty")}
+          hint={t("category.emptyHint")}
+          homeLabel={t("category.emptyHome")}
+          browseLabel={t("category.emptyBrowse")}
+          // Đang ở chính chuyên mục tin tức thì không gợi ý quay lại chính nó.
+          browseHref={
+            slug === NEWS_SLUG ? undefined : `/chuyen-muc/${NEWS_SLUG}`
+          }
+        />
       ) : (
         <>
           {/* Khối nổi bật bento (chỉ trang 1) */}
