@@ -29,9 +29,12 @@ export async function SiteHeader() {
   ];
 
   return (
-    <header>
+    // Cả header dính lên đỉnh. Khi cuộn qua, hai dải trên (tiện ích + banner)
+    // tự thu lại còn 0 (xem .nav-stuck trong globals.css) nên chỉ còn thanh
+    // điều hướng nằm lại — giữ đúng phần quan trọng, không chiếm chỗ.
+    <header className="sticky top-0 z-30">
       {/* Dải tiện ích */}
-      <div className="bg-red-900 text-red-50">
+      <div className="site-header-band bg-red-900 text-red-50">
         <div className="mx-auto flex w-full max-w-container items-center justify-between gap-3 px-4 py-1.5 text-xs">
           <span className="hidden sm:inline">{t("header.portal")}</span>
           <div className="flex items-center gap-3">
@@ -52,7 +55,7 @@ export async function SiteHeader() {
       </div>
 
       {/* Banner thương hiệu */}
-      <div className="bg-gradient-to-r from-red-700 to-red-800 text-white">
+      <div className="site-header-band bg-gradient-to-r from-red-700 to-red-800 text-white">
         <div className="mx-auto w-full max-w-container px-4 py-3">
           <Link href="/" className="flex items-center gap-3">
             <Emblem className="h-12 w-12 shrink-0 sm:h-14 sm:w-14" />
@@ -68,10 +71,9 @@ export async function SiteHeader() {
         </div>
       </div>
 
-      {/* Thanh điều hướng */}
-      <nav className="border-t border-red-600/40 bg-red-800">
-        <NavLinks items={navItems} />
-      </nav>
+      {/* Thanh điều hướng — tự dính lên đỉnh khi cuộn qua (xem NavLinks).
+          Dải tiện ích + banner cuộn đi, chỉ giữ lại phần quan trọng: menu. */}
+      <NavLinks items={navItems} />
     </header>
   );
 }

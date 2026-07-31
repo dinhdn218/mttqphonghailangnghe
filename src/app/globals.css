@@ -22,6 +22,43 @@
   --font-sans: var(--font-be-vietnam);
 }
 
+/* Header dính khi cuộn: hai dải trên (dải tiện ích + banner tên cơ quan) thu
+   lại, chỉ còn thanh điều hướng bám đỉnh màn hình. Dùng grid-template-rows
+   thay vì height để không cần biết trước chiều cao (tên cơ quan có thể xuống
+   dòng, dài ngắn tuỳ Cấu hình CMS). Class .nav-stuck do NavLinks gắn lên
+   <html> khi phần tử mốc khuất khỏi màn hình. */
+.site-header-band {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition:
+    grid-template-rows 200ms ease,
+    opacity 200ms ease;
+}
+.site-header-band > * {
+  overflow: hidden;
+  min-height: 0;
+}
+.nav-stuck .site-header-band {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+/* Hàng đã 0fr nhưng padding dọc của ruột bên trong vẫn chiếm chỗ (~36px),
+   nên phải ép về 0 thì header mới thu hết. */
+.nav-stuck .site-header-band > * {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.site-header-band > * {
+  transition: padding 200ms ease;
+}
+
+/* Người dùng chọn giảm chuyển động thì bỏ hiệu ứng thu gọn. */
+@media (prefers-reduced-motion: reduce) {
+  .site-header-band {
+    transition: none;
+  }
+}
+
 /* Bề rộng container chung của toàn site — đổi 1 chỗ này là đổi cả trang.
    Utility max-w-container (mặc định = 64rem, tương đương max-w-5xl cũ). */
 @utility max-w-container {
