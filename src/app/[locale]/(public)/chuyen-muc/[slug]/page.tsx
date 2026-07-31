@@ -62,7 +62,12 @@ export default async function CategoryPage({ params, searchParams }: Props) {
       <header className="border-b border-gray-200 pb-4">
         <h1 className="text-2xl font-bold text-red-700 sm:text-3xl">{name}</h1>
         <p className="mt-2 text-gray-600">
-          {desc ?? `Cập nhật thông tin mới nhất về ${name.toLowerCase()}.`}
+          {desc ??
+            t("category.descFallback", {
+              // Tiếng Việt viết thường tên chuyên mục cho xuôi câu; tiếng Anh giữ
+              // nguyên vì tên chuyên mục là danh từ riêng dạng Title Case.
+              name: loc === "vi" ? name.toLowerCase() : name,
+            })}
         </p>
       </header>
 

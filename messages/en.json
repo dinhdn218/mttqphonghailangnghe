@@ -15,7 +15,8 @@
     "latest": "Latest news",
     "emptyHint": "Content is being prepared and will be published soon. Please explore other sections or check back later.",
     "emptyHome": "Back to home",
-    "emptyBrowse": "See latest news"
+    "emptyBrowse": "See latest news",
+    "descFallback": "Latest updates on {name}."
   },
   "post": {
     "backToCategory": "Back to category",

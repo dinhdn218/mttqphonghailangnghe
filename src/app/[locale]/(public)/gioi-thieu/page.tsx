@@ -11,9 +11,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: t("title"), description: t("subtitle") };
 }
 
-// Ảnh placeholder (thay bằng ảnh thật của xã sau).
-const HERO_IMG = "https://picsum.photos/seed/phonghai-hero/1280/520";
-const HISTORY_IMG = "https://picsum.photos/seed/phonghai-history/800/600";
+// Ảnh thật hoạt động của MTTQ xã Phong Hải (Cloudinary — cùng nguồn ảnh bài viết).
+// Ảnh bìa: Ngày hội Đại đoàn kết toàn dân tộc tại khu dân cư thôn 4.
+// Ảnh lịch sử: Hội nghị Ủy ban MTTQ Việt Nam xã Phong Hải lần thứ 3.
+// Đổi ảnh: lấy link ảnh bài viết trong CMS (Thư viện media) dán vào đây.
+const HERO_IMG =
+  "https://res.cloudinary.com/dj8tby7t1/image/upload/v1785441602/phonghailangnghe/qh9osaximgnyexg6ekov.jpg";
+const HISTORY_IMG =
+  "https://res.cloudinary.com/dj8tby7t1/image/upload/v1785441137/phonghailangnghe/it0alyxugfax1ovbv1eh.jpg";
 
 // Icon nhỏ (Heroicons outline) qua path.
 function Icon({ path, className }: { path: string; className?: string }) {
@@ -105,7 +110,9 @@ export default async function AboutPage({ params }: Props) {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-red-950 via-red-900/55 to-transparent" />
+        {/* Ảnh thật nhiều chi tiết và chữ (băng rôn hội nghị) nên lớp phủ phải đậm
+            hơn ảnh stock cũ thì tiêu đề mới đọc rõ. */}
+        <div className="absolute inset-0 bg-gradient-to-t from-red-950 via-red-950/80 to-red-950/40" />
         <div className="relative z-10 max-w-3xl p-6 text-white sm:p-10">
           <nav className="mb-3 flex items-center gap-1.5 text-sm text-amber-200/90">
             <Link href="/" className="hover:underline">

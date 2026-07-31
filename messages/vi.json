@@ -15,7 +15,8 @@
     "latest": "Tin tức mới nhất",
     "emptyHint": "Nội dung đang được cán bộ biên soạn và sẽ đăng trong thời gian tới. Mời bạn xem các chuyên mục khác hoặc quay lại sau.",
     "emptyHome": "Về trang chủ",
-    "emptyBrowse": "Xem tin mới nhất"
+    "emptyBrowse": "Xem tin mới nhất",
+    "descFallback": "Cập nhật thông tin mới nhất về {name}."
   },
   "post": {
     "backToCategory": "Quay lại chuyên mục",
