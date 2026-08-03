@@ -167,8 +167,14 @@ export default async function PostPage({ params }: Props) {
           )}
         </article>
 
-        {/* Sidebar — bám dính khi cuộn (desktop) vì bài viết thường dài hơn */}
-        <aside className="flex flex-col gap-6 lg:col-span-4 lg:sticky lg:top-6 lg:self-start">
+        {/* Sidebar — bám dính khi cuộn (desktop) vì bài viết thường dài hơn.
+            top chừa đúng chiều cao thanh nav đang dính (--site-header-nav-h,
+            do NavLinks đo và ghi ra), cộng thêm 1.5rem đệm — nếu không sẽ bị
+            thanh nav che mất phần đầu (xem chú thích trong nav-links.tsx). */}
+        <aside
+          className="flex flex-col gap-6 lg:col-span-4 lg:sticky lg:self-start"
+          style={{ top: "calc(var(--site-header-nav-h, 44px) + 1.5rem)" }}
+        >
           {/* Tin tức liên quan */}
           {related.length > 0 && (
             <section className="border border-gray-200 bg-white p-4">

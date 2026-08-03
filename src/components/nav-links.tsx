@@ -110,7 +110,11 @@ export function NavLinks({ items }: { items: NavItem[] }) {
     if (!el) return;
     if (stuck) {
       el.dataset.stuck = "true";
-      setCollapsedH(el.offsetHeight);
+      const h = el.offsetHeight;
+      setCollapsedH(h);
+      // Ghi ra biến CSS toàn cục để các khối `sticky` khác (vd. sidebar bài
+      // viết) biết chừa đúng khoảng trống này, tránh bị thanh nav dính đè lên.
+      document.documentElement.style.setProperty("--site-header-nav-h", `${h}px`);
     } else delete el.dataset.stuck;
   }, [stuck]);
 
