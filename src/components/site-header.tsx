@@ -29,12 +29,17 @@ export async function SiteHeader() {
   ];
 
   return (
-    // Cả header dính lên đỉnh. Khi cuộn qua, hai dải trên (tiện ích + banner)
-    // tự thu lại còn 0 (xem .nav-stuck trong globals.css) nên chỉ còn thanh
-    // điều hướng nằm lại — giữ đúng phần quan trọng, không chiếm chỗ.
-    <header className="sticky top-0 z-30">
+    // Header nằm trong luồng bình thường. Hai dải trên cuộn đi tự nhiên, riêng
+    // thanh điều hướng tự dính lại đỉnh (xem NavLinks) — không animation nên
+    // không có gì để giật. Xem chú thích .site-header trong globals.css.
+    // pointer-events-none trên <header> + auto trên từng dải con: khi menu gom
+    // dòng, NavLinks chèn một ô đệm vô hình để giữ chiều cao trang (chống nhấp
+    // nháy). Ô đệm đó nằm trong khung header đang dính nên sẽ phủ lên ~82px nội
+    // dung bên dưới và nuốt mất cú bấm; trả pointer-events về cho đúng các dải
+    // có nội dung thật thì phần trống không còn chặn gì.
+    <header className="site-header pointer-events-none">
       {/* Dải tiện ích */}
-      <div className="site-header-band bg-red-900 text-red-50">
+      <div className="site-header-band pointer-events-auto bg-red-900 text-red-50">
         <div className="mx-auto flex w-full max-w-container items-center justify-between gap-3 px-4 py-1.5 text-xs">
           <span className="hidden sm:inline">{t("header.portal")}</span>
           <div className="flex items-center gap-3">
@@ -55,7 +60,7 @@ export async function SiteHeader() {
       </div>
 
       {/* Banner thương hiệu */}
-      <div className="site-header-band bg-gradient-to-r from-red-700 to-red-800 text-white">
+      <div className="site-header-band pointer-events-auto bg-gradient-to-r from-red-700 to-red-800 text-white">
         <div className="mx-auto w-full max-w-container px-4 py-3">
           <Link href="/" className="flex items-center gap-3">
             <Emblem className="h-12 w-12 shrink-0 sm:h-14 sm:w-14" />

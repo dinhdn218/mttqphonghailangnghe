@@ -22,39 +22,51 @@
   --font-sans: var(--font-be-vietnam);
 }
 
-/* Header dính khi cuộn: hai dải trên (dải tiện ích + banner tên cơ quan) thu
-   lại, chỉ còn thanh điều hướng bám đỉnh màn hình. Dùng grid-template-rows
-   thay vì height để không cần biết trước chiều cao (tên cơ quan có thể xuống
-   dòng, dài ngắn tuỳ Cấu hình CMS). Class .nav-stuck do NavLinks gắn lên
-   <html> khi phần tử mốc khuất khỏi màn hình. */
-.site-header-band {
-  display: grid;
-  grid-template-rows: 1fr;
-  transition:
-    grid-template-rows 200ms ease,
-    opacity 200ms ease;
-}
-.site-header-band > * {
-  overflow: hidden;
-  min-height: 0;
-}
-.nav-stuck .site-header-band {
-  grid-template-rows: 0fr;
-  opacity: 0;
-}
-/* Hàng đã 0fr nhưng padding dọc của ruột bên trong vẫn chiếm chỗ (~36px),
-   nên phải ép về 0 thì header mới thu hết. */
-.nav-stuck .site-header-band > * {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-.site-header-band > * {
-  transition: padding 200ms ease;
+/* Header dính khi cuộn: hai dải trên (dải tiện ích + banner tên cơ quan) cuộn
+   đi bình thường, chỉ thanh điều hướng bám lại đỉnh màn hình.
+
+   LỊCH SỬ HAI LẦN SỬA HỎNG — đừng lặp lại:
+
+   1) Thu hai dải bằng grid-template-rows (đổi chiều cao). Đo được 21 khung hình
+      liên tiếp header đổi chiều cao ngay trong lúc trang đang cuộn → rối mắt,
+      lại bắt trình duyệt tính lại layout mỗi khung.
+
+   2) Cho cả header `fixed` rồi TRƯỢT lên bằng transform + clip-path. Hết
+      relayout, nhưng sinh lỗi nặng hơn ở chiều BUNG RA: vì nav nằm trong khối
+      trượt nên nó đi theo — đo được navTop chạy 0→13→36→61→82→99→112, tức thanh
+      menu trôi 112px xuống màn hình trong khi người dùng đang cuộn ngược lên.
+      Đó chính là cảm giác "giật giật" khi kéo lên.
+
+   CÁCH HIỆN TẠI — không animation, nên không có gì để giật:
+   Cả <header> `sticky` với top ÂM, đúng bằng chiều cao hai dải trên
+   (--site-header-bands). Cuộn xuống, header trôi lên theo trang cho tới khi hai
+   dải khuất hẳn thì dừng, để lại thanh nav bám đỉnh. Kéo lên thì ngược lại.
+   Trình duyệt lo toàn bộ, chạy trên compositor, bám sát ngón tay từng khung
+   hình — không transition, không JS đo đạc, không class bật/tắt.
+
+   Vì sao KHÔNG đặt sticky lên riêng <nav>: đã thử và hỏng. Phần tử sticky chỉ
+   dính được TRONG khung cha của nó; <header> chỉ cao 235px nên cuộn qua khỏi
+   235px là nav trôi mất luôn (đo được 145 khung nav bị đẩy lên quá đỉnh).
+   Đặt sticky lên chính <header> thì khung cha là <body> — dính suốt cả trang.
+
+   --site-header-bands do NavLinks đo (tên cơ quan lấy từ Cấu hình CMS nên dài
+   ngắn tuỳ nơi nhập, không hardcode được). Fallback 112px cho lần sơn đầu. */
+.site-header {
+  position: sticky;
+  top: calc(var(--site-header-bands, 112px) * -1);
+  z-index: 30;
 }
 
-/* Người dùng chọn giảm chuyển động thì bỏ hiệu ứng thu gọn. */
+/* GIỮ CHỖ CHO NAV — chống vòng lặp giật/nhấp nháy.
+   (Việc giữ chỗ đặt bằng inline style trong NavLinks, không để ở đây: đã thử
+   viết thành @media + .site-header nav[data-stuck] { min-height: … } nhưng
+   Tailwind v4 lược mất khối đó khi biên dịch — kiểm tra CSS served thấy nhảy
+   thẳng từ .site-header sang @media prefers-reduced-motion, min-height ra 0px.
+   Xem chú thích dài trong nav-links.tsx để hiểu vì sao phải giữ chỗ.) */
+
+/* Người dùng chọn giảm chuyển động thì bỏ hiệu ứng, đổi trạng thái tức thì. */
 @media (prefers-reduced-motion: reduce) {
-  .site-header-band {
+  .site-header {
     transition: none;
   }
 }
