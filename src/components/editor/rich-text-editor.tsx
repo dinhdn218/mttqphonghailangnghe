@@ -4,10 +4,30 @@ import { useEditor, EditorContent, type Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
-import TiptapImage from "@tiptap/extension-image";
 import { useCallback } from "react";
 import { UploadButton } from "@/components/editor/upload-button";
 import { Figure } from "@/components/editor/figure-extension";
+import { AutoRehostImage } from "@/components/editor/auto-rehost-image";
+
+// Ảnh dán vào bài từ trang khác (vd. copy nguyên bài Facebook) mang theo URL
+// CDN ngoài chặn hotlink (fbcdn.net...) và sẽ vỡ khi hiển thị trên site. Đánh
+// dấu các ảnh đó để AutoRehostImage tự tải lại lên Cloudinary của mình.
+function markExternalImages(html: string): string {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  doc.querySelectorAll("img").forEach((img) => {
+    const src = img.getAttribute("src") ?? "";
+    if (!/^https?:\/\//i.test(src)) return; // ảnh nội bộ/relative, bỏ qua
+    let host = "";
+    try {
+      host = new URL(src).hostname;
+    } catch {
+      return;
+    }
+    if (host === "res.cloudinary.com") return; // đã ở Cloudinary của mình
+    img.setAttribute("data-pending", "1");
+  });
+  return doc.body.innerHTML;
+}
 
 type Props = {
   value: string;
@@ -21,7 +41,7 @@ export function RichTextEditor({ value, onChange, placeholder }: Props) {
     extensions: [
       StarterKit.configure({ heading: { levels: [2, 3] } }),
       Link.configure({ openOnClick: false, autolink: true }),
-      TiptapImage,
+      AutoRehostImage,
       Figure,
       Placeholder.configure({ placeholder: placeholder ?? "Nhập nội dung…" }),
     ],
@@ -31,6 +51,7 @@ export function RichTextEditor({ value, onChange, placeholder }: Props) {
         class:
           "prose prose-red max-w-none min-h-[240px] px-3 py-2 focus:outline-none",
       },
+      transformPastedHTML: markExternalImages,
     },
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
   });
